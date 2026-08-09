@@ -1,0 +1,1533 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="古文">
+<title>古文 用言ドリル 記録用紙</title>
+<style>
+  :root{
+    --paper:#EDF1EC; --paper-2:#F6F8F5;
+    --grid:#C4D2C7; --rule:#A8BCAD;
+    --ink:#1B2420; --ink-2:#5A6862;
+    --red:#C8362B; --red-2:#E8B0A8; --blue:#2E5C8A;
+    --mincho:"Hiragino Mincho ProN","Yu Mincho",YuMincho,"Noto Serif JP",serif;
+    --gothic:"Hiragino Sans","Hiragino Kaku Gothic ProN","Yu Gothic",YuGothic,"Noto Sans JP",sans-serif;
+    --mono:ui-monospace,"SFMono-Regular",Menlo,Consolas,monospace;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body{margin:0;padding:0}
+  body{
+    background:var(--paper);
+    background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+    background-size:24px 24px;
+    color:var(--ink);font-family:var(--gothic);min-height:100vh;
+    padding:env(safe-area-inset-top) 0 env(safe-area-inset-bottom);
+  }
+  .sheet{max-width:520px;margin:0 auto;padding:16px 16px 40px}
+
+  .head{background:var(--paper-2);border:1.5px solid var(--ink);padding:12px 14px 10px;margin-bottom:14px}
+  .head-top{display:flex;align-items:baseline;justify-content:space-between;gap:10px}
+  .title{font-family:var(--mincho);font-size:20px;font-weight:600;letter-spacing:.1em;margin:0}
+  .stamp{font-family:var(--mono);font-size:11px;color:var(--ink-2);white-space:nowrap}
+  .head-meta{display:flex;margin-top:10px;border-top:1px solid var(--rule);padding-top:8px}
+  .meta-cell{flex:1;border-right:1px solid var(--rule);padding-right:6px}
+  .meta-cell:last-child{border-right:0;padding-right:0;padding-left:8px}
+  .meta-label{font-size:10px;color:var(--ink-2);letter-spacing:.06em}
+  .meta-val{font-family:var(--mono);font-size:15px;margin-top:2px}
+
+  .total{display:flex;align-items:flex-end;gap:6px;margin-bottom:4px}
+  .total .n{font-family:var(--mono);font-size:38px;line-height:.9;color:var(--red)}
+  .total .d{font-family:var(--mono);font-size:16px;color:var(--ink-2);padding-bottom:3px}
+  .total .l{margin-left:auto;font-size:11px;color:var(--ink-2);padding-bottom:5px;letter-spacing:.08em}
+  .bar{height:9px;background:var(--paper-2);border:1px solid var(--rule);margin-bottom:6px;position:relative;overflow:hidden}
+  .bar i{position:absolute;top:0;bottom:0;display:block}
+  .bar i.done{left:0;background:var(--red)}
+  .bar i.half{background:var(--red-2)}
+  .b-line{width:100%;padding:17px;background:#06C755;color:#fff;border:0;
+    font-family:var(--gothic);font-size:16px;letter-spacing:.08em;cursor:pointer;margin-top:14px}
+  .b-line:focus-visible{outline:2.5px solid var(--ink);outline-offset:2px}
+  .b-line:active{transform:translateY(1px)}
+  .sendnote{font-size:12px;color:var(--ink-2);text-align:center;margin-top:7px;line-height:1.7}
+  .daycard{border:1.5px solid #06C755;background:#fff;padding:11px 13px;margin-bottom:12px}
+  .daycard .h{font-size:10px;letter-spacing:.14em;color:#06A048}
+  .daycard .b{font-family:var(--mono);font-size:14px;margin-top:4px;color:var(--ink)}
+  .daycard button{width:100%;margin-top:9px;padding:12px;background:#06C755;color:#fff;border:0;
+    font-family:var(--gothic);font-size:14px;letter-spacing:.06em;cursor:pointer}
+  .quota{border:2px solid var(--ink);background:#fff;padding:13px 14px;margin-bottom:14px}
+  .quota .h{display:flex;align-items:baseline;justify-content:space-between;gap:8px}
+  .quota .h .t{font-family:var(--mincho);font-size:16px;letter-spacing:.06em}
+  .quota .h .d{font-family:var(--mono);font-size:11.5px;color:var(--red)}
+  .quota .big{display:flex;align-items:flex-end;gap:5px;margin-top:8px}
+  .quota .big .n{font-family:var(--mono);font-size:34px;line-height:.9;color:var(--red)}
+  .quota .big .s{font-family:var(--mono);font-size:15px;color:var(--ink-2);padding-bottom:2px}
+  .quota .big .l{margin-left:auto;font-size:12px;color:var(--ink-2);padding-bottom:3px}
+  .quota .qbar{height:9px;background:var(--paper-2);border:1px solid var(--rule);margin-top:9px;position:relative;overflow:hidden}
+  .quota .qbar i{position:absolute;left:0;top:0;bottom:0;background:var(--red)}
+  .quota .note{font-size:12.5px;color:var(--ink-2);line-height:1.75;margin-top:8px}
+  .quota.clear{border-color:#06C755}
+  .quota.clear .h .d{color:#06A048}
+  .quota.clear .big .n{color:#06A048}
+  .quota.clear .qbar i{background:#06C755}
+  .flipq{font-family:var(--mincho);font-size:30px;line-height:1.5;letter-spacing:.06em;margin:6px 0 2px}
+  .flipn{font-family:var(--mono);font-size:15px;color:var(--red);margin-top:6px}
+  .flipa{font-family:var(--mincho);font-size:25px;line-height:1.85;letter-spacing:.06em;
+    border:2px solid var(--red);background:#fff;padding:14px 15px;margin-top:14px;text-align:left}
+  .selfgrade{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px}
+  .sg{padding:17px 4px;border:1.5px solid var(--ink);font-family:var(--gothic);
+    font-size:15px;letter-spacing:.06em;cursor:pointer;background:var(--paper-2);color:var(--ink)}
+  .sg.ok{border-color:var(--red);color:var(--red)}
+  .sg.ng{border-color:var(--blue);color:var(--blue)}
+  .sg:focus-visible{outline:2.5px solid var(--blue);outline-offset:2px}
+  .sechead{display:flex;align-items:baseline;gap:8px;margin:24px 0 10px;
+    border-bottom:1.5px solid var(--ink);padding-bottom:7px}
+  .sechead .n{font-family:var(--mono);font-size:11px;color:var(--red);letter-spacing:.1em}
+  .sechead .t{font-family:var(--mincho);font-size:17px;letter-spacing:.08em}
+  .sechead .s{margin-left:auto;font-size:11px;color:var(--ink-2)}
+  .ch-row{display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--rule);
+    padding:13px 2px;cursor:pointer;background:none;border-left:0;border-right:0;border-top:0;
+    width:100%;text-align:left;font-family:var(--gothic)}
+  .ch-row:focus-visible{outline:2.5px solid var(--blue);outline-offset:-2px}
+  .ch-row .mk{font-family:var(--mincho);font-size:17px;width:20px;text-align:center;color:var(--rule)}
+  .ch-row .mk.done{color:var(--red)}
+  .ch-row .t{font-family:var(--mincho);font-size:16px;flex:1;min-width:0;color:var(--ink)}
+  .ch-row .c{font-family:var(--mono);font-size:11px;color:var(--ink-2)}
+
+  .lrn-top{display:flex;align-items:center;gap:8px;margin-bottom:12px;
+    border-bottom:1.5px solid var(--ink);padding-bottom:8px}
+  .lrn-top .t{font-family:var(--mincho);font-size:16px;letter-spacing:.06em}
+  .dots{display:flex;gap:4px;margin-bottom:22px}
+  .dots i{flex:1;height:4px;background:var(--paper-2);border:1px solid var(--rule)}
+  .dots i.on{background:var(--red);border-color:var(--red)}
+  .lrn h3{font-family:var(--mincho);font-size:22px;line-height:1.5;letter-spacing:.04em;margin:0 0 14px}
+  .lrn p{font-size:15px;line-height:2.05;margin:0 0 14px}
+  .lrn p b{color:var(--red)}
+  .lrn .ex{font-family:var(--mincho);font-size:24px;line-height:1.8;letter-spacing:.05em;
+    border-left:3px solid var(--red);background:var(--paper-2);padding:12px 15px;margin:0 0 16px}
+  .lrn .ex small{font-family:var(--gothic);font-size:12px;color:var(--ink-2);letter-spacing:0}
+  .lrn .box2{border:1.5px solid var(--ink);background:#fff;padding:12px 14px;margin:0 0 16px;
+    font-size:14.5px;line-height:1.95}
+  .lrn .box2 b{color:var(--red)}
+  .lrn table{width:100%;border-collapse:collapse;margin:0 0 16px;font-size:14px}
+  .lrn th,.lrn td{border:1px solid var(--rule);padding:8px 9px;text-align:left}
+  .lrn th{background:var(--paper-2);font-size:12px;color:var(--ink-2);font-weight:600;white-space:nowrap}
+  .lrn td.k{font-family:var(--mincho);font-size:16px;white-space:nowrap}
+  .lrn .qbox{border:2px solid var(--blue);background:#fff;padding:13px 14px;margin-top:4px}
+  .lrn .qbox .qh{font-family:var(--mono);font-size:10px;letter-spacing:.14em;color:var(--blue)}
+  .lrn .qbox .qa{font-family:var(--mincho);font-size:18px;line-height:1.6;margin:5px 0 12px}
+  .lrn .qopts{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+  .lrn .qopts button{padding:14px 4px;background:var(--paper-2);border:1.5px solid var(--ink);
+    font-family:var(--gothic);font-size:15px;color:var(--ink);cursor:pointer}
+  .lrn .qopts button.ans{background:#fff;border-color:var(--red);color:var(--red);font-weight:700}
+  .lrn .qopts button.bad{background:#fff;border-color:var(--blue);color:var(--blue);text-decoration:line-through}
+  .lrn .qwhy{margin-top:11px;font-size:14px;line-height:1.9;border-left:3px solid var(--red);
+    background:var(--paper-2);padding:9px 12px}
+  .flipa .ktbl{width:100%;border-collapse:collapse;font-size:19px}
+  .flipa .ktbl th{font-family:var(--gothic);font-size:9.5px;color:var(--ink-2);font-weight:400;
+    border:1px solid var(--rule);padding:3px 1px;text-align:center;letter-spacing:0}
+  .flipa .ktbl td{border:1px solid var(--rule);padding:8px 1px;text-align:center;
+    font-family:var(--mincho);line-height:1.2}
+  .flipa .ktbl td.lb{font-family:var(--gothic);font-size:10px;color:var(--ink-2);
+    white-space:nowrap;padding:8px 4px}
+  .flipa .ktbl th.lb{border-color:var(--rule)}
+  .flipex{font-family:var(--gothic);font-size:12px;color:var(--ink-2);margin-top:9px;text-align:center}
+  .flipq2{font-family:var(--mincho);font-size:20px;color:var(--ink-2);margin-top:4px}
+  .b-help{padding:13px 14px;background:var(--paper-2);border:1.5px solid var(--ink-2);color:var(--ink-2);
+    font-family:var(--gothic);font-size:13px;cursor:pointer;white-space:nowrap}
+  .reftop{display:flex;gap:8px;margin-bottom:20px}
+  .reftop .b-ref{margin-bottom:0}
+  .intro h2{font-family:var(--mincho);font-size:19px;letter-spacing:.06em;margin:0 0 14px;
+    border-bottom:1.5px solid var(--ink);padding-bottom:8px}
+  .intro .st{display:flex;gap:12px;padding:13px 0;border-bottom:1px solid var(--rule)}
+  .intro .st .i{font-family:var(--mono);font-size:20px;color:var(--red);flex:0 0 26px;line-height:1.3}
+  .intro .st .t{font-size:14.5px;line-height:1.85}
+  .intro .st .t b{font-family:var(--mincho);font-size:16px}
+  .intro .why{border:1.5px solid #06C755;background:#fff;padding:12px 14px;margin-top:18px;
+    font-size:14px;line-height:1.9}
+  .intro .why b{color:#06A048}
+  .rule{font-size:12.5px;color:var(--ink-2);line-height:1.7;margin-bottom:8px}
+  .rule b{color:var(--red)}
+  .legend{display:flex;flex-wrap:wrap;gap:6px;font-size:11.5px;color:var(--ink-2);margin-bottom:16px}
+  .legend span{border:1px solid var(--rule);background:var(--paper-2);padding:4px 8px;
+    display:flex;align-items:center;gap:5px}
+  .legend b.num{font-family:var(--mono);font-size:13px;color:var(--ink);font-weight:400}
+
+  .today{border:1.5px solid var(--blue);background:#fff;padding:10px 12px;margin-bottom:12px}
+  .today .h{font-size:10px;letter-spacing:.14em;color:var(--blue)}
+  .today .b{font-family:var(--mincho);font-size:15px;line-height:1.7;margin-top:3px}
+  .b-ref{width:100%;padding:13px;background:var(--paper-2);border:1.5px solid var(--blue);color:var(--blue);
+    font-family:var(--gothic);font-size:14px;letter-spacing:.08em;cursor:pointer;margin-bottom:20px}
+
+  .ev-row{border-bottom:1px solid var(--rule);padding:12px 2px 13px}
+  .ev-row:first-of-type{border-top:1.5px solid var(--ink)}
+  .ev-line{display:flex;align-items:baseline;gap:9px}
+  .ev-no{font-family:var(--mono);font-size:11px;color:var(--red);width:16px}
+  .ev-nm{font-family:var(--mincho);font-size:17px;letter-spacing:.05em;flex:1;min-width:0}
+  .ev-ct{font-family:var(--mono);font-size:12px;color:var(--ink-2)}
+  .ev-bar{height:6px;background:var(--paper-2);border:1px solid var(--rule);margin:8px 0 4px 25px;position:relative;overflow:hidden}
+  .ev-bar i{position:absolute;top:0;bottom:0}
+  .ev-bar i.done{left:0;background:var(--red)}
+  .ev-bar i.half{background:var(--red-2)}
+  .ev-sub{margin-left:25px;font-size:11px;color:var(--ink-2);margin-bottom:9px}
+  .ev-btns{display:flex;gap:7px;margin-left:25px}
+  .b-go{flex:1;padding:11px;background:var(--ink);color:var(--paper-2);border:0;
+    font-family:var(--gothic);font-size:14px;letter-spacing:.1em;cursor:pointer}
+  .b-fix{padding:11px 14px;background:var(--paper-2);border:1.5px solid var(--blue);color:var(--blue);
+    font-family:var(--gothic);font-size:13px;cursor:pointer;white-space:nowrap}
+  .b-fix[disabled]{border-color:var(--rule);color:var(--rule);cursor:default}
+  .b-go:focus-visible,.b-fix:focus-visible,.b-ref:focus-visible{outline:2.5px solid var(--blue);outline-offset:2px}
+  .menu-foot{margin-top:22px;display:flex;gap:8px;align-items:stretch}
+  .b-all{flex:1;padding:13px;background:var(--paper-2);border:1.5px solid var(--ink);color:var(--ink);
+    font-family:var(--gothic);font-size:14px;letter-spacing:.06em;cursor:pointer}
+  .b-all[disabled]{opacity:.35;cursor:default}
+  .b-reset{padding:13px 12px;background:transparent;border:1px solid var(--rule);color:var(--ink-2);
+    font-size:12px;cursor:pointer;font-family:var(--gothic)}
+
+  .evname{display:flex;align-items:center;gap:8px;margin-bottom:14px;
+    border-bottom:1.5px solid var(--ink);padding-bottom:8px}
+  .evname .no{font-family:var(--mono);font-size:11px;color:var(--red)}
+  .evname .nm{font-family:var(--mincho);font-size:18px;letter-spacing:.06em}
+  .b-quit{margin-left:auto;padding:6px 11px;background:transparent;border:1px solid var(--rule);
+    color:var(--ink-2);font-size:12px;font-family:var(--gothic);cursor:pointer;white-space:nowrap}
+  .b-quit:focus-visible{outline:2.5px solid var(--blue);outline-offset:2px}
+
+  details.howto{margin-bottom:8px;border-bottom:1px dashed var(--rule);padding-bottom:8px}
+  details.howto summary{font-size:12.5px;color:var(--blue);cursor:pointer;list-style:none;letter-spacing:.06em;padding:5px 0}
+  details.howto summary::-webkit-details-marker{display:none}
+  details.howto summary::before{content:"▸ "}
+  details.howto[open] summary::before{content:"▾ "}
+  .howto-body{font-size:13px;line-height:1.85;color:var(--ink-2);padding:6px 0 2px}
+  .howto-body b{color:var(--ink)}
+  details.howto.ref{margin-bottom:16px}
+
+  /* ---- コツ一覧 ---- */
+  .ref h2{font-family:var(--mincho);font-size:17px;letter-spacing:.06em;margin:22px 0 8px;
+    border-bottom:1.5px solid var(--ink);padding-bottom:6px}
+  .ref h2:first-child{margin-top:0}
+  .ref p{font-size:14px;line-height:1.95;margin:0 0 10px}
+  .ref .step{display:flex;gap:9px;font-size:14px;line-height:1.9;margin-bottom:6px}
+  .ref .step .i{font-family:var(--mono);color:var(--red);flex:0 0 auto}
+  .ref table{width:100%;border-collapse:collapse;margin:6px 0 12px;font-size:13.5px}
+  .ref th,.ref td{border:1px solid var(--rule);padding:7px 8px;text-align:left;vertical-align:top}
+  .ref th{background:var(--paper-2);font-weight:600;font-size:12px;color:var(--ink-2);letter-spacing:.06em;white-space:nowrap}
+  .ref td.k{font-family:var(--mincho);font-size:15px;white-space:nowrap}
+  .ref .box{border:1.5px solid var(--red);background:#fff;padding:10px 12px;margin:6px 0 12px;font-size:13.5px;line-height:1.9}
+  .ref .box b{color:var(--red)}
+  .ref .note{font-size:12.5px;color:var(--ink-2);line-height:1.8;margin:-4px 0 12px}
+
+  .lanes{display:flex;gap:3px;margin-bottom:20px}
+  .lane{flex:1;height:24px;border:1px solid var(--rule);background:var(--paper-2);
+    display:flex;align-items:center;justify-content:center;font-family:var(--mincho);font-size:14px;line-height:1}
+  .lane.now{border-color:var(--ink);border-width:1.5px;background:#fff}
+  .lane.hit{color:var(--red)} .lane.miss{color:var(--blue)}
+
+  .card{text-align:center;padding:2px 0 8px}
+  .ask{font-size:12px;color:var(--ink-2);letter-spacing:.12em;margin-bottom:12px}
+  .word{font-family:var(--mincho);font-size:54px;line-height:1.25;letter-spacing:.06em;margin:0 0 4px}
+  .word ruby rt{font-size:.26em;color:var(--ink-2)}
+  .word.kana{font-size:44px}
+  .cue{font-family:var(--mincho);font-size:19px;color:var(--ink-2);margin-top:8px}
+  .cue b{color:var(--red);font-size:24px}
+  .sent{font-family:var(--mincho);font-size:20px;line-height:2.1;text-align:left;
+    background:var(--paper-2);border-left:3px solid var(--rule);padding:12px 14px;margin:4px 0 6px}
+  .sent u{text-decoration:none;border-bottom:2.5px solid var(--red);color:var(--red);padding:0 1px}
+  .subline{font-size:12px;color:var(--ink-2);margin-top:6px}
+  .tagnew{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:.1em;
+    border:1px solid var(--blue);color:var(--blue);padding:1px 5px;margin-bottom:6px}
+  .tagnew.re{border-color:var(--red);color:var(--red)}
+
+  .choices{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:18px}
+  .choice{font-size:16px;letter-spacing:.05em;padding:16px 4px;background:var(--paper-2);
+    border:1.5px solid var(--ink);color:var(--ink);cursor:pointer;font-family:var(--gothic)}
+  .choice.kana{font-family:var(--mincho);font-size:21px}
+  .choice:active{transform:translateY(1px)}
+  .choice:focus-visible{outline:2.5px solid var(--blue);outline-offset:2px}
+  .choice[disabled]{cursor:default;opacity:.3}
+  .choice.ans{background:#fff;border-color:var(--red);color:var(--red);opacity:1;font-weight:700}
+  .choice.bad{background:#fff;border-color:var(--blue);color:var(--blue);opacity:1;text-decoration:line-through}
+
+  .verdict{margin-top:18px;border-top:1.5px solid var(--ink);padding-top:14px}
+  .vmark{font-family:var(--mincho);font-size:30px;line-height:1;display:flex;align-items:center;gap:11px}
+  .vmark.ok .mk{color:var(--red);transform:rotate(-6deg);display:inline-block}
+  .vmark.ng .mk{color:var(--blue);transform:rotate(-6deg);display:inline-block}
+  .vmark .lbl{font-family:var(--gothic);font-size:15.5px;line-height:1.5}
+  .vmark.ok .lbl b{color:var(--red)} .vmark.ng .lbl b{color:var(--blue)}
+  .why{margin-top:12px;font-size:14.5px;line-height:1.9;background:var(--paper-2);
+    border-left:3px solid var(--rule);padding:10px 12px}
+  .why .k{font-family:var(--mincho);font-size:19px}
+  .why em{font-style:normal;color:var(--red);font-weight:700}
+  .tip{margin-top:9px;border:1.5px solid var(--red);background:#fff;padding:9px 12px}
+  .tip .h{font-family:var(--mono);font-size:10px;letter-spacing:.14em;color:var(--red)}
+  .tip .b{font-size:14px;line-height:1.85;margin-top:3px}
+  .tip .b b{color:var(--red)}
+
+  .next{margin-top:16px;width:100%;padding:16px;background:var(--ink);color:var(--paper-2);
+    border:0;font-family:var(--gothic);font-size:16px;letter-spacing:.14em;cursor:pointer}
+  .next:focus-visible{outline:2.5px solid var(--blue);outline-offset:2px}
+
+  .score{display:flex;align-items:flex-end;gap:6px;border-bottom:1.5px solid var(--ink);padding-bottom:10px}
+  .score .n{font-family:var(--mono);font-size:52px;line-height:.9;color:var(--red)}
+  .score .d{font-family:var(--mono);font-size:19px;color:var(--ink-2);padding-bottom:4px}
+  .score .t{margin-left:auto;font-family:var(--mono);font-size:13px;color:var(--ink-2);padding-bottom:6px}
+  .banner{margin-top:14px;border:1.5px solid var(--rule);background:var(--paper-2);padding:12px 14px}
+  .banner .h{font-size:11px;letter-spacing:.12em;color:var(--ink-2)}
+  .banner .b{font-family:var(--mincho);font-size:18px;margin-top:4px;line-height:1.6}
+  .banner.good{border-color:var(--red);background:#fff}
+  .banner.good .h{color:var(--red)}
+  .rows{margin:14px 0 4px}
+  .row{display:flex;align-items:center;gap:9px;border-bottom:1px solid var(--rule);padding:8px 2px;font-size:14px}
+  .row .idx{font-family:var(--mono);font-size:11px;color:var(--ink-2);width:16px}
+  .row .mk{font-family:var(--mincho);font-size:18px;width:18px;text-align:center}
+  .row .mk.ok{color:var(--red)} .row .mk.ng{color:var(--blue)}
+  .row .w{font-family:var(--mincho);font-size:16px;flex:1;min-width:0;
+    overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .row .a{font-size:12px;color:var(--ink-2);text-align:right;white-space:nowrap}
+  .row .a b{color:var(--ink)}
+  .btn-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+  .btn-row.three{grid-template-columns:1fr 1fr 1fr;margin-top:18px}
+  .btn-row.one{grid-template-columns:1fr}
+  .btn-sub{padding:15px 4px;background:var(--paper-2);border:1.5px solid var(--ink);
+    font-family:var(--gothic);font-size:13.5px;color:var(--ink);cursor:pointer}
+  .btn-sub[disabled]{opacity:.35;cursor:default}
+  .btn-sub:focus-visible{outline:2.5px solid var(--blue);outline-offset:2px}
+  .toast{margin-top:10px;font-size:12.5px;color:var(--blue);text-align:center;min-height:18px;white-space:pre-line}
+  .foot{margin-top:24px;font-size:11px;color:var(--ink-2);text-align:center}
+
+  @media (prefers-reduced-motion:reduce){*{transition:none!important}.vmark .mk{transform:none!important}}
+  @media (max-width:360px){.word{font-size:46px}.choice{font-size:15px;padding:14px 3px}}
+</style>
+</head>
+<body>
+<div class="sheet">
+  <div class="head">
+    <div class="head-top">
+      <h1 class="title">古文　用言ドリル</h1>
+      <span class="stamp" id="stamp">—</span>
+    </div>
+    <div class="head-meta" id="meta"></div>
+  </div>
+  <div id="app"></div>
+  <div class="foot" id="foot"></div>
+</div>
+
+<script>
+(function(){
+"use strict";
+
+/* ===== 保存 ===== */
+var mem={};
+function load(k,d){ try{var v=localStorage.getItem(k);return v===null?d:v;}catch(e){return (k in mem)?mem[k]:d;} }
+function save(k,v){ try{localStorage.setItem(k,v);}catch(e){mem[k]=v;} }
+var KEY="kobun.v5", P={};
+try{ P=JSON.parse(load(KEY,"{}"))||{}; }catch(e){ P={}; }
+function flush(){ save(KEY,JSON.stringify(P)); }
+function st(id){ return (id in P)?P[id]:-1; }          /* -1未 0間違い 1あと1回 2済 */
+function mval(s){ return s===2?2:(s===1?1:0); }
+function mark(id,ok){
+  var c=st(id), before=mval(c);
+  P[id]= ok ? ((c<0)?1:Math.min(2,c+1)) : 0; flush();
+  var d=mval(P[id])-before;
+  if(d>0) addDayMarks(d);
+  return d;
+}
+
+/* ===== 今日の記録 ===== */
+function pad(n){ return (n<10?"0":"")+n; }
+function todayStr(){ var d=new Date(); return (d.getMonth()+1)+"/"+d.getDate(); }
+function dayKey(){ var d=new Date(); return d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate()); }
+var DAY={};
+try{ DAY=JSON.parse(load("kobun.day","{}"))||{}; }catch(e){ DAY={}; }
+if(DAY.date!==dayKey()) DAY={date:dayKey(),runs:[],marks:0};
+if(typeof DAY.marks!=="number") DAY.marks=0;
+function ensureDay(){ if(DAY.date!==dayKey()) DAY={date:dayKey(),runs:[],marks:0}; }
+function addDayMarks(d){ ensureDay(); DAY.marks+=d; save("kobun.day",JSON.stringify(DAY)); }
+function pushRun(r){ ensureDay(); DAY.runs.push(r); save("kobun.day",JSON.stringify(DAY)); }
+
+/* ===== 締切 ===== */
+var DEADLINE=new Date(2026,7,31);      /* 2026年8月31日 */
+function daysLeft(){
+  var t=new Date(); t.setHours(0,0,0,0);
+  return Math.max(1, Math.round((DEADLINE-t)/86400000)+1);
+}
+function sendLine(text){
+  var url="https://line.me/R/share?text="+encodeURIComponent(text);
+  try{ var win=window.open(url,"_blank"); if(win) return url; }catch(e){}
+  try{ window.location.href=url; }catch(e){}
+  return url;
+}
+
+/* ===== 五十音 ===== */
+var G={ "ア":["あ","い","う","え"],"カ":["か","き","く","け"],"ガ":["が","ぎ","ぐ","げ"],
+  "サ":["さ","し","す","せ"],"ザ":["ざ","じ","ず","ぜ"],"タ":["た","ち","つ","て"],
+  "ダ":["だ","ぢ","づ","で"],"ナ":["な","に","ぬ","ね"],"ハ":["は","ひ","ふ","へ"],
+  "バ":["ば","び","ぶ","べ"],"マ":["ま","み","む","め"],"ヤ":["や","い","ゆ","え"],
+  "ラ":["ら","り","る","れ"],"ワ":["わ","ゐ","う","ゑ"] };
+var GYOLIST=["ア","カ","ガ","サ","ザ","タ","ダ","ナ","ハ","バ","マ","ヤ","ラ","ワ"];
+var KIND={yodan:"四段",kami1:"上一段",kami2:"上二段",shimo1:"下一段",shimo2:"下二段",
+  ra:"ラ変",na:"ナ変",ka:"カ変",sa:"サ変"};
+var KIND6=["四段","上一段","上二段","下一段","下二段","変格"];
+var FORMS=["未然形","連用形","終止形","連体形","已然形","命令形"];
+
+function tail(t,gy){ var g=G[gy]||[],a=g[0],i=g[1],u=g[2],e=g[3];
+  switch(t){
+    case "yodan": return [a,i,u,u,e,e];
+    case "kami2": return [i,i,u,u+"る",u+"れ",i+"よ"];
+    case "shimo2":return [e,e,u,u+"る",u+"れ",e+"よ"];
+    case "kami1": return [i,i,i+"る",i+"る",i+"れ",i+"よ"];
+    case "shimo1":return [e,e,e+"る",e+"る",e+"れ",e+"よ"];
+    case "ra":    return [a,i,i,u,e,e];
+    case "na":    return [a,i,u,u+"る",u+"れ",e];
+    case "ka":    return ["こ","き","く","くる","くれ","こ"];
+    case "sa":    return ["せ","し","す","する","すれ","せよ"];
+  } return []; }
+function conj(v){ return tail(v.t,v.g).map(function(x){return v.s+x;}); }
+function kind6(t){ return (t==="ra"||t==="na"||t==="ka"||t==="sa")?"変格":KIND[t]; }
+
+/* ===== コツ一覧 ===== */
+var REF=
+'<div class="ref">'+
+
+'<h2>1　活用の種類の見分け方</h2>'+
+'<div class="step"><span class="i">1</span><span>まず<b>語ごと覚える組</b>に入っていないか確かめる。下の表の語なら、そこで決まり。</span></div>'+
+'<div class="step"><span class="i">2</span><span>入っていなければ「<b>ず</b>」をつける。</span></div>'+
+'<div class="step"><span class="i">3</span><span>「ず」の直前の音を見る。</span></div>'+
+'<table><tr><th>ずの直前</th><th>活用の種類</th><th>例</th></tr>'+
+'<tr><td class="k">ア段</td><td>四段</td><td class="k">書かず・思はず</td></tr>'+
+'<tr><td class="k">イ段</td><td>上二段</td><td class="k">過ぎず・落ちず</td></tr>'+
+'<tr><td class="k">エ段</td><td>下二段</td><td class="k">受けず・捨てず</td></tr></table>'+
+'<div class="box">語ごと覚える組（数が決まっている）<br>'+
+'　<b>下一段</b>＝蹴る（1語）<br>'+
+'　<b>カ変</b>＝来（1語）　<b>サ変</b>＝す・おはす（2語）<br>'+
+'　<b>ナ変</b>＝死ぬ・往ぬ（2語）<br>'+
+'　<b>ラ変</b>＝あり・をり・はべり・いまそかり（4語）<br>'+
+'　<b>上一段</b>＝干る・射る・鋳る・着る・似る・煮る・見る・居る・率る（9語）<br>'+
+'　　「ひ・い・き・に・み・ゐる」で覚える</div>'+
+'<div class="note">注意　「あり」に ず をつけると「あらず」でア段になるが、ラ変。「死ぬ」も「死なず」でア段だがナ変。<b>だから語リストの確認が先</b>。</div>'+
+
+'<h2>2　活用の行</h2>'+
+'<div class="box"><b>行</b>と<b>種類</b>は別のことを聞いている。<br>'+
+'　<b>行</b>　＝　五十音のどの行で音が変わるか（カ行・ヤ行など）<br>'+
+'　<b>種類</b>＝　変化のパターン（四段・上二段・下二段など）<br>'+
+'たとえば「得」は え・え・う・うる・うれ・えよ。ア行で変化し、パターンは下二段。'+
+'だから答えは「<b>ア行下二段</b>」。設問はたいてい両方を聞いてくる。</div>'+
+'<p>行は、基本形の最後の音でほぼ決まる。</p>'+
+'<table><tr><th>終わり</th><th>行</th><th>終わり</th><th>行</th></tr>'+
+'<tr><td class="k">〜く</td><td>カ行</td><td class="k">〜ぬ</td><td>ナ行</td></tr>'+
+'<tr><td class="k">〜ぐ</td><td>ガ行</td><td class="k">〜ふ</td><td>ハ行</td></tr>'+
+'<tr><td class="k">〜す</td><td>サ行</td><td class="k">〜ぶ</td><td>バ行</td></tr>'+
+'<tr><td class="k">〜つ</td><td>タ行</td><td class="k">〜む</td><td>マ行</td></tr>'+
+'<tr><td class="k">〜づ</td><td>ダ行</td><td class="k">〜る</td><td>ラ行</td></tr></table>'+
+'<div class="box">例外はこの3行だけ。ここが試験に出る。<br>'+
+'　<b>ア行</b>＝得（1語のみ）<br>'+
+'　<b>ヤ行</b>＝射る・鋳る（上一段）／老ゆ・悔ゆ・報ゆ（上二段）／見ゆ・覚ゆ・絶ゆ（下二段）<br>'+
+'　<b>ワ行</b>＝居る・率る（上一段）／植う・飢う・据う（下二段）</div>'+
+
+'<h2>3　活用形の見分け方</h2>'+
+'<p>下に続く語で決まる。訳が分からなくても形は決まる。</p>'+
+'<table><tr><th>下に続く語</th><th>活用形</th></tr>'+
+'<tr><td class="k">ず・ば・む・る・す</td><td>未然形</td></tr>'+
+'<tr><td class="k">て・たり・けり・き</td><td>連用形</td></tr>'+
+'<tr><td class="k">言い切り／とも・べし</td><td>終止形</td></tr>'+
+'<tr><td class="k">とき・こと・体言</td><td>連体形</td></tr>'+
+'<tr><td class="k">ども</td><td>已然形</td></tr>'+
+'<tr><td class="k">命令して言い切り</td><td>命令形</td></tr></table>'+
+'<div class="box">係り結び　文中に係助詞があると、結びの活用形が変わる。<br>'+
+'　<b>ぞ・なむ・や・か</b> → 連体形で結ぶ<br>'+
+'　<b>こそ</b> → 已然形で結ぶ</div>'+
+
+'<h2>4　形容詞・形容動詞</h2>'+
+'<p>形容詞は「なる」をつけて確かめる。</p>'+
+'<table><tr><th>形</th><th>種類</th><th>例</th></tr>'+
+'<tr><td class="k">〜くなる</td><td>ク活用</td><td class="k">なし・高し・よし</td></tr>'+
+'<tr><td class="k">〜しくなる</td><td>シク活用</td><td class="k">悲し・をかし・いみじ</td></tr>'+
+'<tr><td class="k">〜なり</td><td>ナリ活用</td><td class="k">静かなり・あはれなり</td></tr>'+
+'<tr><td class="k">〜たり</td><td>タリ活用</td><td class="k">堂々たり・漫々たり</td></tr></table>'+
+'<div class="note">「いみじ」は「し」で終わらないがシク活用。タリ活用は漢文調の語だけで数が少ない。</div>'+
+
+'<h2>5　音便の見分け方</h2>'+
+'<p>発音しやすいように音が変わったもの。<b>変わった後の音</b>を見れば決まる。</p>'+
+'<table><tr><th>変わった音</th><th>名前</th><th>もとの音</th><th>例</th></tr>'+
+'<tr><td class="k">い</td><td>イ音便</td><td class="k">き・ぎ</td><td class="k">書きて→書いて</td></tr>'+
+'<tr><td class="k">う</td><td>ウ音便</td><td class="k">く・ひ・み</td><td class="k">美しく→美しう</td></tr>'+
+'<tr><td class="k">ん</td><td>撥音便</td><td class="k">び・み・に</td><td class="k">読みて→読んで</td></tr>'+
+'<tr><td class="k">っ</td><td>促音便</td><td class="k">ち・ひ・り</td><td class="k">待ちて→待って</td></tr></table>'+
+'<div class="box">覚え方　<b>い・う・ん・っ</b> の4つ。出てきた音がこの4つのどれかを見るだけ。</div>'+
+'<div class="note">撥音便の「ん」は書かれないことがある（あるなり→あんなり→あなり）。</div>'+
+
+'</div>';
+
+/* ===== 得点tips ===== */
+var TIP_KIND={
+  yodan:"四段は動詞の中で一番数が多い。「ず」をつけて<b>ア段</b>になったら四段と決めてよい。",
+  kami2:"「ず」をつけて<b>イ段</b>になる動詞のうち、上一段の9語に入らないものが上二段。",
+  shimo2:"「ず」をつけて<b>エ段</b>になれば下二段。下二段も数が多いので、ず判定を使うのが速い。",
+  kami1:"上一段の動詞は<b>9語だけ</b>。干る・射る・鋳る・着る・似る・煮る・見る・居る・率る。「ひ・い・き・に・み・ゐる」で覚える。",
+  shimo1:"下一段の動詞は<b>「蹴る」1語だけ</b>。これを覚えれば下一段の問題は全部取れる。",
+  ra:"ラ変の動詞は<b>あり・をり・はべり・いまそかり の4語だけ</b>。この4語は先に覚えてしまう。",
+  na:"ナ変の動詞は<b>死ぬ・往ぬ の2語だけ</b>。「死なず」はア段になるが四段ではない。ここが引っかけどころ。",
+  ka:"カ変の動詞は<b>「来」1語だけ</b>。1語なので覚えれば必ず取れる。",
+  sa:"サ変の動詞は<b>す・おはす の2語だけ</b>。ただし「信ず」「論ず」のように「〜す」がつく語もサ変になる。"
+};
+var TIP_GYO={
+  "ア":"ア行に活用する動詞は<b>「得」1語だけ</b>。ア行かと思ったら、まずヤ行かワ行を疑うとよい。",
+  "ヤ":"ヤ行の動詞は数が少ない。上一段は<b>射る・鋳る</b>、上二段は<b>老ゆ・悔ゆ・報ゆ</b>、下二段は<b>見ゆ・覚ゆ・絶ゆ</b>。この並びで覚える。",
+  "ワ":"ワ行の動詞は少ない。上一段は<b>居る・率る</b>、下二段は<b>植う・飢う・据う の3語</b>。ア行と間違えやすい。",
+  "ハ":"ハ行は基本形が「〜ふ」で終わる。活用すると は・ひ・ふ・へ になる。ワ行と混同しやすい。",
+  "def":"基本形の最後の音でだいたい決まる。「く」カ行、「ぐ」ガ行、「つ」タ行、「づ」ダ行、「ぬ」ナ行、「ふ」ハ行、「ぶ」バ行、「む」マ行、「る」ラ行。例外は<b>ア行・ヤ行・ワ行</b>だけ。"
+};
+var TIP_FORM=[
+  "未然形は「ず」「ば」「む」「る・らる」「す・さす」が下につく形。助動詞を習うときの土台になる。",
+  "連用形は「て」「たり」「けり」「き」が下につく形。文が途中で切れるときもこの形。",
+  "終止形は言い切りの形。「とも」「べし」「らむ」「まじ」もこの形につく。",
+  "連体形は下に体言（名詞）が来る形。<b>ぞ・なむ・や・か</b>があるときも連体形で結ぶ（係り結び）。",
+  "已然形は「ども」が下につく形。<b>こそ</b>があるときは已然形で結ぶ（係り結び）。",
+  "命令形は命令して言い切る形。"
+];
+var TIP_KY={
+  "ク活用":"形容詞は「なる」をつけて判別する。<b>〜くなる</b> ならク活用。",
+  "シク活用":"<b>〜しくなる</b> ならシク活用。「いみじ」のように「し」で終わらない語もシク活用なので注意。",
+  "ナリ活用":"形容動詞で言い切りが<b>「なり」</b>ならナリ活用。和文に多い。",
+  "タリ活用":"言い切りが<b>「たり」</b>ならタリ活用。堂々たり・漫々たり のような漢文調の語だけ。数は少ない。"
+};
+var TIP_ON={
+  "イ音便":"イ音便は <b>き・ぎ</b> が「い」に変わる。書きて→書いて、脱ぎて→脱いで。",
+  "ウ音便":"ウ音便は <b>く・ひ・み</b> が「う」に変わる。美しく→美しう、思ひて→思うて。",
+  "撥音便":"撥音便は <b>び・み・に</b> が「ん」に変わる。「ん」が書かれないこともある（あるなり→あなり）。",
+  "促音便":"促音便は <b>ち・ひ・り</b> が「っ」に変わる。待ちて→待って、言ひて→言って。"
+};
+
+var OKS=["正解！","よし、合ってる！","その通り！","取れた！","よくできた！","OK、正解！","いいぞ、正解！","当たり！"];
+var NGS=["おしい！","惜しい、違う。","ここは間違えやすい。","もう一歩！","ここが覚えどころ。","今は外したけど大丈夫。"];
+var lastOK="",lastNG="";
+function sayOK(){ var s; do{s=pick(OKS);}while(OKS.length>1&&s===lastOK); lastOK=s; return s; }
+function sayNG(){ var s; do{s=pick(NGS);}while(NGS.length>1&&s===lastNG); lastNG=s; return s; }
+
+/* ===== 動詞プール ===== */
+var V=[
+  {w:"書く",y:"かく",s:"か",g:"カ",t:"yodan"},
+  {w:"聞く",y:"きく",s:"き",g:"カ",t:"yodan"},
+  {w:"行く",y:"ゆく",s:"ゆ",g:"カ",t:"yodan"},
+  {w:"脱ぐ",y:"ぬぐ",s:"ぬ",g:"ガ",t:"yodan"},
+  {w:"消す",y:"けす",s:"け",g:"サ",t:"yodan"},
+  {w:"待つ",y:"まつ",s:"ま",g:"タ",t:"yodan"},
+  {w:"飛ぶ",y:"とぶ",s:"と",g:"バ",t:"yodan"},
+  {w:"言ふ",y:"いふ",s:"い",g:"ハ",t:"yodan"},
+  {w:"思ふ",y:"おもふ",s:"おも",g:"ハ",t:"yodan"},
+  {w:"戦ふ",y:"たたかふ",s:"たたか",g:"ハ",t:"yodan"},
+  {w:"望む",y:"のぞむ",s:"のぞ",g:"マ",t:"yodan"},
+  {w:"囲む",y:"かこむ",s:"かこ",g:"マ",t:"yodan"},
+  {w:"読む",y:"よむ",s:"よ",g:"マ",t:"yodan"},
+  {w:"乗る",y:"のる",s:"の",g:"ラ",t:"yodan"},
+  {w:"切る",y:"きる",s:"き",g:"ラ",t:"yodan",n:"「切る」はラ行四段、「着る」はカ行上一段。読みが同じなので必ず出る引っかけ。"},
+  {w:"なる",y:"",s:"な",g:"ラ",t:"yodan"},
+  {w:"過ぐ",y:"すぐ",s:"す",g:"ガ",t:"kami2"},
+  {w:"尽く",y:"つく",s:"つ",g:"カ",t:"kami2"},
+  {w:"起く",y:"おく",s:"お",g:"カ",t:"kami2"},
+  {w:"朽つ",y:"くつ",s:"く",g:"タ",t:"kami2"},
+  {w:"落つ",y:"おつ",s:"お",g:"タ",t:"kami2"},
+  {w:"閉づ",y:"とづ",s:"と",g:"ダ",t:"kami2"},
+  {w:"恥づ",y:"はづ",s:"は",g:"ダ",t:"kami2"},
+  {w:"恋ふ",y:"こふ",s:"こ",g:"ハ",t:"kami2"},
+  {w:"滅ぶ",y:"ほろぶ",s:"ほろ",g:"バ",t:"kami2"},
+  {w:"恨む",y:"うらむ",s:"うら",g:"マ",t:"kami2"},
+  {w:"老ゆ",y:"おゆ",s:"お",g:"ヤ",t:"kami2"},
+  {w:"悔ゆ",y:"くゆ",s:"く",g:"ヤ",t:"kami2"},
+  {w:"報ゆ",y:"むくゆ",s:"むく",g:"ヤ",t:"kami2"},
+  {w:"古る",y:"ふる",s:"ふ",g:"ラ",t:"kami2"},
+  {w:"得",y:"う",s:"",g:"ア",t:"shimo2",n:"語幹と活用語尾の区別がない下二段は 得・寝・経 の三語。ア行に活用するのは「得」だけ。"},
+  {w:"寝",y:"ぬ",s:"",g:"ナ",t:"shimo2",n:"語幹と活用語尾の区別がない下二段は 得・寝・経 の三語。"},
+  {w:"経",y:"ふ",s:"",g:"ハ",t:"shimo2",n:"語幹と活用語尾の区別がない下二段は 得・寝・経 の三語。"},
+  {w:"受く",y:"うく",s:"う",g:"カ",t:"shimo2"},
+  {w:"分く",y:"わく",s:"わ",g:"カ",t:"shimo2"},
+  {w:"掛く",y:"かく",s:"か",g:"カ",t:"shimo2"},
+  {w:"助く",y:"たすく",s:"たす",g:"カ",t:"shimo2"},
+  {w:"上ぐ",y:"あぐ",s:"あ",g:"ガ",t:"shimo2"},
+  {w:"混ず",y:"まず",s:"ま",g:"ザ",t:"shimo2"},
+  {w:"捨つ",y:"すつ",s:"す",g:"タ",t:"shimo2"},
+  {w:"出づ",y:"いづ",s:"い",g:"ダ",t:"shimo2"},
+  {w:"重ぬ",y:"かさぬ",s:"かさ",g:"ナ",t:"shimo2"},
+  {w:"尋ぬ",y:"たづぬ",s:"たづ",g:"ナ",t:"shimo2"},
+  {w:"与ふ",y:"あたふ",s:"あた",g:"ハ",t:"shimo2"},
+  {w:"食ぶ",y:"たぶ",s:"た",g:"バ",t:"shimo2"},
+  {w:"求む",y:"もとむ",s:"もと",g:"マ",t:"shimo2"},
+  {w:"眺む",y:"ながむ",s:"なが",g:"マ",t:"shimo2"},
+  {w:"覚ゆ",y:"おぼゆ",s:"おぼ",g:"ヤ",t:"shimo2"},
+  {w:"見ゆ",y:"みゆ",s:"み",g:"ヤ",t:"shimo2",n:"「見ゆ」はヤ行下二段、「見る」はマ行上一段。似ているが別の語。"},
+  {w:"絶ゆ",y:"たゆ",s:"た",g:"ヤ",t:"shimo2"},
+  {w:"荒る",y:"ある",s:"あ",g:"ラ",t:"shimo2",n:"「荒る」はラ行下二段、「あり」はラ変。読みが近いので注意。"},
+  {w:"流る",y:"ながる",s:"なが",g:"ラ",t:"shimo2"},
+  {w:"枯る",y:"かる",s:"か",g:"ラ",t:"shimo2"},
+  {w:"植う",y:"うう",s:"う",g:"ワ",t:"shimo2"},
+  {w:"飢う",y:"うう",s:"う",g:"ワ",t:"shimo2"},
+  {w:"据う",y:"すう",s:"す",g:"ワ",t:"shimo2"},
+  {w:"干る",y:"ひる",s:"",g:"ハ",t:"kami1"},
+  {w:"射る",y:"いる",s:"",g:"ヤ",t:"kami1"},
+  {w:"鋳る",y:"いる",s:"",g:"ヤ",t:"kami1"},
+  {w:"着る",y:"きる",s:"",g:"カ",t:"kami1",n:"「着る」はカ行上一段、「切る」はラ行四段。読みが同じなので必ず出る引っかけ。"},
+  {w:"似る",y:"にる",s:"",g:"ナ",t:"kami1"},
+  {w:"煮る",y:"にる",s:"",g:"ナ",t:"kami1"},
+  {w:"見る",y:"みる",s:"",g:"マ",t:"kami1"},
+  {w:"居る",y:"ゐる",s:"",g:"ワ",t:"kami1",n:"「居る（ゐる）」はワ行上一段、「をり」はラ変。読みも意味も近いが別の語。"},
+  {w:"率る",y:"ゐる",s:"",g:"ワ",t:"kami1"},
+  {w:"蹴る",y:"ける",s:"",g:"カ",t:"shimo1"},
+  {w:"あり",y:"",s:"あ",g:"ラ",t:"ra"},
+  {w:"をり",y:"",s:"を",g:"ラ",t:"ra"},
+  {w:"侍り",y:"はべり",s:"はべ",g:"ラ",t:"ra"},
+  {w:"いまそかり",y:"",s:"いまそか",g:"ラ",t:"ra"},
+  {w:"死ぬ",y:"しぬ",s:"し",g:"ナ",t:"na"},
+  {w:"往ぬ",y:"いぬ",s:"い",g:"ナ",t:"na"},
+  {w:"来",y:"く",s:"",g:"カ",t:"ka"},
+  {w:"す",y:"",s:"",g:"サ",t:"sa"},
+  {w:"おはす",y:"",s:"おは",g:"サ",t:"sa"}
+];
+
+var S=[
+  {pre:"者の",u:"あり",post:"けるが",b:"あり",k:"ラ変",f:1,why:"「けり」は連用形につく。"},
+  {pre:"梢を",u:"切ら",post:"せしに",b:"切る",k:"ラ行四段",f:0,why:"使役の「す」は未然形につく。"},
+  {pre:"心して",u:"降り",post:"よ",b:"降る",k:"ラ行上二段",f:5,why:"言い切りで命令している。"},
+  {pre:"安き所に",u:"なり",post:"て",b:"なる",k:"ラ行四段",f:1,why:"「て」は連用形につく。"},
+  {pre:"縄を",u:"はら",post:"れたりけるを",b:"はる",k:"ラ行四段",f:0,why:"受身の「る」は未然形につく。"},
+  {pre:"西行が",u:"見",post:"て",b:"見る",k:"マ行上一段",f:1,why:"「て」は連用形につく。"},
+  {pre:"栗栖野といふ所を",u:"過ぎ",post:"て",b:"過ぐ",k:"ガ行上二段",f:1,why:"「て」は連用形につく。"},
+  {pre:"その事をなさんと",u:"思へ",post:"ど",b:"思ふ",k:"ハ行四段",f:4,why:"「ど・ども」は已然形につく。"},
+  {pre:"くまなきをのみ",u:"見る",post:"ものかは",b:"見る",k:"マ行上一段",f:3,why:"体言「もの」に続くので連体形。"},
+  {pre:"大事を思ひ",u:"立た",post:"ん人は",b:"立つ",k:"タ行四段",f:0,why:"推量の「む（ん）」は未然形につく。"},
+  {pre:"人のあまた",u:"あり",post:"ける中にて",b:"あり",k:"ラ変",f:1,why:"「けり」は連用形につく。"},
+  {pre:"飛び",u:"降る",post:"とも",b:"降る",k:"ラ行上二段",f:2,why:"「とも」は終止形につく。"},
+  {pre:"人の門",u:"たたき",post:"、走り歩きて",b:"たたく",k:"カ行四段",f:1,why:"文の途中で切れているので連用形。"},
+  {pre:"千里の外まで",u:"眺め",post:"たるよりも",b:"眺む",k:"マ行下二段",f:1,why:"「たり」は連用形につく。"},
+  {pre:"",u:"言ふ",post:"事もなくて",b:"言ふ",k:"ハ行四段",f:3,why:"体言「事」に続くので連体形。"}
+];
+
+var KY=[
+  {w:"なし",a:"ク活用",why:"「なくなる」→ ク活用。"},
+  {w:"よし",a:"ク活用",why:"「よくなる」→ ク活用。"},
+  {w:"高し",a:"ク活用",why:"「高くなる」→ ク活用。"},
+  {w:"多し",a:"ク活用",why:"「多くなる」→ ク活用。"},
+  {w:"深し",a:"ク活用",why:"「深くなる」→ ク活用。"},
+  {w:"難し",a:"ク活用",why:"「難くなる」→ ク活用。"},
+  {w:"憂し",a:"ク活用",why:"「憂くなる」→ ク活用。"},
+  {w:"近し",a:"ク活用",why:"「近くなる」→ ク活用。"},
+  {w:"悲し",a:"シク活用",why:"「悲しくなる」→ シク活用。"},
+  {w:"をかし",a:"シク活用",why:"「をかしくなる」→ シク活用。"},
+  {w:"うつくし",a:"シク活用",why:"「うつくしくなる」→ シク活用。"},
+  {w:"あやし",a:"シク活用",why:"「あやしくなる」→ シク活用。"},
+  {w:"久し",a:"シク活用",why:"「久しくなる」→ シク活用。"},
+  {w:"いみじ",a:"シク活用",why:"「いみじくなる」→ シク活用。"},
+  {w:"あらまほし",a:"シク活用",why:"「あらまほしくなる」→ シク活用。"},
+  {w:"静かなり",a:"ナリ活用",why:"言い切りが「なり」。"},
+  {w:"あはれなり",a:"ナリ活用",why:"言い切りが「なり」。"},
+  {w:"はるかなり",a:"ナリ活用",why:"言い切りが「なり」。"},
+  {w:"あきらかなり",a:"ナリ活用",why:"言い切りが「なり」。"},
+  {w:"清げなり",a:"ナリ活用",why:"言い切りが「なり」。"},
+  {w:"堂々たり",a:"タリ活用",why:"言い切りが「たり」。"},
+  {w:"漫々たり",a:"タリ活用",why:"言い切りが「たり」。"},
+  {w:"悠々たり",a:"タリ活用",why:"言い切りが「たり」。"},
+  {w:"洋々たり",a:"タリ活用",why:"言い切りが「たり」。"}
+];
+
+var ON=[
+  {from:"書きて",to:"書いて",a:"イ音便"},{from:"聞きて",to:"聞いて",a:"イ音便"},
+  {from:"咲きて",to:"咲いて",a:"イ音便"},{from:"脱ぎて",to:"脱いで",a:"イ音便"},
+  {from:"悲しき人",to:"悲しい人",a:"イ音便"},
+  {from:"思ひて",to:"思うて",a:"ウ音便"},{from:"美しく",to:"美しう",a:"ウ音便"},
+  {from:"悲しくて",to:"悲しうて",a:"ウ音便"},{from:"たまひて",to:"たまうて",a:"ウ音便"},
+  {from:"読みて",to:"読んで",a:"撥音便"},{from:"飛びて",to:"飛んで",a:"撥音便"},
+  {from:"死にて",to:"死んで",a:"撥音便"},{from:"あるなり",to:"あんなり",a:"撥音便"},
+  {from:"待ちて",to:"待って",a:"促音便"},{from:"取りて",to:"取って",a:"促音便"},
+  {from:"言ひて",to:"言って",a:"促音便"}
+];
+
+/* ===== 語ごと覚える組（特訓・めくり式） ===== */
+var KG=[
+  {q:"下一段活用の動詞",  n:"1語", a:"蹴る",
+   why:"活用は <span class=\"k\">け・け・ける・ける・けれ・けよ</span>。エ段の一段だけで変化するので「下一段」。",
+   tip:"下一段はこの<b>1語だけ</b>。「蹴る」と出たら考えずに答えてよい。"},
+  {q:"カ行変格活用の動詞", n:"1語", a:"来",
+   why:"活用は <span class=\"k\">こ・き・く・くる・くれ・こ（よ）</span>。オ段・イ段・ウ段とばらばらに変わるので「変格」。",
+   tip:"カ変はこの<b>1語だけ</b>。未然形が「こ」になるのはこの語しかない。"},
+  {q:"サ行変格活用の動詞", n:"2語", a:"す　おはす",
+   why:"活用は <span class=\"k\">せ・し・す・する・すれ・せよ</span>。",
+   tip:"「信ず」「論ず」のように<b>「〜す」がついた語</b>もサ変になる。複合語に注意。"},
+  {q:"ナ行変格活用の動詞", n:"2語", a:"死ぬ　往ぬ",
+   why:"活用は <span class=\"k\">な・に・ぬ・ぬる・ぬれ・ね</span>。未然形が「な」でア段なので四段に見えるが、連体形「ぬる」・已然形「ぬれ」が四段と違う。",
+   tip:"だから「ず」をつける前に、<b>この2語かどうかを先に確認する</b>。"},
+  {q:"ラ行変格活用の動詞", n:"4語", a:"あり　をり　はべり　いまそかり",
+   why:"活用は <span class=\"k\">ら・り・り・る・れ・れ</span>。ふつうの動詞は終止形がウ段だが、ラ変だけ<b>終止形が「り」</b>になる。",
+   tip:"「あらず」はア段だが四段ではない。ここも語を先に確認する。"},
+  {q:"上一段活用の動詞", n:"9語", a:"干る　射る　鋳る　着る　似る　煮る　見る　居る　率る",
+   why:"語幹と活用語尾の区別がなく、イ段の一段だけで変化する。<span class=\"k\">み・み・みる・みる・みれ・みよ</span>。",
+   tip:"頭の音をつなげて <b>ひ・い・き・に・み・ゐる</b> と唱えて覚える。"},
+  {q:"ワ行下二段活用の動詞", n:"3語", a:"植う　飢う　据う",
+   why:"活用は <span class=\"k\">うゑ・うゑ・うう・ううる・ううれ・うゑよ</span>。未然形が「ゑ」になるので<b>ワ行</b>。ア行ではない。",
+   tip:"「〜う」で終わるがア行ではない。ここを間違えさせる問題がよく出る。"},
+  {q:"ヤ行上二段活用の動詞", n:"3語", a:"老ゆ　悔ゆ　報ゆ",
+   why:"活用は <span class=\"k\">おい・おい・おゆ・おゆる・おゆれ・おいよ</span>。未然形が「い」で、これは<b>ヤ行</b>のイ段。",
+   tip:"「〜ゆ」で終わる語はヤ行。ア行の「い」と紛らわしいので注意。"},
+  {q:"ヤ行下二段活用の主な動詞", n:"3語", a:"見ゆ　覚ゆ　絶ゆ",
+   why:"活用は <span class=\"k\">みえ・みえ・みゆ・みゆる・みゆれ・みえよ</span>。未然形が「え」で、これは<b>ヤ行</b>のエ段。",
+   tip:"「<b>見ゆ</b>」はヤ行下二段、「<b>見る</b>」はマ行上一段。まったく別の語。"},
+  {q:"語幹と活用語尾の区別がない下二段", n:"3語", a:"得　寝　経",
+   why:"1音しかないので、語ぜんぶが活用語尾になる。得は <span class=\"k\">え・え・う・うる・うれ・えよ</span>。",
+   tip:"読みは <b>う・ぬ・ふ</b>。ワ行下二段の3語（植う・飢う・据う）とは別のグループ。"},
+  {q:"ア行に活用する動詞（下二段）", n:"1語", a:"得",
+   why:"<b>行</b>と<b>種類</b>は別のことを指す。行＝どの行で音が変わるか、種類＝変化のパターン。"+
+       "「得」は <span class=\"k\">え・え・う・うる・うれ・えよ</span> と<b>ア行</b>で変化し、"+
+       "パターンは<b>下二段</b>。合わせて「ア行下二段」。",
+   tip:"ア行はこの1語だけ。「〜う」「〜ゆ」で終わる語はワ行かヤ行に取られている"+
+       "（植う→うゑ＝ワ行、老ゆ→おい＝ヤ行）。だから<b>行で迷ったら、まずア行を消してよい</b>。"},
+  {q:"係助詞と、その結びの形", n:"2組", a:"ぞ・なむ・や・か　→　連体形<br>こそ　→　已然形",
+   why:"文中に係助詞があると、文末が終止形ではなく別の形になる。これを係り結びという。",
+   tip:"<b>「こそ」だけが已然形</b>。残りの4つはすべて連体形、と覚える。"},
+  {q:"音便の4種類", n:"4つ", a:"イ音便　ウ音便　撥音便　促音便",
+   why:"発音しやすくするために音が変わったもの。テストでは<b>もとの形に戻せるか</b>も問われる。",
+   tip:"変化したあとの音は <b>い・う・ん・っ</b> の4つ。出てきた音がどれかを見るだけ。"}
+];
+
+/* ===== 第1部　読んでわかる ===== */
+var LEARN=[
+{ t:"動詞の活用とは", p:[
+  { h:"下に続く語で、形が変わる",
+    b:'<p>古文の動詞は、<b>下に何が続くか</b>で形が変わる。これを「活用する」という。</p>',
+    ex:'書か<small>＋ず</small>　　書き<small>＋たり</small>　　書く<small>。</small>　　書け<small>＋ども</small>' },
+  { h:"変わる部分と、変わらない部分",
+    b:'<p>「書く」はどう変わっても<b>「書」</b>の部分は同じ。ここを<b>語幹</b>という。<br>'+
+      '後ろの変わる部分を<b>活用語尾</b>という。</p>',
+    ex:'書<small>＝語幹</small>　＋　か・き・く・け<small>＝活用語尾</small>' },
+  { h:"形は6つある",
+    b:'<p>活用した形には名前がついている。<b>6つ</b>ある。この順番で唱えるのが決まり。</p>',
+    ex:'未然形・連用形・終止形・連体形・已然形・命令形',
+    b2:'この6つの順番は必ず覚える。以降ずっとこの順で出てくる。' },
+  { h:"「已然形」って何？",
+    b:'<p>現代語の「仮定形」にあたる位置だが、意味が違う。<br>'+
+      '已然＝<b>すでにそうなっている</b>という意味。「〜ので」「〜だから」と訳す。</p>',
+    ex:'思へ<small>＋ど</small>　→　思ったけれど<small>（もう思っている）</small>' },
+  { h:"活用のしかたには型がある",
+    b:'<p>動詞ごとにバラバラではなく、<b>いくつかの型</b>に分かれている。<br>'+
+      'この型を<b>活用の種類</b>という。四段・上二段・下二段…と呼ぶ。</p>'+
+      '<p>だから覚えるのは動詞1つ1つではなく、<b>型だけ</b>でよい。</p>' },
+  { q:{ ask:"「書く」の語幹はどれか", opts:["書","書か","か","書く"], ans:"書",
+        why:"どの形になっても変わらないのが語幹。書か・書き・書く・書け に共通する「書」が語幹。" } }
+]},
+
+{ t:"活用の種類の見分け方", p:[
+  { h:"「ず」をつける",
+    b:'<p>活用の種類を見分ける方法はひとつ。<b>「ず」をつけて、直前の音を見る</b>。</p>'+
+      '<p>「ず」がつくのは未然形なので、未然形の音を調べていることになる。</p>',
+    ex:'書く　→　書か<b>ず</b>　→　「か」' },
+  { h:"ア段なら四段",
+    b:'<p>「ず」の直前が<b>ア段</b>（あ・か・さ・た…）なら<b>四段活用</b>。<br>'+
+      'ア・イ・ウ・エの<b>四つの段</b>にわたって活用するので四段という。</p>',
+    ex:'書か<small>ず</small>　思は<small>ず</small>　待た<small>ず</small>' },
+  { h:"イ段なら上二段、エ段なら下二段",
+    b:'<p>ウ段を真ん中と考える。そこから<b>上のイ段</b>と、ウ段の<b>二段</b>を使うのが上二段。<br>'+
+      '<b>下のエ段</b>とウ段の二段を使うのが下二段。</p>',
+    ex:'過ぎ<small>ず</small>　→　上二段<br>受け<small>ず</small>　→　下二段' },
+  { h:"ここまでで大半が片づく",
+    b:'<p>古文の動詞のほとんどは、四段・上二段・下二段のどれか。<br>'+
+      '<b>ず判定だけで大半は答えられる</b>。</p>',
+    table:'<table><tr><th>ずの直前</th><th>種類</th><th>例</th></tr>'+
+      '<tr><td class="k">ア段</td><td>四段</td><td class="k">書かず</td></tr>'+
+      '<tr><td class="k">イ段</td><td>上二段</td><td class="k">過ぎず</td></tr>'+
+      '<tr><td class="k">エ段</td><td>下二段</td><td class="k">受けず</td></tr></table>' },
+  { h:"ところが、例外がある",
+    b:'<p>「あり」に「ず」をつけると「あら<b>ず</b>」。ア段だから四段——ではない。<br>'+
+      '「あり」は<b>ラ変</b>という別の型。</p>'+
+      '<p>「死ぬ」も「死な<b>ず</b>」でア段だが、これも<b>ナ変</b>。</p>',
+    b2:'ず判定は万能ではない。<b>例外の語は決まっている</b>ので、先にそれを確認する。' },
+  { h:"だから手順は2段階",
+    b:'<p><b>①</b> まず、例外の語リストに入っていないか確かめる。<br>'+
+      '<b>②</b> 入っていなければ「ず」をつけて判定する。</p>'+
+      '<p>この順番を逆にすると、ラ変やナ変を四段と答えてしまう。</p>' },
+  { q:{ ask:"「落つ」の活用の種類は", opts:["四段","上二段","下二段","ラ変"], ans:"上二段",
+        why:"落つ → 落ちず。「ち」はイ段なので上二段。例外リストにも入っていない。" } }
+]},
+
+{ t:"語ごと覚える組", p:[
+  { h:"数が決まっている型がある",
+    b:'<p>例外の型は、<b>属する動詞の数が決まっている</b>。<br>'+
+      '全部で20語ほど。ここを覚えれば例外は片づく。</p>' },
+  { h:"1語しかない型",
+    b:'<p>この2つは1語だけ。出てきたら即答でよい。</p>',
+    ex:'下一段　＝　蹴る<br>カ行変格　＝　来',
+    b2:'「来」の活用は <b>こ・き・く・くる・くれ・こ</b>。未然形が「こ」になるのはこの語だけ。' },
+  { h:"2語ずつの型",
+    b:'<p>サ変とナ変は2語ずつ。</p>',
+    ex:'サ行変格　＝　す　おはす<br>ナ行変格　＝　死ぬ　往ぬ',
+    b2:'「信ず」「論ず」のように<b>「〜す」がついた語</b>もサ変になる。' },
+  { h:"ラ変は4語",
+    b:'<p>ふつうの動詞は終止形がウ段で終わる。<b>ラ変だけ「り」で終わる</b>。<br>'+
+      '基本形が「り」で終わっていたらラ変を疑う。</p>',
+    ex:'あり　をり　はべり　いまそかり' },
+  { h:"上一段は9語",
+    b:'<p>イ段の一段だけで活用する。語幹と活用語尾の区別がない。</p>',
+    ex:'干る　射る　鋳る　着る　似る　煮る　見る　居る　率る',
+    b2:'頭の音をつなげて <b>ひ・い・き・に・み・ゐる</b> と唱えて覚える。' },
+  { h:"覚えるのはこれだけ",
+    b:'<p>下一段1語、カ変1語、サ変2語、ナ変2語、ラ変4語、上一段9語。<br>合わせて<b>19語</b>。</p>'+
+      '<p>この19語を覚えれば、残りはすべて「ず」で判定できる。</p>' },
+  { q:{ ask:"「をり」の活用の種類は", opts:["四段","ラ変","上一段","サ変"], ans:"ラ変",
+        why:"ラ変4語のひとつ。あり・をり・はべり・いまそかり。「をら ず」はア段だが四段ではない。" } }
+]},
+
+{ t:"活用の行", p:[
+  { h:"「行」と「種類」は別のこと",
+    b:'<p>設問はたいてい<b>両方</b>を聞いてくる。混同しやすいので分けて考える。</p>',
+    table:'<table><tr><th>問われるもの</th><th>意味</th><th>答えの例</th></tr>'+
+      '<tr><td>行</td><td>五十音のどの行で音が変わるか</td><td>カ行・ヤ行</td></tr>'+
+      '<tr><td>種類</td><td>変化のパターン</td><td>四段・下二段</td></tr></table>',
+    b2:'だから答えは「<b>カ行四段</b>」のように、行＋種類をつなげた形になる。' },
+  { h:"行は最後の音でわかる",
+    b:'<p>基本形の最後の音を見れば、ほとんど決まる。</p>',
+    table:'<table><tr><th>終わり</th><th>行</th><th>終わり</th><th>行</th></tr>'+
+      '<tr><td class="k">〜く</td><td>カ行</td><td class="k">〜ぬ</td><td>ナ行</td></tr>'+
+      '<tr><td class="k">〜ぐ</td><td>ガ行</td><td class="k">〜ふ</td><td>ハ行</td></tr>'+
+      '<tr><td class="k">〜す</td><td>サ行</td><td class="k">〜ぶ</td><td>バ行</td></tr>'+
+      '<tr><td class="k">〜つ</td><td>タ行</td><td class="k">〜む</td><td>マ行</td></tr>'+
+      '<tr><td class="k">〜づ</td><td>ダ行</td><td class="k">〜る</td><td>ラ行</td></tr></table>' },
+  { h:"問題になるのは3行だけ",
+    b:'<p><b>ア行・ヤ行・ワ行</b>は見た目で区別しにくい。ここが試験に出る。</p>'+
+      '<p>「〜う」「〜ゆ」で終わる語は、ア行ではなく<b>ワ行かヤ行</b>のことが多い。</p>',
+    ex:'植う　→　うゑず　→　<b>ワ行</b><br>老ゆ　→　おいず　→　<b>ヤ行</b>' },
+  { h:"ア行は1語だけ",
+    b:'<p>ア行に活用する動詞は<b>「得」だけ</b>。活用は え・え・う・うる・うれ・えよ。</p>'+
+      '<p>つまり、行を聞かれてア行と答える場面はほぼない。<b>迷ったらア行を消してよい</b>。</p>',
+    b2:'ヤ行＝射る・鋳る／老ゆ・悔ゆ・報ゆ／見ゆ・覚ゆ・絶ゆ<br>'+
+       'ワ行＝居る・率る／植う・飢う・据う' },
+  { q:{ ask:"「見ゆ」の活用の行は", opts:["ア行","マ行","ヤ行","ワ行"], ans:"ヤ行",
+        why:"見ゆ → 見えず。「え」はヤ行のエ段。マ行上一段の「見る」とは別の語。" } }
+]},
+
+{ t:"活用形の見分け方", p:[
+  { h:"下に続く語で決まる",
+    b:'<p>文中の動詞が何形かは、<b>すぐ下に続く語</b>を見れば決まる。<br>'+
+      '意味が分からなくても形は判定できる。</p>',
+    ex:'思へ<b>ど</b>　→　「ど」は已然形につく　→　已然形' },
+  { h:"6つの対応を覚える",
+    b:'<p>覚えるのはこの6行だけ。ここが活用形の問題のすべて。</p>',
+    table:'<table><tr><th>下に続く語</th><th>活用形</th></tr>'+
+      '<tr><td class="k">ず・ば・む・る・す</td><td>未然形</td></tr>'+
+      '<tr><td class="k">て・たり・けり・き</td><td>連用形</td></tr>'+
+      '<tr><td class="k">言い切り・とも・べし</td><td>終止形</td></tr>'+
+      '<tr><td class="k">とき・こと・体言</td><td>連体形</td></tr>'+
+      '<tr><td class="k">ども</td><td>已然形</td></tr>'+
+      '<tr><td class="k">命令して言い切り</td><td>命令形</td></tr></table>' },
+  { h:"文の途中で切れたら連用形",
+    b:'<p>「〜、」で文が続くとき、その直前は<b>連用形</b>。<br>'+
+      '下に語がなくても判定できる場面。</p>',
+    ex:'人の門たた<b>き</b>、走り歩きて' },
+  { h:"係り結び",
+    b:'<p>文中に<b>係助詞</b>があると、文末が終止形ではなくなる。これを係り結びという。</p>',
+    table:'<table><tr><th>係助詞</th><th>結びの形</th></tr>'+
+      '<tr><td class="k">ぞ・なむ・や・か</td><td>連体形</td></tr>'+
+      '<tr><td class="k">こそ</td><td>已然形</td></tr></table>',
+    b2:'<b>「こそ」だけが已然形</b>。残り4つは連体形、と覚える。' },
+  { q:{ ask:"「花咲くとき」の「咲く」は何形か", opts:["未然形","連用形","終止形","連体形"], ans:"連体形",
+        why:"下に「とき」という体言が続いているので連体形。四段は終止形と連体形が同じ形になるが、下の語で判断する。" } }
+]},
+
+{ t:"形容詞・形容動詞", p:[
+  { h:"形容詞は「なる」をつける",
+    b:'<p>形容詞の活用は2種類。<b>「なる」をつけて</b>見分ける。</p>',
+    table:'<table><tr><th>形</th><th>種類</th><th>例</th></tr>'+
+      '<tr><td class="k">〜くなる</td><td>ク活用</td><td class="k">なし・高し</td></tr>'+
+      '<tr><td class="k">〜しくなる</td><td>シク活用</td><td class="k">悲し・をかし</td></tr></table>',
+    b2:'「いみじ」は「し」で終わらないが、いみじ<b>く</b>なる…ではなく いみじ＋しく の形なのでシク活用。' },
+  { h:"形容動詞は言い切りを見る",
+    b:'<p>形容動詞は言い切りの形で決まる。</p>',
+    table:'<table><tr><th>言い切り</th><th>種類</th><th>例</th></tr>'+
+      '<tr><td class="k">〜なり</td><td>ナリ活用</td><td class="k">静かなり</td></tr>'+
+      '<tr><td class="k">〜たり</td><td>タリ活用</td><td class="k">堂々たり</td></tr></table>',
+    b2:'タリ活用は<b>漢文調の語</b>だけ。堂々・漫々のような繰り返しの語に多く、数は少ない。' },
+  { q:{ ask:"「をかし」の活用の種類は", opts:["ク活用","シク活用","ナリ活用","タリ活用"], ans:"シク活用",
+        why:"「をかしくなる」となるのでシク活用。" } }
+]},
+
+{ t:"音便", p:[
+  { h:"言いにくいから音が変わる",
+    b:'<p>「読みて」は続けて言うと言いにくい。だから「読<b>ん</b>で」になった。<br>'+
+      'このような変化を<b>音便</b>という。</p>',
+    ex:'読みて　→　読んで<br>待ちて　→　待って' },
+  { h:"変化した音は4つだけ",
+    b:'<p>音便は4種類。<b>変化したあとの音</b>を見れば名前が決まる。</p>',
+    table:'<table><tr><th>変化後</th><th>名前</th><th>例</th></tr>'+
+      '<tr><td class="k">い</td><td>イ音便</td><td class="k">書きて→書いて</td></tr>'+
+      '<tr><td class="k">う</td><td>ウ音便</td><td class="k">美しく→美しう</td></tr>'+
+      '<tr><td class="k">ん</td><td>撥音便</td><td class="k">読みて→読んで</td></tr>'+
+      '<tr><td class="k">っ</td><td>促音便</td><td class="k">待ちて→待って</td></tr></table>',
+    b2:'覚えるのは <b>い・う・ん・っ</b> の4文字だけ。' },
+  { h:"テストは「もとの形」を聞いてくる",
+    b:'<p>名前を答えるだけでなく、<b>音便になる前の形に戻せるか</b>が問われる。<br>'+
+      'ここが本番。</p>',
+    ex:'書いて　→　もとの形は　書きて<br>待って　→　もとの形は　待ちて',
+    b2:'戻し方は、活用表の<b>連用形</b>を思い出すこと。書く の連用形は「書き」。' },
+  { h:"「ん」は書かれないことがある",
+    b:'<p>撥音便の「ん」は、表記されない場合がある。</p>',
+    ex:'あるなり　→　あんなり　→　<b>あなり</b>',
+    b2:'「あなり」と出てきたら、もとは「あるなり」だと気づけるようにしておく。' },
+  { q:{ ask:"「聞いて」はもとの形に戻すとどうなるか", opts:["聞きて","聞くて","聞かて","聞けて"], ans:"聞きて",
+        why:"イ音便。「聞く」の連用形は「聞き」なので、もとの形は「聞きて」。" } }
+]}
+];
+LEARN.forEach(function(c,i){ c.id="L"+(i+1); });
+var READ={};
+try{ READ=JSON.parse(load("kobun.read","{}"))||{}; }catch(e){ READ={}; }
+function readDone(id){ return READ[id]===1; }
+function setRead(id){ READ[id]=1; save("kobun.read",JSON.stringify(READ)); }
+
+/* ===== 下接語カード（特訓） ===== */
+var KS=[
+  {q:"未然形の下につく語", n:"5つ", a:"ず　ば　む（ん）　る・らる　す・さす",
+   why:"未然形は「まだそうなっていない」形。打消・仮定・推量・受身・使役がつく。",
+   tip:"「ず」がつくのが未然形。だから<b>ず判定</b>は未然形を調べていることになる。"},
+  {q:"連用形の下につく語", n:"4つ＋1", a:"て　たり　けり　き<br><small>＋ 文の途中で切れるとき</small>",
+   why:"連用形は用言や助動詞に続く形。過去・完了がつく。",
+   tip:"「人の門たた<b>き</b>、走り歩きて」のように<b>文が「、」で続く</b>ときも連用形。"},
+  {q:"終止形の下につく語", n:"3つ", a:"言い切り（。）　とも　べし",
+   why:"終止形は文をそこで終える形。推量の助動詞の一部もここにつく。",
+   tip:"「らむ」「まじ」「らし」「めり」も終止形につく。まとめて<b>終止形接続</b>という。"},
+  {q:"連体形の下につく語", n:"2つ＋1", a:"とき　こと　体言（名詞）<br><small>＋ ぞ・なむ・や・か の結び</small>",
+   why:"連体形は下に名詞が来る形。「体言に連なる形」なので連体形。",
+   tip:"係助詞<b>ぞ・なむ・や・か</b>があるときも、文末は連体形で結ぶ。"},
+  {q:"已然形の下につく語", n:"1つ＋1", a:"ども（ど）<br><small>＋ こそ の結び</small>",
+   why:"已然形は「すでにそうなっている」形。「〜けれど」「〜ので」と訳す。",
+   tip:"係助詞<b>こそ</b>があるときは已然形で結ぶ。係り結びで已然になるのはこれだけ。"},
+  {q:"命令形の見分け方", n:"1つ", a:"命令して言い切る",
+   why:"下につく語はない。命令の意味で文が終わっていれば命令形。",
+   tip:"「心して降り<b>よ</b>」のように、<b>よ</b>で終わる形が多い（四段は除く）。"}
+];
+
+/* ===== 活用表カード（特訓） ===== */
+function ktbl(rows,label){
+  var h='<table class="ktbl"><tr>'+(label?'<th class="lb"></th>':'')+
+    '<th>未然</th><th>連用</th><th>終止</th><th>連体</th><th>已然</th><th>命令</th></tr>';
+  rows.forEach(function(r){
+    h+='<tr>'+(label?'<td class="lb">'+r[0]+'</td>':'');
+    var c=label?r.slice(1):r;
+    c.forEach(function(x){ h+='<td>'+x+'</td>'; });
+    h+='</tr>';
+  });
+  return h+'</table>';
+}
+var KH=[
+  {q:"四段活用", ex:"書く（カ行）", n:"6つ", a:ktbl([["か","き","く","く","け","け"]]),
+   why:"ア・イ・ウ・エの四つの段にわたって活用するので四段。",
+   tip:"<b>終止形と連体形が同じ</b>、<b>已然形と命令形が同じ</b>。四段の特徴。"},
+  {q:"上二段活用", ex:"起く（カ行）", n:"6つ", a:ktbl([["き","き","く","くる","くれ","きよ"]]),
+   why:"イ段とウ段の二段を使う。ウ段より上なので上二段。",
+   tip:"連体形は<b>終止形＋る</b>、已然形は<b>終止形＋れ</b>。二段活用に共通。"},
+  {q:"下二段活用", ex:"受く（カ行）", n:"6つ", a:ktbl([["け","け","く","くる","くれ","けよ"]]),
+   why:"エ段とウ段の二段を使う。ウ段より下なので下二段。",
+   tip:"上二段と形は同じで、<b>未然・連用・命令がエ段</b>になるところだけが違う。"},
+  {q:"上一段活用", ex:"見る（マ行）", n:"6つ", a:ktbl([["み","み","みる","みる","みれ","みよ"]]),
+   why:"イ段の一段だけで活用する。語幹と活用語尾の区別がない。",
+   tip:"9語だけ。<b>ひ・い・き・に・み・ゐる</b>。"},
+  {q:"下一段活用", ex:"蹴る（カ行）", n:"6つ", a:ktbl([["け","け","ける","ける","けれ","けよ"]]),
+   why:"エ段の一段だけで活用する。",
+   tip:"<b>「蹴る」1語だけ</b>。上一段と形は同じで、段がエになるだけ。"},
+  {q:"カ行変格活用", ex:"来", n:"6つ", a:ktbl([["こ","き","く","くる","くれ","こ（よ）"]]),
+   why:"オ・イ・ウとばらばらに変わるので変格。",
+   tip:"<b>「来」1語だけ</b>。未然形が「こ」になるのはこの語しかない。"},
+  {q:"サ行変格活用", ex:"す", n:"6つ", a:ktbl([["せ","し","す","する","すれ","せよ"]]),
+   why:"サ行だが四段とも二段とも違う変わり方をする。",
+   tip:"<b>す・おはす</b>の2語。「信ず」「論ず」など<b>「〜す」がついた語</b>もサ変。"},
+  {q:"ナ行変格活用", ex:"死ぬ", n:"6つ", a:ktbl([["な","に","ぬ","ぬる","ぬれ","ね"]]),
+   why:"未然形はア段で四段に似ているが、連体形「ぬる」・已然形「ぬれ」が違う。",
+   tip:"<b>死ぬ・往ぬ</b>の2語。「死なず」はア段だが四段ではない。"},
+  {q:"ラ行変格活用", ex:"あり", n:"6つ", a:ktbl([["ら","り","り","る","れ","れ"]]),
+   why:"ふつうの動詞は終止形がウ段だが、ラ変だけ「り」で終わる。",
+   tip:"<b>あり・をり・はべり・いまそかり</b>の4語。"},
+  {q:"ア行下二段活用", ex:"得", n:"6つ", a:ktbl([["え","え","う","うる","うれ","えよ"]]),
+   why:"ア行で活用する動詞は「得」だけ。語幹と活用語尾の区別がない。",
+   tip:"<b>え・え・う・うる・うれ・えよ</b>。ア行はこの1語だけなので、迷ったらア行を消してよい。"},
+  {q:"ワ行下二段活用", ex:"植う", n:"6つ", a:ktbl([["うゑ","うゑ","うう","ううる","ううれ","うゑよ"]]),
+   why:"未然形が「ゑ」になるのでワ行。ア行ではない。",
+   tip:"<b>植う・飢う・据う</b>の3語。語幹は う・う・す。"},
+  {q:"ヤ行上二段活用", ex:"老ゆ", n:"6つ", a:ktbl([["おい","おい","おゆ","おゆる","おゆれ","おいよ"]]),
+   why:"未然形の「い」はヤ行のイ段。ア行の「い」ではない。",
+   tip:"<b>老ゆ・悔ゆ・報ゆ</b>の3語。"},
+  {q:"ヤ行下二段活用", ex:"見ゆ", n:"6つ", a:ktbl([["みえ","みえ","みゆ","みゆる","みゆれ","みえよ"]]),
+   why:"未然形の「え」はヤ行のエ段。",
+   tip:"<b>見ゆ・覚ゆ・絶ゆ</b>。マ行上一段の「見る」とは別の語。"},
+  {q:"ワ行上一段活用", ex:"居る", n:"6つ", a:ktbl([["ゐ","ゐ","ゐる","ゐる","ゐれ","ゐよ"]]),
+   why:"上一段のうちワ行に活用するもの。",
+   tip:"<b>居る・率る</b>の2語。ラ変の「をり」とは別の語。"},
+  {q:"形容詞　ク活用", ex:"なし", n:"本活用とカリ活用",
+   a:ktbl([["本活用","く","く","し","き","けれ","○"],["カリ","から","かり","○","かる","○","かれ"]],true),
+   why:"「なくなる」となるのがク活用。カリ活用は助動詞をつけるときに使う。",
+   tip:"命令形は<b>カリ活用の「かれ」</b>を使う。本活用の命令形はない。"},
+  {q:"形容詞　シク活用", ex:"悲し", n:"本活用とカリ活用",
+   a:ktbl([["本活用","しく","しく","し","しき","しけれ","○"],["カリ","しから","しかり","○","しかる","○","しかれ"]],true),
+   why:"「悲しくなる」となるのがシク活用。ク活用の各形に「し」が入る。",
+   tip:"ク活用の形を覚えたら、<b>頭に「し」を足す</b>だけ。"},
+  {q:"形容動詞　ナリ活用", ex:"静かなり", n:"6つ",
+   a:ktbl([["なら","なり・に","なり","なる","なれ","なれ"]]),
+   why:"言い切りが「なり」。和文に多い。",
+   tip:"ラ変の <b>ら・り・り・る・れ・れ</b> に「な」をつけた形。連用形だけ「に」もある。"},
+  {q:"形容動詞　タリ活用", ex:"堂々たり", n:"6つ",
+   a:ktbl([["たら","たり・と","たり","たる","たれ","たれ"]]),
+   why:"言い切りが「たり」。漢文調の語に使う。",
+   tip:"ナリ活用の「な」を「た」に変えただけ。連用形だけ「と」もある。"}
+];
+
+var CUES=[
+  {c:"ず",f:0},{c:"ば",f:0},{c:"たり",f:1},{c:"て",f:1},
+  {c:"。",f:2,lab:"言い切り"},{c:"とき",f:3},{c:"こと",f:3},
+  {c:"ども",f:4},{c:"。",f:5,lab:"命令で言い切り"}
+];
+
+function pick(a){return a[Math.floor(Math.random()*a.length)];}
+function shuffle(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),s=a[i];a[i]=a[j];a[j]=s;}return a;}
+function distract(c,pool,n){return shuffle(shuffle(pool.filter(function(x){return x!==c;})).slice(0,n-1).concat([c]));}
+function ruby(w,y){return (y&&y!==""&&y!==w)?'<ruby>'+w+'<rt>'+y+'</rt></ruby>':w;}
+function tipKind(v){ return (v.n? v.n+"<br>":"")+TIP_KIND[v.t]; }
+function tipGyo(v){ return (v.n? v.n+"<br>":"")+(TIP_GYO[v.g]||TIP_GYO.def); }
+
+/* ===== 種目 ===== */
+function mkFlip(k){ return {
+  flip:true, ask:"すべて言えるか",
+  qtext:k.q, sub2:k.ex||"", count:k.n, atext:k.a, ans:String(k.a).replace(/<[^>]+>/g,"／").slice(0,40),
+  why:k.why, tip:k.tip, log:k.q }; }
+
+var EVENTS=[
+  /* ---- 第2部　覚える（特訓） ---- */
+  { part:2, key:"grp", no:"2-1", name:"語ごと覚える組", pool:KG, flipEv:true,
+    howto:'選択肢はない。<b>声に出して言ってから</b>答えを開く。<br>'+
+      'あいまいなら「言えなかった」にしておくほうが得。ここは書けるようにする場所。',
+    make:mkFlip },
+  { part:2, key:"cue", no:"2-2", name:"下接語と活用形", pool:KS, flipEv:true,
+    howto:'「連用形につく語は？」と聞かれて、<b>全部言えるか</b>を確かめる。<br>'+
+      '活用形の問題はここを覚えれば全部取れる。',
+    make:mkFlip },
+  { part:2, key:"tbl", no:"2-3", name:"活用表を唱える", pool:KH, flipEv:true,
+    howto:'型ごとに、<b>未然から命令まで6つ</b>を続けて唱える。<br>'+
+      '「え・え・う・うる・うれ・えよ」のように、止まらず言えたら合格。',
+    make:mkFlip },
+
+  /* ---- 第3部　解く（演習） ---- */
+  { part:3, key:"kind", no:"3-1", name:"活用の種類", pool:V,
+    howto:'<span style="color:var(--red);font-family:var(--mono)">1</span> まず<b>変格・一段の語か</b>を確かめる。<br>'+
+      '　ラ変＝あり・をり・はべり・いまそかり／ナ変＝死ぬ・往ぬ／カ変＝来／サ変＝す・おはす<br>'+
+      '　上一段＝<b>ひ・い・き・に・み・ゐる</b>の九語／下一段＝蹴るのみ<br>'+
+      '<span style="color:var(--red);font-family:var(--mono)">2</span> どれでもなければ<b>「ず」をつける</b>。<br>'+
+      '<span style="color:var(--red);font-family:var(--mono)">3</span> 直前が <b>ア段＝四段／イ段＝上二段／エ段＝下二段</b>。',
+    make:function(v){ return {
+      ask:"活用の種類は", word:ruby(v.w,v.y), opts:KIND6, ans:kind6(v.t),
+      stmt:'「'+v.w+'」は'+KIND[v.t]+'。',
+      why:'「ず」をつけると <span class="k">'+(v.s+tail(v.t,v.g)[0])+'ず</span>　→　<em>'+kind6(v.t)+'</em>',
+      tip:tipKind(v), log:v.w }; } },
+  { part:3, key:"gyo", no:"3-2", name:"活用の行", pool:V,
+    howto:'活用語尾がどの行で変化するかを答える。<br>間違えやすいのは <b>ア行・ヤ行・ワ行</b>。<br>'+
+      '　ア行＝<b>得</b>の一語だけ<br>　ヤ行＝老ゆ・悔ゆ・報ゆ／見ゆ・覚ゆ・絶ゆ／射る・鋳る<br>'+
+      '　ワ行＝植う・飢う・据う／居る・率る',
+    make:function(v){ return {
+      ask:"活用の行は", word:ruby(v.w,v.y),
+      opts:distract(v.g,GYOLIST,4).map(function(x){return x+"行";}), ans:v.g+"行",
+      stmt:'「'+v.w+'」は'+v.g+'行。',
+      why:'活用させると <span class="k">'+conj(v).slice(0,3).join("・")+'</span>　→　<em>'+v.g+'行</em>',
+      tip:tipGyo(v), log:v.w }; } },
+  { part:3, key:"form", no:"3-3", name:"活用形の判定", pool:V,
+    howto:'下に続く語で活用形が決まる。<br>'+
+      '　＋ず・＋ば → <b>未然形</b>　／　＋たり・＋て → <b>連用形</b><br>'+
+      '　言い切り → <b>終止形</b>　／　＋とき・＋こと → <b>連体形</b><br>'+
+      '　＋ども → <b>已然形</b>　／　命令で言い切り → <b>命令形</b>',
+    make:function(v){ var cu=pick(CUES); return {
+      ask:"下の語に続けたとき、何形になるか", word:ruby(v.w,v.y), cue:(cu.lab||("＋"+cu.c)),
+      opts:FORMS, ans:FORMS[cu.f],
+      stmt:'「'+v.w+'」に「'+(cu.lab||cu.c)+'」が続くと'+FORMS[cu.f]+'。',
+      why:'<span class="k">'+conj(v)[cu.f]+((cu.f===2||cu.f===5)?"。":cu.c)+'</span>　→　<em>'+FORMS[cu.f]+'</em>',
+      tip:TIP_FORM[cu.f], log:v.w+"＋"+(cu.lab||cu.c) }; } },
+  { part:3, key:"conj", no:"3-4", name:"活用させる", pool:V,
+    howto:'基本形を、下に続く語に合わせて活用させる。<br>ワークの「〜に活用させよ」と同じ形式。',
+    make:function(v){ var cu=pick(CUES), all=conj(v), c=all[cu.f];
+      var uniq=all.filter(function(x,i,a){return a.indexOf(x)===i;});
+      return { ask:"下の語に続く形に活用させると", word:ruby(v.w,v.y), cue:(cu.lab||("＋"+cu.c)),
+        opts:distract(c,uniq,4), ans:c, kanaOpts:true,
+        stmt:'「'+v.w+'」の'+FORMS[cu.f]+'は「'+c+'」。',
+        why:'<em>'+KIND[v.t]+'（'+v.g+'行）</em><br><span class="k">'+all.join("・")+'</span>',
+        tip:TIP_FORM[cu.f], log:v.w+"＋"+(cu.lab||cu.c) }; } },
+  { part:3, key:"sent", no:"3-5", name:"文中の活用形（徒然草）", pool:S,
+    howto:'本文中の赤い語が何形かを答える。<br>判断のもとは<b>すぐ下に続く語</b>。訳が分からなくても形は決まる。',
+    make:function(q){ return {
+      ask:"赤い語は何形か", sent:q.pre+"<u>"+q.u+"</u>"+q.post, sub:"基本形　"+q.b+"（"+q.k+"）",
+      opts:FORMS, ans:FORMS[q.f], stmt:'「'+q.u+'」は'+FORMS[q.f]+'。',
+      why:q.why, tip:TIP_FORM[q.f], log:q.u }; } },
+  { part:3, key:"adj", no:"3-6", name:"形容詞・形容動詞", pool:KY,
+    howto:'形容詞は「なる」をつける。<br>　〜<b>く</b>なる → ク活用　／　〜<b>しく</b>なる → シク活用<br>'+
+      '形容動詞は言い切りの形。<br>　〜<b>なり</b> → ナリ活用　／　〜<b>たり</b> → タリ活用',
+    make:function(q){ return { ask:"活用の種類は", word:q.w, kana:true,
+      opts:["ク活用","シク活用","ナリ活用","タリ活用"], ans:q.a,
+      stmt:'「'+q.w+'」は'+q.a+'。', why:q.why, tip:TIP_KY[q.a], log:q.w }; } },
+  { part:3, key:"onbin", no:"3-7", name:"音便", pool:ON,
+    howto:'発音しやすいように音が変わったもの。<br>'+
+      '　い に変わる → <b>イ音便</b>　／　う に変わる → <b>ウ音便</b><br>'+
+      '　ん に変わる → <b>撥音便</b>　／　っ に変わる → <b>促音便</b>',
+    make:function(q){ return { ask:"何音便か", word:q.to, kana:true, sub:"もとの形　"+q.from,
+      opts:["イ音便","ウ音便","撥音便","促音便"], ans:q.a,
+      stmt:'「'+q.to+'」は'+q.a+'。', why:'<span class="k">'+q.from+' → '+q.to+'</span>',
+      tip:TIP_ON[q.a], log:q.to }; } }
+];
+EVENTS.forEach(function(ev){ ev.ids=ev.pool.map(function(_,i){ return ev.key+":"+i; }); });
+
+var DAILY=[
+  "下一段の動詞は「蹴る」1語だけ。",
+  "カ変は「来」1語、サ変は「す・おはす」2語だけ。",
+  "ナ変は「死ぬ・往ぬ」2語だけ。",
+  "ラ変は「あり・をり・はべり・いまそかり」4語だけ。",
+  "上一段は9語。ひ・い・き・に・み・ゐる。",
+  "ア行に活用する動詞は「得」1語だけ。",
+  "ワ行下二段は「植う・飢う・据う」3語だけ。",
+  "ヤ行上二段は「老ゆ・悔ゆ・報ゆ」3語だけ。",
+  "「ぞ・なむ・や・か」があれば連体形で結ぶ。",
+  "「こそ」があれば已然形で結ぶ。",
+  "「切る」はラ行四段、「着る」はカ行上一段。",
+  "「見る」はマ行上一段、「見ゆ」はヤ行下二段。"
+];
+
+function stats(ev){ var done=0,half=0,bad=0,none=0;
+  ev.ids.forEach(function(id){ var s=st(id);
+    if(s===2) done++; else if(s===1) half++; else if(s===0) bad++; else none++; });
+  return {done:done,half:half,bad:bad,none:none,total:ev.ids.length,
+          marks:done*2+half, need:ev.ids.length*2}; }
+function totalStats(){ var o={done:0,half:0,bad:0,none:0,total:0,marks:0,need:0};
+  EVENTS.forEach(function(e){ var s=stats(e);
+    o.done+=s.done;o.half+=s.half;o.bad+=s.bad;o.none+=s.none;
+    o.total+=s.total;o.marks+=s.marks;o.need+=s.need; });
+  return o; }
+
+var N=10;
+function selectIds(ev,onlyBad){
+  var bad=[],none=[],one=[],ok=[];
+  ev.ids.forEach(function(id){ var s=st(id);
+    if(s===0) bad.push(id); else if(s<0) none.push(id); else if(s===1) one.push(id); else ok.push(id); });
+  if(onlyBad) return shuffle(bad).slice(0,N);
+  none=shuffle(none); one=shuffle(one);
+  var mix=[],a=0,b=0;                       /* 未2つに対し「あと1回」1つを混ぜる */
+  while(a<none.length||b<one.length){
+    if(a<none.length) mix.push(none[a++]);
+    if(a<none.length) mix.push(none[a++]);
+    if(b<one.length)  mix.push(one[b++]);
+  }
+  return shuffle(bad).concat(mix,shuffle(ok)).slice(0,N);
+}
+
+/* ===== 画面 ===== */
+var app=document.getElementById("app"), foot=document.getElementById("foot"), metaBox=document.getElementById("meta");
+var ev=null, quiz=[], idx=0, hits=0, log=[], t0=null, tick=null, isFix=false, isAll=false;
+
+function stampToday(){ var d=new Date();
+  document.getElementById("stamp").textContent=d.getFullYear()+"."+pad(d.getMonth()+1)+"."+pad(d.getDate()); }
+function metaSummary(){ var T=totalStats();
+  metaBox.innerHTML=
+    '<div class="meta-cell"><div class="meta-label">集めた○</div><div class="meta-val">'+T.marks+'</div></div>'+
+    '<div class="meta-cell"><div class="meta-label">済んだ語</div><div class="meta-val">'+T.done+'</div></div>'+
+    '<div class="meta-cell"><div class="meta-label">間違い</div><div class="meta-val">'+T.bad+'</div></div>'; }
+
+function quotaCard(){
+  ensureDay();
+  var T=totalStats();
+  var left=T.need-T.marks;                 /* 8/31までに集めるべき○の残り */
+  var d=daysLeft();
+  if(left<=0){
+    return '<div class="quota clear"><div class="h"><span class="t">全部そろった</span>'+
+      '<span class="d">8/31まで あと'+d+'日</span></div>'+
+      '<div class="note">'+T.total+'項目すべてに○が2つついた。あとは間違い直しと、気になる種目をくり返すだけ。</div></div>';
+  }
+  var perDay=Math.ceil(left/d);
+  var got=DAY.marks;
+  var rest=Math.max(0,perDay-got);
+  var pct=Math.min(100,Math.round(got/perDay*100));
+  var sets=Math.max(1,Math.ceil(rest/9));
+  var body;
+  if(rest===0){
+    body='<div class="big"><span class="n">'+got+'</span><span class="s">/ '+perDay+'</span>'+
+      '<span class="l">今日の○</span></div>'+
+      '<div class="qbar"><i style="width:100%"></i></div>'+
+      '<div class="note">今日のぶんは終わり。ここでやめてよい。結果をLINEで送っておく。</div>';
+  } else {
+    body='<div class="big"><span class="n">'+got+'</span><span class="s">/ '+perDay+'</span>'+
+      '<span class="l">今日の○</span></div>'+
+      '<div class="qbar"><i style="width:'+pct+'%"></i></div>'+
+      '<div class="note">あと <b style="color:var(--red)">○'+rest+'</b>　＝　'+sets+'セットくらい。<br>'+
+      '残り'+d+'日で○'+left+'個。今日のぶんが終わったらやめてよい。</div>';
+  }
+  return '<div class="quota'+(rest===0?" clear":"")+'"><div class="h">'+
+    '<span class="t">今日のぶん</span><span class="d">8/31まで あと'+d+'日</span></div>'+body+'</div>';
+}
+
+function dayText(){
+  if(DAY.date!==dayKey()||!DAY.runs.length) return "";
+  var h=0,n=0,ms=[];
+  DAY.runs.forEach(function(r){ h+=r.hits; n+=r.n; r.missed.forEach(function(x){ if(ms.indexOf(x)<0) ms.push(x); }); });
+  var T=totalStats();
+  var t="古文ドリル "+todayStr()+"\n今日 "+DAY.runs.length+"回　"+h+"/"+n+"\n";
+  DAY.runs.forEach(function(r){ t+="・"+r.name+" "+r.hits+"/"+r.n+"\n"; });
+  if(ms.length) t+="間違い: "+ms.join("、")+"\n";
+  t+="○ "+T.marks+"/"+T.need+"　済んだ語 "+T.done;
+  return t;
+}
+function dayCard(){
+  if(DAY.date!==dayKey()||!DAY.runs.length) return "";
+  var h=0,n=0;
+  DAY.runs.forEach(function(r){ h+=r.hits; n+=r.n; });
+  return '<div class="daycard"><div class="h">今日やったぶん</div>'+
+    '<div class="b">'+DAY.runs.length+'回　'+h+' / '+n+' 問正解</div>'+
+    '<button type="button" id="daysend">今日のぶんをまとめてLINEで送る</button></div>';
+}
+
+/* ===== 第1部　読む ===== */
+function learnPage(ci,pi){
+  var c=LEARN[ci], pg=c.p[pi], last=(pi===c.p.length-1);
+  var dots='<div class="dots">';
+  for(var i=0;i<c.p.length;i++) dots+='<i class="'+(i<=pi?"on":"")+'"></i>';
+  dots+='</div>';
+  var body='';
+  if(pg.q){
+    body='<h3>確認</h3><div class="qbox"><div class="qh">この章のまとめ</div>'+
+      '<div class="qa">'+pg.q.ask+'</div><div class="qopts" id="qopts"></div>'+
+      '<div id="qwhy"></div></div>';
+  } else {
+    body='<h3>'+pg.h+'</h3>'+(pg.b||'')+
+      (pg.ex?'<div class="ex">'+pg.ex+'</div>':'')+
+      (pg.table||'')+
+      (pg.b2?'<div class="box2">'+pg.b2+'</div>':'');
+  }
+  app.innerHTML=
+    '<div class="lrn-top"><span class="t">'+c.t+'</span>'+
+    '<button class="b-quit" type="button" id="lquit">とじる</button></div>'+
+    dots+'<div class="lrn">'+body+'</div>'+
+    (pg.q?'':'<button class="next" type="button" id="lnext">'+(last?"この章を終える":"次へ")+'</button>')+
+    '<div class="btn-row one"><button class="btn-sub" type="button" id="lback">'+
+    (pi>0?"前へ":"章を選ぶ")+'</button></div>';
+  metaBox.innerHTML='<div class="meta-cell"><div class="meta-label">第1部</div>'+
+    '<div class="meta-val">'+(ci+1)+' / '+LEARN.length+'</div></div>'+
+    '<div class="meta-cell"><div class="meta-label">ページ</div>'+
+    '<div class="meta-val">'+(pi+1)+' / '+c.p.length+'</div></div>'+
+    '<div class="meta-cell"><div class="meta-label">読了</div>'+
+    '<div class="meta-val">'+LEARN.filter(function(x){return readDone(x.id);}).length+'</div></div>';
+  foot.textContent=""; window.scrollTo(0,0);
+
+  document.getElementById("lquit").addEventListener("click",menu);
+  document.getElementById("lback").addEventListener("click",function(){
+    if(pi>0) learnPage(ci,pi-1); else learnMenu(); });
+
+  if(pg.q){
+    var box=document.getElementById("qopts");
+    pg.q.opts.forEach(function(o){
+      var b=d_btn(o);
+      b.addEventListener("click",function(){
+        var bs=box.querySelectorAll("button");
+        for(var i=0;i<bs.length;i++){ bs[i].disabled=true;
+          if(bs[i].textContent===pg.q.ans) bs[i].className="ans";
+          else if(bs[i].textContent===o) bs[i].className="bad"; }
+        document.getElementById("qwhy").innerHTML=
+          '<div class="qwhy"><b>'+(o===pg.q.ans?"正解。":"正しくは「"+pg.q.ans+"」。")+'</b>　'+pg.q.why+'</div>';
+        var nb=document.createElement("button");
+        nb.type="button"; nb.className="next"; nb.textContent="この章を終える";
+        nb.addEventListener("click",function(){ setRead(c.id); learnMenu(); });
+        document.getElementById("qwhy").appendChild(nb);
+        nb.focus();
+      });
+      box.appendChild(b);
+    });
+  } else {
+    document.getElementById("lnext").addEventListener("click",function(){
+      if(last){ setRead(c.id); learnMenu(); } else learnPage(ci,pi+1); });
+  }
+}
+function d_btn(label){ var b=document.createElement("button"); b.type="button"; b.textContent=label; return b; }
+
+function learnMenu(){
+  clearInterval(tick); stampToday();
+  var done=LEARN.filter(function(c){return readDone(c.id);}).length;
+  var html='<div class="lrn-top"><span class="t">第1部　読んでわかる</span>'+
+    '<button class="b-quit" type="button" id="lq">とじる</button></div>'+
+    '<div class="rule">まず読む。1章3〜5分。読み終えたら○がつく。'+
+    'いつでも戻って読み直せる。</div><div style="height:10px"></div>';
+  LEARN.forEach(function(c,i){
+    html+='<button class="ch-row" type="button" data-ch="'+i+'">'+
+      '<span class="mk'+(readDone(c.id)?" done":"")+'">'+(readDone(c.id)?"○":"−")+'</span>'+
+      '<span class="t">'+(i+1)+'　'+c.t+'</span>'+
+      '<span class="c">'+c.p.length+'ページ</span></button>';
+  });
+  html+='<div class="btn-row one" style="margin-top:20px">'+
+    '<button class="btn-sub" type="button" id="toev">演習に進む</button></div>';
+  app.innerHTML=html;
+  metaBox.innerHTML='<div class="meta-cell"><div class="meta-label">読んだ章</div>'+
+    '<div class="meta-val">'+done+' / '+LEARN.length+'</div></div>'+
+    '<div class="meta-cell"><div class="meta-label">全章</div><div class="meta-val">'+LEARN.length+'</div></div>'+
+    '<div class="meta-cell"><div class="meta-label">ページ計</div><div class="meta-val">'+
+    LEARN.reduce(function(a,c){return a+c.p.length;},0)+'</div></div>';
+  foot.textContent=""; window.scrollTo(0,0);
+  [].forEach.call(app.querySelectorAll("[data-ch]"),function(b){
+    b.addEventListener("click",function(){ learnPage(+b.getAttribute("data-ch"),0); }); });
+  document.getElementById("lq").addEventListener("click",menu);
+  document.getElementById("toev").addEventListener("click",menu);
+}
+
+function menu(){
+  clearInterval(tick); stampToday(); metaSummary();
+  var T=totalStats();
+  var mp=T.need?T.marks/T.need*100:0;
+  var day=new Date(), di=(day.getFullYear()*372+day.getMonth()*31+day.getDate())%DAILY.length;
+  var html=quotaCard()+
+    '<div class="total"><span class="n">'+T.marks+'</span><span class="d">/ '+T.need+'</span>'+
+    '<span class="l">集めた○</span></div>'+
+    '<div class="bar"><i class="done" style="width:'+mp+'%"></i></div>'+
+    '<div class="rule">1つの語に<b>○を2つ</b>集めると「済」。まちがえると○は0にもどる。</div>'+
+    '<div class="legend"><span>済（○○）<b class="num">'+T.done+'</b></span>'+
+    '<span>○1つ<b class="num">'+T.half+'</b></span>'+
+    '<span>まだ<b class="num">'+T.none+'</b></span>'+
+    '<span>間違い<b class="num">'+T.bad+'</b></span></div>'+
+    '<div class="today"><div class="h">今日の1つ</div><div class="b">'+DAILY[di]+'</div></div>'+
+    dayCard()+
+    (function(){
+      var rd=LEARN.filter(function(c){return readDone(c.id);}).length;
+      return '<button class="b-ref" type="button" id="learn" style="'+
+        (rd<LEARN.length?'border-width:2px;':'')+'">第1部　読んでわかる　'+rd+' / '+LEARN.length+
+        (rd===0?'　← まずここから':'')+'</button>';
+    })()+
+    '<button class="b-ref" type="button" id="ref">コツを見る（一覧表）</button>'+
+    '<div class="sechead"><span class="n">第2部</span><span class="t">覚える（特訓）</span>'+
+    '<span class="s">声に出す</span></div>';
+  function partRows(pn){
+    var h='';
+    EVENTS.forEach(function(e,i){
+      if(e.part!==pn) return;
+      var s=stats(e), m=s.marks/s.need*100;
+      h+='<div class="ev-row"><div class="ev-line">'+
+        '<span class="ev-no">'+e.no+'</span><span class="ev-nm">'+e.name+'</span>'+
+        '<span class="ev-ct">○ '+s.marks+' / '+s.need+'</span></div>'+
+        '<div class="ev-bar"><i class="done" style="width:'+m+'%"></i></div>'+
+        '<div class="ev-sub">'+s.total+'枚　済 '+s.done+'　○1つ '+s.half+'　まだ '+s.none+'</div>'+
+        '<div class="ev-btns"><button class="b-go" type="button" data-go="'+i+'">やる</button>'+
+        '<button class="b-fix" type="button" data-fix="'+i+'"'+(s.bad?'':' disabled')+'>間違い '+s.bad+'</button>'+
+        '</div></div>';
+    });
+    return h;
+  }
+  html+=partRows(2)+
+    '<div class="sechead"><span class="n">第3部</span><span class="t">解く（演習）</span>'+
+    '<span class="s">1回10問</span></div>'+partRows(3);
+  html+='<div class="menu-foot"><button class="b-all" type="button" id="allbad"'+(T.bad?'':' disabled')+'>'+
+    '全種目の間違いだけ　'+T.bad+'</button>'+
+    '<button class="b-reset" type="button" id="reset">記録を消す</button></div>';
+  app.innerHTML=html;
+  foot.textContent="○を2つ集めた語が「済」になる　／　v7　第1部わかる／第2部覚える／第3部解く";
+  [].forEach.call(app.querySelectorAll("[data-go]"),function(b){
+    b.addEventListener("click",function(){ begin(EVENTS[+b.getAttribute("data-go")],false); }); });
+  [].forEach.call(app.querySelectorAll("[data-fix]"),function(b){
+    b.addEventListener("click",function(){ begin(EVENTS[+b.getAttribute("data-fix")],true); }); });
+  document.getElementById("ref").addEventListener("click",refPage);
+  document.getElementById("learn").addEventListener("click",learnMenu);
+  var ds=document.getElementById("daysend");
+  if(ds) ds.addEventListener("click",function(){ sendLine(dayText()); });
+  document.getElementById("allbad").addEventListener("click",beginAllBad);
+  var rs=document.getElementById("reset"), armed=false;
+  rs.addEventListener("click",function(){
+    if(!armed){ armed=true; rs.textContent="本当に消す";
+      rs.style.borderColor="var(--red)"; rs.style.color="var(--red)";
+      setTimeout(function(){ if(armed){ armed=false; rs.textContent="記録を消す";
+        rs.style.borderColor=""; rs.style.color=""; } },4000);
+    } else { P={}; flush(); menu(); } });
+}
+
+function refPage(){
+  app.innerHTML='<div class="evname"><span class="nm">コツ一覧</span>'+
+    '<button class="b-quit" type="button" id="back">とじる</button></div>'+REF+
+    '<div class="btn-row one"><button class="btn-sub" type="button" id="back2">種目を選ぶ</button></div>';
+  foot.textContent="";
+  window.scrollTo(0,0);
+  document.getElementById("back").addEventListener("click",menu);
+  document.getElementById("back2").addEventListener("click",menu);
+}
+
+function begin(e,onlyBad){
+  ev=e; isFix=onlyBad; isAll=false;
+  var ids=selectIds(e,onlyBad);
+  if(!ids.length){ menu(); return; }
+  quiz=ids.map(function(id){ var i=+id.split(":")[1]; var q=e.make(e.pool[i]); q.id=id; q.state=st(id); return q; });
+  runInit();
+}
+function beginAllBad(){
+  var all=[];
+  EVENTS.forEach(function(e){ e.ids.forEach(function(id,i){ if(st(id)===0) all.push({e:e,i:i,id:id}); }); });
+  all=shuffle(all).slice(0,N);
+  if(!all.length){ menu(); return; }
+  ev={no:"—",name:"全種目の間違い直し",
+    howto:"一度間違えた項目だけを集めている。2回続けて正解すると「済」になる。"};
+  isFix=true; isAll=true;
+  quiz=all.map(function(x){ var q=x.e.make(x.e.pool[x.i]); q.id=x.id; q.state=0; return q; });
+  runInit();
+}
+function runInit(){ idx=0; hits=0; log=[]; t0=Date.now();
+  clearInterval(tick); tick=setInterval(clock,1000); stampToday(); window.scrollTo(0,0); render(); }
+function clock(){ var s=Math.floor((Date.now()-t0)/1000);
+  var el=document.getElementById("m-time"); if(el) el.textContent=Math.floor(s/60)+":"+pad(s%60); }
+function elapsed(){ var s=Math.floor((Date.now()-t0)/1000); return Math.floor(s/60)+":"+pad(s%60); }
+
+function chrome(){ metaBox.innerHTML=
+  '<div class="meta-cell"><div class="meta-label">問</div><div class="meta-val" id="m-prog">'+(idx+1)+' / '+quiz.length+'</div></div>'+
+  '<div class="meta-cell"><div class="meta-label">正</div><div class="meta-val" id="m-hit">'+hits+'</div></div>'+
+  '<div class="meta-cell"><div class="meta-label">経過</div><div class="meta-val" id="m-time">'+elapsed()+'</div></div>'; }
+function lanes(cur){
+  var h='<div class="lanes">';
+  for(var i=0;i<quiz.length;i++){
+    var c="lane",t="";
+    if(log[i]){ c+=log[i].ok?" hit":" miss"; t=log[i].ok?"○":"／"; }
+    else if(i===cur) c+=" now";
+    h+='<div class="'+c+'">'+t+'</div>'; }
+  return h+'</div>'; }
+
+function quitQuiz(){ clearInterval(tick); window.scrollTo(0,0); menu(); }
+
+function render(){
+  var q=quiz[idx];
+  var tag = q.state===0 ? '<div class="tagnew re">まちがい直し</div>'
+          : (q.state<0 ? '<div class="tagnew">はじめて</div>' : '');
+  var qbody;
+  if(q.flip){
+    qbody='<div class="ask">'+q.ask+'</div>'+
+      '<div class="flipq">'+q.qtext+'</div>'+
+      (q.sub2?'<div class="flipq2">'+q.sub2+'</div>':'')+
+      '<div class="flipn">'+q.count+'</div>'+
+      '<div class="subline">声に出して言ってから開く</div>'+
+      '<button class="next" type="button" id="flip">答えを見る</button>';
+  } else {
+    qbody='<div class="ask">'+q.ask+'</div>'+
+      (q.sent?'<div class="sent">'+q.sent+'</div>':'')+
+      (q.word?'<div class="word'+(q.kana?" kana":"")+'">'+q.word+'</div>':'')+
+      (q.cue?'<div class="cue"><b>'+q.cue+'</b></div>':'')+
+      (q.sub?'<div class="subline">'+q.sub+'</div>':'')+
+      '<div class="choices" id="choices"></div>';
+  }
+  app.innerHTML=
+    '<div class="evname"><span class="no">'+(isAll?"直し":ev.no)+'</span>'+
+    '<span class="nm">'+ev.name+(isFix&&!isAll?"（直し）":"")+'</span>'+
+    '<button class="b-quit" type="button" id="quit">やめる</button></div>'+
+    '<details class="howto"><summary>この種目の手順</summary><div class="howto-body">'+ev.howto+'</div></details>'+
+    '<details class="howto ref"><summary>コツ一覧を見る</summary>'+REF+'</details>'+
+    lanes(idx)+
+    '<div class="card">'+tag+qbody+'</div><div id="verdict"></div>'+
+    '<div class="btn-row one"><button class="btn-sub" type="button" id="quit2">種目を選ぶ</button></div>';
+  chrome();
+  document.getElementById("quit").addEventListener("click",quitQuiz);
+  document.getElementById("quit2").addEventListener("click",quitQuiz);
+  if(q.flip){
+    document.getElementById("flip").addEventListener("click",function(){
+      this.disabled=true; this.style.display="none";
+      document.getElementById("verdict").innerHTML=
+        '<div class="flipa">'+q.atext+'</div>'+
+        '<div class="selfgrade">'+
+        '<button class="sg ok" type="button" id="sgok">言えた</button>'+
+        '<button class="sg ng" type="button" id="sgng">言えなかった</button></div>';
+      document.getElementById("sgok").addEventListener("click",function(){ commit(true,"言えた"); });
+      document.getElementById("sgng").addEventListener("click",function(){ commit(false,"言えなかった"); });
+    });
+    foot.textContent="残り "+(quiz.length-idx)+" 問";
+    return;
+  }
+  var box=document.getElementById("choices");
+  q.opts.forEach(function(o){
+    var b=document.createElement("button");
+    b.type="button"; b.className="choice"+(q.kanaOpts?" kana":"");
+    b.textContent=o; b.setAttribute("data-o",o);
+    b.addEventListener("click",function(){ answer(o); });
+    box.appendChild(b); });
+  foot.textContent="残り "+(quiz.length-idx)+" 問";
+}
+
+function answer(picked){ commit(picked===quiz[idx].ans, picked); }
+
+function commit(ok,pickLabel){
+  var q=quiz[idx];
+  if(ok) hits++;
+  mark(q.id,ok);
+  log[idx]={t:q.log,ok:ok,pick:pickLabel,ans:q.ans};
+  var bs=app.querySelectorAll(".choice");
+  for(var i=0;i<bs.length;i++){
+    var o=bs[i].getAttribute("data-o"); bs[i].disabled=true;
+    if(o===q.ans) bs[i].className+=" ans"; else if(o===pickLabel) bs[i].className+=" bad"; }
+  var sg=app.querySelectorAll(".sg");
+  for(var j=0;j<sg.length;j++) sg[j].disabled=true;
+  document.getElementById("m-hit").textContent=hits;
+  app.querySelector(".lanes").outerHTML=lanes(-1);
+  var now=st(q.id);
+  var grade = ok ? (now===2 ? '　<b>○○ そろった。この語は「済」。</b>' : '　○が1つ。あと1つで「済」。')
+                 : '　○は0にもどった。';
+  var stmt = q.flip ? (ok?'言えた。':'覚えなおす。') : q.stmt;
+  var head = ok ? '<b>'+sayOK()+'</b>　'+stmt+grade
+                : '<b>'+sayNG()+'</b>　'+stmt+(q.flip?'':'　覚えておこう。')+grade;
+  var pre = q.flip ? '<div class="flipa">'+q.atext+'</div>' : '';
+  document.getElementById("verdict").innerHTML= pre+
+    '<div class="verdict"><div class="vmark '+(ok?"ok":"ng")+'">'+
+    '<span class="mk">'+(ok?"○":"／")+'</span><span class="lbl">'+head+'</span></div>'+
+    '<div class="why">'+q.why+'</div>'+
+    '<div class="tip"><div class="h">覚えどころ</div><div class="b">'+q.tip+'</div></div>'+
+    '<button class="next" type="button" id="next">'+(idx===quiz.length-1?"記録を見る":"次へ")+'</button></div>';
+  var nx=document.getElementById("next");
+  nx.addEventListener("click",function(){ if(idx===quiz.length-1) finish(); else { idx++; render(); window.scrollTo(0,0);} });
+  nx.focus();
+}
+
+function finish(){
+  clearInterval(tick);
+  var time=elapsed(), n=quiz.length, rows="";
+  for(var i=0;i<n;i++){ var r=log[i];
+    rows+='<div class="row"><span class="idx">'+pad(i+1)+'</span>'+
+      '<span class="mk '+(r.ok?"ok":"ng")+'">'+(r.ok?"○":"／")+'</span>'+
+      '<span class="w">'+r.t+'</span>'+
+      '<span class="a">'+(r.ok?r.ans:'<b>'+r.ans+'</b>（'+r.pick+'）')+'</span></div>'; }
+  var missed=log.filter(function(r){return !r.ok;}).map(function(r){return r.t;});
+  pushRun({name:ev.name,hits:hits,n:n,missed:missed});
+  var T=totalStats();
+  var runText="古文ドリル "+todayStr()+"\n"+ev.name+"　"+hits+"/"+n+"（"+time+"）\n"+
+    (missed.length?"間違い: "+missed.join("、"):"全問正解")+
+    "\n今日の○ "+DAY.marks+"　累計 ○"+T.marks+"/"+T.need+"（済んだ語 "+T.done+"）";
+  var banner = missed.length
+    ? '<div class="banner"><div class="h">この'+missed.length+'項目は「間違い」に入った</div>'+
+      '<div class="b">'+missed.join("　")+'</div></div>'
+    : '<div class="banner good"><div class="h">全問正解</div><div class="b">この回の項目はすべて進んだ</div></div>';
+  var Q=(function(){ var lf=T.need-T.marks, dd=daysLeft();
+    if(lf<=0) return "全部そろった。";
+    var pd=Math.ceil(lf/dd), rs=Math.max(0,pd-DAY.marks);
+    return rs===0 ? "今日のぶんは終わり（○"+DAY.marks+"／"+pd+"）。ここでやめてよい。"
+                  : "今日のぶん ○"+DAY.marks+" / "+pd+"　あと○"+rs+"。"; })();
+  app.innerHTML=
+    '<div class="evname"><span class="no">'+(isAll?"直し":ev.no)+'</span>'+
+    '<span class="nm">'+ev.name+'</span></div>'+
+    '<div class="score"><span class="n">'+hits+'</span><span class="d">/ '+n+'</span>'+
+    '<span class="t">'+time+'</span></div>'+banner+
+    '<div class="sendnote" style="margin-top:10px">'+Q+'</div>'+
+    '<button class="b-line" type="button" id="line">LINEで送る</button>'+
+    '<div class="sendnote">今日はここで終わりにするなら送っておく。<br>まだ続けるなら、あとでまとめて送ってもよい。</div>'+
+    '<div class="rows">'+rows+'</div>'+
+    '<div class="btn-row three">'+
+      '<button class="btn-sub" type="button" id="again">もう1回</button>'+
+      '<button class="btn-sub" type="button" id="fix"'+(missed.length?'':' disabled')+'>間違いを直す</button>'+
+      '<button class="btn-sub" type="button" id="back">種目を選ぶ</button></div>'+
+    '<div class="btn-row one"><button class="btn-sub" type="button" id="copy">結果をコピー</button></div>'+
+    '<div class="toast" id="toast"></div>';
+  metaSummary();
+  foot.textContent="集めた○ "+T.marks+" / "+T.need+"　済んだ語 "+T.done+"　間違い "+T.bad;
+  document.getElementById("line").addEventListener("click",function(){ sendLine(runText); });
+  document.getElementById("back").addEventListener("click",menu);
+  document.getElementById("again").addEventListener("click",function(){
+    if(isAll) beginAllBad(); else begin(ev,isFix); });
+  document.getElementById("fix").addEventListener("click",function(){
+    if(isAll) beginAllBad(); else begin(ev,true); });
+  document.getElementById("copy").addEventListener("click",function(){
+    var t=document.getElementById("toast");
+    if(navigator.clipboard&&navigator.clipboard.writeText){
+      navigator.clipboard.writeText(runText).then(function(){t.textContent="コピーした。";},
+        function(){t.textContent=runText;});
+    } else { t.textContent=runText; }
+  });
+}
+
+menu();
+})();
+</script>
+</body>
+</html>
