@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Communication English 読本｜Lesson 3–5</title>
+<style>
+:root{
+  --bg:#f6f3ec; --paper:#fffdf8; --ink:#23211d; --sub:#8a8378; --rule:#e0d9cc;
+  --accent:#3b4a7a; --wordc:#2f6fae; --idiom:#fdf3d4; --gram:#e8e4f5;
+}
+[data-l="4"]{--accent:#2f6b45; --wordc:#1f7a5a; --idiom:#e9f6ea}
+[data-l="5"]{--accent:#7a4a2f; --wordc:#a2542a; --idiom:#fbeee2}
+[data-theme="night"]{
+  --bg:#12151c; --paper:#171b24; --ink:#dfe3ea; --sub:#7b8496; --rule:#2b323f;
+  --idiom:#3a3520; --gram:#2e2a44;
+}
+[data-theme="night"][data-l="3"]{--wordc:#7fb3e8}
+[data-theme="night"][data-l="4"]{--wordc:#6fd0a8; --idiom:#20352a}
+[data-theme="night"][data-l="5"]{--wordc:#dd9b6a; --idiom:#3a2a1d}
+
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0}
+body{
+  background:var(--bg);color:var(--ink);
+  font-family:"Hiragino Mincho ProN","Yu Mincho","Noto Serif JP",serif;
+  -webkit-text-size-adjust:100%;
+  transition:background .25s,color .25s;
+}
+.wrap{max-width:640px;margin:0 auto;padding:0 0 96px}
+
+/* ---- top bar ---- */
+.bar{position:sticky;top:0;z-index:20;background:var(--bg);
+  display:flex;align-items:center;gap:8px;padding:10px 14px 8px}
+.bar .t{flex:1;min-width:0;font-size:12px;color:var(--sub);letter-spacing:.06em;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-family:system-ui,sans-serif}
+.iconbtn{background:none;border:1px solid var(--rule);color:var(--sub);border-radius:8px;
+  padding:7px 10px;font-size:12px;cursor:pointer;font-family:system-ui,sans-serif;white-space:nowrap}
+.iconbtn[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:#fff}
+
+/* ---- tabs ---- */
+.tabs{position:sticky;top:44px;z-index:19;background:var(--bg);
+  display:flex;gap:0;padding:0 14px;border-bottom:1px solid var(--rule)}
+.tabs button{flex:1;background:none;border:0;border-bottom:2px solid transparent;
+  color:var(--sub);font-size:13px;font-family:system-ui,sans-serif;
+  padding:11px 2px 9px;cursor:pointer;letter-spacing:.03em;margin-bottom:-1px}
+.tabs button[aria-selected="true"]{color:var(--accent);border-bottom-color:var(--accent);font-weight:700}
+.prog{height:2px;background:var(--rule)}
+.prog i{display:block;height:100%;background:var(--accent);transition:width .3s}
+
+/* ---- page ---- */
+.page{padding:26px 20px 0}
+.lesson{font-size:11px;letter-spacing:.22em;color:var(--accent);font-weight:700;
+  font-family:system-ui,sans-serif;text-transform:uppercase}
+h1{margin:8px 0 2px;font-size:23px;font-weight:600;line-height:1.35}
+.partno{font-size:12.5px;color:var(--sub);font-family:system-ui,sans-serif;letter-spacing:.05em}
+.qbox{margin:20px 0 6px;padding:14px 15px;border-left:3px solid var(--accent);
+  background:color-mix(in srgb,var(--accent) 6%,transparent);border-radius:0 8px 8px 0}
+.qbox div{font-size:13px;line-height:1.75;color:var(--sub);font-family:Georgia,serif}
+.qbox div + div{margin-top:6px}
+.qbox b{color:var(--accent);font-family:system-ui,sans-serif;font-size:11px;letter-spacing:.1em;margin-right:8px}
+
+.sent{margin:0;padding:18px 0;border-bottom:1px solid var(--rule)}
+.sent:last-of-type{border-bottom:0}
+.tag{display:inline-block;font-family:Georgia,serif;font-size:12px;color:#c0392b;
+  min-width:26px;font-weight:700}
+.en{font-family:Georgia,"Times New Roman",serif;font-size:18.5px;line-height:1.85;
+  letter-spacing:.005em}
+.ja{margin-top:10px;font-size:15px;line-height:1.95;color:var(--sub)}
+body[data-mode="en"] .ja{display:none}
+body[data-mode="ja"] .en{display:none}
+body[data-mode="ja"] .ja{color:var(--ink);margin-top:0}
+
+.hl{border-radius:3px;padding:0 1px}
+.hl.w{color:var(--wordc);border-bottom:1px solid var(--wordc);cursor:pointer}
+.hl.i{background:var(--idiom);font-weight:700;cursor:pointer;padding:1px 3px}
+.hl.g{background:var(--gram);font-weight:700;padding:1px 3px}
+body[data-hl="off"] .hl{color:inherit;background:none;border-bottom:0;font-weight:inherit}
+
+/* ---- cloze ---- */
+body[data-mode="cloze"] .ja{display:block}
+body[data-mode="cloze"] .hl.blank{
+  color:transparent;background:color-mix(in srgb,var(--accent) 9%,transparent);
+  border-bottom:2px solid var(--accent);border-radius:3px;cursor:pointer;
+  user-select:none;-webkit-user-select:none;
+}
+body[data-mode="cloze"] .hl.blank *{color:transparent}
+body[data-mode="cloze"] .hl.open{
+  color:var(--wordc);background:color-mix(in srgb,var(--accent) 5%,transparent);
+  border-bottom:1px dotted var(--accent);font-weight:700}
+.clozebar{display:flex;gap:8px;align-items:center;margin:16px 0 -4px;
+  font-family:system-ui,sans-serif;font-size:12px;color:var(--sub)}
+.clozebar button{background:none;border:1px solid var(--rule);color:var(--sub);
+  border-radius:8px;padding:8px 12px;font-size:12px;cursor:pointer;font-family:inherit}
+.clozebar .cnt{margin-left:auto}
+.clozebar .cnt b{color:var(--accent)}
+
+/* ---- back matter ---- */
+.notes{margin-top:34px;border-top:2px solid var(--accent);padding-top:4px}
+details{border-bottom:1px solid var(--rule)}
+summary{cursor:pointer;list-style:none;padding:14px 2px;font-size:12px;letter-spacing:.14em;
+  color:var(--sub);font-family:system-ui,sans-serif;display:flex;justify-content:space-between}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"＋";color:var(--accent)}
+details[open] summary::after{content:"−"}
+.nl{padding:0 0 16px}
+.nl .row{display:flex;gap:12px;padding:8px 0;font-size:14px;line-height:1.7;
+  border-bottom:1px dotted var(--rule)}
+.nl .row:last-child{border-bottom:0}
+.nl .k{font-family:Georgia,serif;color:var(--wordc);flex:0 0 42%}
+.nl .k.b{font-weight:700;color:var(--ink)}
+.nl .v{color:var(--sub);flex:1}
+.nl .ex{font-family:Georgia,serif;font-size:12.5px;color:var(--sub);
+  display:block;margin-top:3px;line-height:1.6}
+
+/* ---- footer nav ---- */
+.nav{position:fixed;left:0;right:0;bottom:0;z-index:20;background:var(--bg);
+  border-top:1px solid var(--rule);
+  padding:9px 14px calc(9px + env(safe-area-inset-bottom));
+  display:flex;align-items:center;gap:10px;max-width:640px;margin:0 auto}
+.nav button{flex:0 0 auto;background:var(--paper);border:1px solid var(--rule);
+  color:var(--ink);border-radius:9px;padding:11px 16px;font-size:14px;cursor:pointer;
+  font-family:system-ui,sans-serif}
+.nav button:disabled{opacity:.3;cursor:default}
+.nav .mid{flex:1;text-align:center;font-size:12px;color:var(--sub);
+  font-family:system-ui,sans-serif;letter-spacing:.08em;cursor:pointer}
+.nav .mid b{color:var(--accent);font-size:14px}
+.done{background:var(--accent)!important;border-color:var(--accent)!important;color:#fff!important}
+
+/* ---- toc ---- */
+.sheet{position:fixed;inset:0;z-index:40;background:rgba(0,0,0,.45);display:none}
+.sheet.open{display:block}
+.sheet .inner{position:absolute;left:0;right:0;bottom:0;max-height:78dvh;overflow:auto;
+  background:var(--paper);border-radius:16px 16px 0 0;padding:8px 0 calc(20px + env(safe-area-inset-bottom));
+  max-width:640px;margin:0 auto}
+.grab{width:38px;height:4px;background:var(--rule);border-radius:2px;margin:8px auto 12px}
+.toci{display:flex;align-items:center;gap:12px;padding:13px 20px;cursor:pointer;
+  border-bottom:1px solid var(--rule);font-size:14.5px}
+.toci .n{font-family:Georgia,serif;font-size:12px;color:var(--sub);min-width:44px}
+.toci .ck{margin-left:auto;font-size:12px;color:var(--accent)}
+.toci.cur{background:color-mix(in srgb,var(--accent) 8%,transparent)}
+.tochd{padding:14px 20px 6px;font-size:11px;letter-spacing:.18em;color:var(--sub);
+  font-family:system-ui,sans-serif}
+
+/* ---- tooltip ---- */
+#tip{position:fixed;z-index:50;background:var(--ink);color:var(--paper);
+  padding:9px 13px;border-radius:9px;font-size:13.5px;line-height:1.5;
+  font-family:system-ui,sans-serif;max-width:74vw;display:none;
+  box-shadow:0 6px 20px rgba(0,0,0,.3)}
+#tip b{display:block;font-family:Georgia,serif;font-size:12px;opacity:.7;margin-bottom:2px}
+
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body data-mode="both" data-hl="on" data-theme="day">
+
+<div class="bar">
+  <button class="iconbtn" id="btnToc">目次</button>
+  <div class="t" id="crumb"></div>
+  <button class="iconbtn" id="btnHl" aria-pressed="true">色</button>
+  <button class="iconbtn" id="btnTheme">夜</button>
+</div>
+<div class="tabs" id="tabs">
+  <button data-m="both">対訳</button>
+  <button data-m="en">英文だけ</button>
+  <button data-m="ja">訳だけ</button>
+  <button data-m="cloze">穴埋め</button>
+</div>
+<div class="prog"><i id="bar" style="width:0"></i></div>
+
+<div class="wrap"><div class="page" id="page"></div></div>
+
+<div class="nav">
+  <button id="prev">← 前</button>
+  <div class="mid" id="mid"></div>
+  <button id="next">次 →</button>
+</div>
+
+<div class="sheet" id="sheet"><div class="inner">
+  <div class="grab"></div>
+  <div id="toc"></div>
+</div></div>
+
+<div id="tip"></div>
+
+<script>
+const BOOK = [{"l": 3, "p": 1, "title": "The Moon and Our Culture", "qs": ["What is the Moon like for us?", "Is the image of the Moon in Western countries similar to that in Japan?"], "sents": [{"tag": "1)", "en": "The Moon is the closest <span class=\"hl w\" data-g=\"object … 物体、天体\">object</span> in space to Earth.", "ja": "月は宇宙で地球に最も近い天体だ。"}, {"tag": "", "en": "It feels very familiar to us.", "ja": "月は私たちにとってとても身近に感じられる。"}, {"tag": "", "en": "For example, it appears in well-known <span class=\"hl w\" data-g=\"folktale … 民話\">folktales</span> like Kaguya-hime.", "ja": "たとえば、月は『かぐや姫』のようなよく知られた民話に登場する。"}, {"tag": "", "en": "We also have the tradition of moon <span class=\"hl w\" data-g=\"viewing … ながめること\">viewing</span> called Tsukimi during the autumn full moon in September.", "ja": "また、9月の秋の満月の時期には「月見」と呼ばれる月をながめる伝統もある。"}, {"tag": "", "en": "Moreover, until about 150 years ago, people used the <span class=\"hl w\" data-g=\"lunar … 月の\">lunar</span> calendar to organize their lives.", "ja": "さらに、約150年前まで、人々は生活を組み立てるために太陰暦を使っていた。"}, {"tag": "", "en": "It <span class=\"hl i\" data-g=\"be based on A … ～に基づいている\">was based on</span> the phases of the Moon.", "ja": "それは月の満ち欠けに基づいていた。"}, {"tag": "2)", "en": "<span class=\"hl i\" data-g=\"as you know … ご存じのとおり\">As you know</span>, in Japan, the Moon has a good image that <span class=\"hl i\" data-g=\"be associated with A … ～と結びつけられている\">is associated with</span> characters like Kaguya-hime and rabbits.", "ja": "ご存じのとおり、日本では月は、かぐや姫やウサギといった登場人物と結びついた良いイメージを持っている。"}, {"tag": "", "en": "<span class=\"hl i\" data-g=\"in contrast … 対照的に\">In contrast</span>, in Western countries, it has a different image.", "ja": "対照的に、西洋の国々では月は異なるイメージを持っている。"}, {"tag": "", "en": "People there say that <span class=\"hl w\" data-g=\"moonlight … 月光\">moonlight</span> can <span class=\"hl i\" data-g=\"drive O C … O を C の状態にする\">drive them mad</span>.", "ja": "そこの人々は、月光が人を狂わせることがあると言う。"}, {"tag": "", "en": "The <span class=\"hl w\" data-g=\"folktale … 民話\">folktale</span> of the <span class=\"hl w\" data-g=\"werewolf … 狼男\">werewolf</span> is one example of this <span class=\"hl w\" data-g=\"belief … 信じられていること\">belief</span>.", "ja": "狼男の民話はこの言い伝えの一例である。"}, {"tag": "", "en": "<span class=\"hl w\" data-g=\"furthermore … さらに\">Furthermore</span>, the English word “<span class=\"hl w\" data-g=\"lunatic … 狂気じみた人\">lunatic</span>” has the meaning of “someone <span class=\"hl w\" data-g=\"insane … 正気でない\">insane</span>.”", "ja": "さらに、英語の lunatic という語は「正気でない人」という意味を持つ。"}], "words": [["object", "物体、天体"], ["folktale", "民話"], ["viewing", "ながめること"], ["lunar", "月の"], ["associate", "結びつける"], ["contrast", "対照"], ["moonlight", "月光"], ["mad", "狂った"], ["werewolf", "狼男"], ["belief", "信じられていること"], ["furthermore", "さらに"], ["lunatic", "狂気じみた人"], ["insane", "正気でない"]], "idioms": [["be based on A", "The story is based on the book.", "その話はその本に基づいている。"], ["as you know", "As you know, I like ramen.", "ご存じのとおり、私はラーメンが好きだ。"], ["be associated with A", "Rabbits are associated with good luck.", "ウサギは幸運と結びつけられている。"], ["in contrast", "I like coffee. In contrast, my sister prefers tea.", "私はコーヒーが好きだ。対照的に、姉は紅茶を好む。"], ["drive O C", "His long speeches always drive me crazy.", "彼の長い話はいつも私をいらいらさせる。"]], "grammar": [["G-5 分詞の後置修飾", "We enjoyed delicious chocolates made in France."], ["G-6 関係代名詞", "She was reading a novel that was popular with teenagers."]]}, {"l": 3, "p": 2, "title": "The Moon and Our Culture", "qs": ["What kind of festival is held around September in China?", "What do people in Thailand do in the festival called Loy Krathong?"], "sents": [{"tag": "3)", "en": "Did you know that the Moon also feels very familiar to people in other Asian countries?", "ja": "月がほかのアジアの国々の人々にとってもとても身近に感じられていることを知っていましたか。"}, {"tag": "", "en": "In places like China, the 15th day of the eighth lunar month (around September in the <span class=\"hl w\" data-g=\"solar … 太陽の\">solar</span> calendar) is <span class=\"hl i\" data-g=\"(be) known as A … ～として知られている\">known as</span> the Moon Festival.", "ja": "中国のような場所では、太陰暦8月15日（太陽暦では9月ごろ）は「中秋節」として知られている。"}, {"tag": "", "en": "It has been one of the most important traditional <span class=\"hl g\">festivals that people there have been celebrating</span> for over a thousand years.", "ja": "それは、そこの人々が千年以上にわたって祝い続けてきた、最も重要な伝統行事のひとつである。"}, {"tag": "", "en": "It is considered to be a time for family <span class=\"hl w\" data-g=\"reunion … 再会\">reunions</span>.", "ja": "それは家族が再会する時と考えられている。"}, {"tag": "", "en": "Families gather to <span class=\"hl w\" data-g=\"admire … ながめる、感嘆する\">admire</span> the full moon, to enjoy <span class=\"hl g\">cakes shaped like the Moon</span>, and to share memories.", "ja": "家族は満月をながめ、月の形をした菓子を味わい、思い出を分かち合うために集まる。"}, {"tag": "", "en": "This is also an opportunity to express love and <span class=\"hl w\" data-g=\"gratitude … 感謝\">gratitude</span> to <span class=\"hl w\" data-g=\"elderly … 年配の\">elderly</span> people within the family.", "ja": "これはまた、家族の中の年配の人々に愛情と感謝を伝える機会でもある。"}, {"tag": "4)", "en": "Similar to China, in Thailand, there is a festival called Loy Krathong.", "ja": "中国と同じように、タイにはロイクラトンと呼ばれる祭りがある。"}, {"tag": "", "en": "On the night of the full moon in the 12th month (October or November in the <span class=\"hl w\" data-g=\"solar … 太陽の\">solar</span> calendar), people show <span class=\"hl w\" data-g=\"gratitude … 感謝\">gratitude</span> to the river <span class=\"hl w\" data-g=\"goddess … 女神\">goddess</span>.", "ja": "12月の満月の夜（太陽暦では10月か11月）に、人々は川の女神に感謝を表す。"}, {"tag": "", "en": "They <span class=\"hl w\" data-g=\"float … 浮かべる\">float</span> <span class=\"hl g\">lanterns made of candles</span> and <span class=\"hl w\" data-g=\"incense … 香\">incense</span> on rivers or lakes.", "ja": "人々はろうそくと香で作った灯籠を川や湖に浮かべる。"}], "words": [["solar", "太陽の"], ["reunion", "再会"], ["gratitude", "感謝"], ["goddess", "女神"], ["float", "浮かべる"], ["incense", "香"], ["admire", "ながめる、感嘆する"], ["elderly", "年配の"]], "idioms": [["(be) known as A", "Venice is known as the city of water.", "ベニスは水の都として知られている。"]], "grammar": [["G-5 分詞の後置修飾", "cakes shaped like the Moon / lanterns made of candles"], ["G-6 関係代名詞", "festivals that people there have been celebrating"]]}, {"l": 3, "p": 3, "title": "The Moon and Our Culture", "qs": ["Where do you find the crescent moon in Islamic culture?", "What does the crescent moon represent in Islamic culture?"], "sents": [{"tag": "5)", "en": "The Moon has a special meaning in <span class=\"hl w\" data-g=\"Islamic … イスラムの\">Islamic</span> culture.", "ja": "月はイスラム文化において特別な意味を持つ。"}, {"tag": "", "en": "In the 15th or 16th century, the <span class=\"hl w\" data-g=\"the Ottoman Empire … オスマン帝国\">Ottoman Empire</span> started using the <span class=\"hl w\" data-g=\"crescent … 三日月\">crescent</span> moon on its flag.", "ja": "15世紀か16世紀に、オスマン帝国は国旗に三日月を使い始めた。"}, {"tag": "", "en": "<span class=\"hl i\" data-g=\"since then … それ以来\">Since then</span>, the <span class=\"hl w\" data-g=\"crescent … 三日月\">crescent</span> moon has been a symbol of <span class=\"hl w\" data-g=\"Islamic … イスラムの\">Islamic</span> <span class=\"hl w\" data-g=\"faith … 信仰\">faith</span>, and it appears on many national flags of <span class=\"hl w\" data-g=\"Islamic … イスラムの\">Islamic</span> countries.", "ja": "それ以来、三日月はイスラムの信仰の象徴であり続けており、多くのイスラム諸国の国旗に見られる。"}, {"tag": "", "en": "The symbol of the <span class=\"hl w\" data-g=\"the International Red Cross … 国際赤十字\">International Red Cross</span> is also a <span class=\"hl w\" data-g=\"crescent … 三日月\">crescent</span> moon there.", "ja": "国際赤十字の記号も、そこでは三日月である。"}, {"tag": "", "en": "It is known as the <span class=\"hl w\" data-g=\"the Red Crescent … 赤新月\">Red Crescent</span>.", "ja": "それは赤新月として知られている。"}, {"tag": "6)", "en": "Furthermore, the <span class=\"hl w\" data-g=\"crescent … 三日月\">crescent</span> moon <span class=\"hl w\" data-g=\"represent … 表す\">represents</span> the beginning of the new month in the <span class=\"hl w\" data-g=\"Islamic … イスラムの\">Islamic</span> calendar.", "ja": "さらに、三日月はイスラム暦の新しい月の始まりを表す。"}, {"tag": "", "en": "It also <span class=\"hl w\" data-g=\"signal … 合図する、告げる\">signals</span> the beginning of the month of <span class=\"hl w\" data-g=\"Ramadan … ラマダン\">Ramadan</span> in <span class=\"hl w\" data-g=\"Islam … イスラム教\">Islam</span>.", "ja": "それはまた、イスラム教におけるラマダンの月の始まりを告げる。"}, {"tag": "", "en": "During this month of <span class=\"hl w\" data-g=\"Ramadan … ラマダン\">Ramadan</span>, people <span class=\"hl w\" data-g=\"fast … 断食する\">fast</span> from dawn to sunset.", "ja": "このラマダンの月の間、人々は夜明けから日没まで断食する。"}, {"tag": "", "en": "To celebrate the end of <span class=\"hl w\" data-g=\"Ramadan … ラマダン\">Ramadan</span>, people <span class=\"hl i\" data-g=\"take part in A … ～に参加する\">take part in</span> moon viewing.", "ja": "ラマダンの終わりを祝うために、人々は月見に参加する。"}, {"tag": "", "en": "<span class=\"hl i\" data-g=\"as you can see … 見てわかるとおり\">As you can see</span>, the <span class=\"hl w\" data-g=\"crescent … 三日月\">crescent</span> moon <span class=\"hl w\" data-g=\"represent … 表す\">represents</span> various parts of <span class=\"hl w\" data-g=\"Islamic … イスラムの\">Islamic</span> history and <span class=\"hl w\" data-g=\"faith … 信仰\">faith</span>.", "ja": "このように、三日月はイスラムの歴史と信仰のさまざまな部分を表している。"}], "words": [["Islamic", "イスラムの"], ["the Ottoman Empire", "オスマン帝国"], ["crescent", "三日月"], ["the International Red Cross", "国際赤十字"], ["the Red Crescent", "赤新月"], ["represent", "表す"], ["signal", "合図する、告げる"], ["Ramadan", "ラマダン"], ["Islam", "イスラム教"], ["fast", "断食する"], ["faith", "信仰"]], "idioms": [["since then", "", "それ以来"], ["take part in A", "", "～に参加する"], ["as you can see", "", "このように、見てわかるとおり"]], "grammar": [["G-6 関係代名詞", "the crescent moon which has been a symbol ..."]]}, {"l": 3, "p": 4, "title": "The Moon and Our Culture", "qs": ["In addition to our cultures, what is related to the Moon in our daily lives?", "What creates an illusion at Itsukushima Shrine or at Mont-Saint-Michel?"], "sents": [{"tag": "7)", "en": "The Moon <span class=\"hl i\" data-g=\"be related to A … ～に関係している\">is related not only to</span> our cultures, but also to <span class=\"hl g\">various things happening in our daily lives</span>.", "ja": "月は私たちの文化だけでなく、日常生活で起きているさまざまなことにも関係している。"}, {"tag": "", "en": "For example, when there is a full or new moon, it is said that our faces become <span class=\"hl w\" data-g=\"swollen … むくんだ\">swollen</span> and our legs feel heavy.", "ja": "たとえば、満月や新月のときには、顔がむくんだり脚が重く感じられたりすると言われている。"}, {"tag": "", "en": "On the nights of a full moon, we can see <span class=\"hl g\">sea turtles laying their eggs</span>.", "ja": "満月の夜には、ウミガメが産卵しているのを見ることができる。"}, {"tag": "8)", "en": "<span class=\"hl i\" data-g=\"in addition … 加えて、そのうえ\">In addition</span>, the Moon has an effect on the change of the ocean <span class=\"hl w\" data-g=\"tide … 潮\">tides</span>.", "ja": "さらに、月は海の潮の変化に影響を与えている。"}, {"tag": "", "en": "High and low <span class=\"hl w\" data-g=\"tide … 潮\">tides</span> happen twice a day <span class=\"hl i\" data-g=\"depending on A … ～に応じて\">depending on</span> the <span class=\"hl w\" data-g=\"position … 位置\">position</span> of the Moon.", "ja": "満潮と干潮は、月の位置に応じて1日に2回起こる。"}, {"tag": "", "en": "The change of the <span class=\"hl w\" data-g=\"tide … 潮\">tides</span> can sometimes create an <span class=\"hl w\" data-g=\"illusion … 錯覚\">illusion</span>.", "ja": "潮の変化は、ときに錯覚を生み出すことがある。"}, {"tag": "", "en": "Places <span class=\"hl i\" data-g=\"such as A … ～のような\">such as</span> Itsukushima Shrine in Japan or Mont-Saint-Michel in France <span class=\"hl i\" data-g=\"look like ~ … ～のように見える\">look like</span> they are floating in the sea during high <span class=\"hl w\" data-g=\"tide … 潮\">tide</span>.", "ja": "日本の厳島神社やフランスのモン・サン＝ミシェルのような場所は、満潮時には海に浮かんでいるように見える。"}, {"tag": "", "en": "All of these <span class=\"hl g\">things mentioned above</span> <span class=\"hl i\" data-g=\"be related to A … ～に関係している\">are related to</span> the Moon.", "ja": "上で述べたこれらのことはすべて、月に関係している。"}, {"tag": "", "en": "People are <span class=\"hl w\" data-g=\"fascinate … 魅了する\">fascinated</span> by its <span class=\"hl w\" data-g=\"mystique … 神秘性\">mystique</span>.", "ja": "人々はその神秘性に魅了されている。"}, {"tag": "9)", "en": "The Moon influences every part of our lives.", "ja": "月は私たちの生活のあらゆる部分に影響を与えている。"}, {"tag": "", "en": "<span class=\"hl i\" data-g=\"it is no wonder (that) ~ … ～は不思議ではない\">It is no wonder</span> we find it so attractive.", "ja": "私たちが月をこれほど魅力的だと感じるのも不思議ではない。"}], "words": [["swollen", "むくんだ"], ["turtle", "カメ"], ["lay", "産む"], ["tide", "潮"], ["position", "位置"], ["illusion", "錯覚"], ["mention", "言及する"], ["fascinate", "魅了する"], ["mystique", "神秘性"]], "idioms": [["be related to A", "Rain is related to clouds in the sky.", "雨は空の雲に関係している。"], ["in addition", "I have a dog. In addition, I have a cat.", "私は犬を飼っている。さらに猫も飼っている。"], ["depending on A", "I wear a coat depending on the weather.", "私は天気に応じてコートを着る。"], ["such as A", "She enjoys fruits such as apples and oranges.", "彼女はリンゴやオレンジのような果物を楽しむ。"], ["look like ~", "It looks like it is going to rain.", "雨が降りそうに見える。"], ["it is no wonder (that) ~", "～というのも不思議ではない", ""]], "grammar": [["G-5 分詞の後置修飾", "various things happening in our daily lives / sea turtles laying their eggs / things mentioned above"]]}, {"l": 4, "p": 1, "title": "Eco-Tour on Yakushima", "qs": ["What is an eco-tour?", "What should we NOT do during an eco-tour?"], "sents": [{"tag": "1)", "en": "Welcome to Yakushima!  Thank you for joining our <span class=\"hl w\" data-g=\"eco-tour … エコツアー\">eco-tour</span>.", "ja": "屋久島へようこそ。エコツアーにご参加いただきありがとうございます。"}, {"tag": "", "en": "I am Suzuki Kenta, your tour guide.", "ja": "私はガイドの鈴木健太です。"}, {"tag": "", "en": "I am going to give you a short <span class=\"hl w\" data-g=\"orientation … 説明、案内\">orientation</span> before we start the tour.", "ja": "ツアーを始める前に、短い説明をします。"}, {"tag": "", "en": "We will return to this office tomorrow evening.", "ja": "明日の夕方にこの事務所に戻ってきます。"}, {"tag": "2)", "en": "<span class=\"hl i\" data-g=\"first of all … まず初めに\">First of all</span>, have you ever heard of an <span class=\"hl w\" data-g=\"eco-tour … エコツアー\">eco-tour</span>?", "ja": "まず初めに、エコツアーについて聞いたことがありますか。"}, {"tag": "", "en": "It is a trip on which people are asked to <span class=\"hl i\" data-g=\"be responsible for A … ～に責任がある\">be more responsible for</span> the environment.", "ja": "それは、参加者が環境に対してより責任を持つよう求められる旅行です。"}, {"tag": "", "en": "<span class=\"hl i\" data-g=\"in other words … 言いかえれば\">In other words</span>, we need to be careful in order not to damage the environment during the tour.", "ja": "言いかえれば、ツアー中に環境を傷つけないように気をつける必要があるということです。"}, {"tag": "3)", "en": "Yakushima was <span class=\"hl w\" data-g=\"register … 登録する\">registered</span> as Japan&#x27;s first World Natural <span class=\"hl w\" data-g=\"heritage … 遺産\">Heritage</span> Site in 1993.", "ja": "屋久島は1993年に日本初の世界自然遺産として登録されました。"}, {"tag": "", "en": "Since then, many tourists from around the world have visited here.", "ja": "それ以来、世界中から多くの観光客がここを訪れています。"}, {"tag": "", "en": "We are very happy to have so many tourists, but this has caused some problems.", "ja": "これほど多くの観光客に来ていただけるのはとてもうれしいことですが、これはいくつかの問題も引き起こしています。"}, {"tag": "", "en": "For example, some tourists have <span class=\"hl i\" data-g=\"step on A … ～を踏む\">stepped on</span> <span class=\"hl w\" data-g=\"fragile … 壊れやすい\">fragile</span> plants along the mountain <span class=\"hl w\" data-g=\"path … 小道\">paths</span>.", "ja": "たとえば、一部の観光客が山道沿いの壊れやすい植物を踏んでしまっています。"}, {"tag": "", "en": "For this reason, I <span class=\"hl i\" data-g=\"would like A to do … A に～してほしい\">would like</span> you to understand the meaning of the term “<span class=\"hl w\" data-g=\"eco-tour … エコツアー\">eco-tour</span>.”", "ja": "こうした理由から、みなさんに「エコツアー」という言葉の意味を理解していただきたいのです。"}], "words": [["eco-tour", "エコツアー"], ["orientation", "説明、案内"], ["register", "登録する"], ["heritage", "遺産"], ["fragile", "壊れやすい"], ["path", "小道"]], "idioms": [["first of all", "First of all, I'll explain the next project.", "まず初めに、次の企画について説明します。"], ["be responsible for A", "Mike is responsible for the project.", "マイクはその企画に責任がある。"], ["in other words", "I can't eat eggs. In other words, I'm allergic to them.", "私は卵が食べられない。言いかえれば、卵アレルギーだ。"], ["step on A", "Someone stepped on my foot on the train.", "電車で誰かに足を踏まれた。"], ["would like A to do", "I would like you to meet her.", "あなたに彼女に会ってほしい。"]], "grammar": [["G-7 前置詞＋関係代名詞", "Yakushima is an island on which we can enjoy eco-tours."]]}, {"l": 4, "p": 2, "title": "Eco-Tour on Yakushima", "qs": ["What are the land features of Yakushima?", "What is the climate like on Yakushima?"], "sents": [{"tag": "4)", "en": "Let&#x27;s look at the land features of Yakushima.", "ja": "屋久島の地形を見てみましょう。"}, {"tag": "", "en": "It is a round island, about 500 km² (<span class=\"hl w\" data-g=\"square kilometers … 平方キロメートル\">square kilometers</span>) in size, and <span class=\"hl i\" data-g=\"(be) covered with A … ～におおわれている\">covered with</span> green forest.", "ja": "それは丸い島で、大きさは約500平方キロメートル、緑の森におおわれています。"}, {"tag": "", "en": "If you compare the maps of Yakushima, Tokyo and Osaka on the next page, you can get an idea of its size.", "ja": "次のページで屋久島、東京、大阪の地図を比べれば、その大きさがつかめます。"}, {"tag": "", "en": "The island has over 40 mountains that are more than 1,000 m (meters) high.", "ja": "この島には標高1,000メートルを超える山が40以上あります。"}, {"tag": "", "en": "That is why Yakushima is called “the Alps of the Sea.”", "ja": "そういうわけで、屋久島は「海のアルプス」と呼ばれています。"}, {"tag": "5)", "en": "The climate of Yakushima is warm and humid throughout the year.", "ja": "屋久島の気候は一年を通して温暖で湿度が高いです。"}, {"tag": "", "en": "The average temperature is 20°C (degrees <span class=\"hl w\" data-g=\"Celsius … 摂氏\">Celsius</span>) in the <span class=\"hl w\" data-g=\"coastal … 沿岸の\">coastal</span> areas and 15°C in the central areas.", "ja": "平均気温は沿岸部で摂氏20度、中央部で15度です。"}, {"tag": "", "en": "However, in winter, the temperatures on the <span class=\"hl w\" data-g=\"mountaintop … 山頂\">mountaintops</span> can fall below zero, and these areas become <span class=\"hl i\" data-g=\"(be) covered with A … ～におおわれている\">covered with</span> snow.", "ja": "しかし冬には、山頂の気温は氷点下まで下がることがあり、これらの地域は雪におおわれます。"}, {"tag": "6)", "en": "Yakushima has a lot of rain.  <span class=\"hl i\" data-g=\"it is said that ~ … ～と言われている\">It is said that</span> “it rains 35 days a month” here!", "ja": "屋久島は雨が多いです。ここでは「ひと月に35日雨が降る」と言われるほどです。"}, {"tag": "", "en": "The <span class=\"hl w\" data-g=\"annual … 年間の\">annual</span> <span class=\"hl w\" data-g=\"rainfall … 降水量\">rainfall</span> is about 4,500 mm (millimeters) in the <span class=\"hl w\" data-g=\"low-lying … 低地の\">low-lying</span> areas.", "ja": "低地では年間降水量が約4,500ミリです。"}, {"tag": "", "en": "In the mountain areas, it is about 8,000 to 10,000 mm.", "ja": "山間部では約8,000から10,000ミリになります。"}, {"tag": "", "en": "That is why the <span class=\"hl w\" data-g=\"humidity … 湿度\">humidity</span> is so high — about 73 to 75% <span class=\"hl i\" data-g=\"on (an [the]) average … 平均して\">on average</span>.", "ja": "そういうわけで湿度がとても高く、平均で約73〜75％です。"}, {"tag": "", "en": "Yakushima&#x27;s climate has created a unique <span class=\"hl w\" data-g=\"ecosystem … 生態系\">ecosystem</span> on the island.", "ja": "屋久島の気候は、この島に独特の生態系を作り出してきました。"}], "words": [["square kilometers", "平方キロメートル"], ["Celsius", "摂氏"], ["coastal", "沿岸の"], ["mountaintop", "山頂"], ["annual", "年間の"], ["rainfall", "降水量"], ["low-lying", "低地の"], ["humidity", "湿度"], ["ecosystem", "生態系"]], "idioms": [["(be) covered with A", "The tree is covered with green leaves.", "その木は緑の葉におおわれている。"], ["it is said that ~", "It is said that Yakushima has the heaviest rainfall in Japan.", "屋久島は日本で最も雨が多いと言われている。"], ["on (an [the]) average", "I run 5 km every day on average.", "私は平均して毎日5キロ走る。"]], "grammar": [["G-8 関係副詞", "I missed the bus.  That is why I was late."]]}, {"l": 4, "p": 3, "title": "Eco-Tour on Yakushima", "qs": ["What does Shiratani Unsuikyo Ravine have?", "How big is Wilson's Stump?"], "sents": [{"tag": "7)", "en": "Now I will show you some pictures of the sites where we are going.", "ja": "これから、私たちが行く場所の写真をお見せします。"}, {"tag": "", "en": "The first one is Shiratani Unsuikyo <span class=\"hl w\" data-g=\"ravine … 峡谷\">Ravine</span>.", "ja": "1つ目は白谷雲水峡です。"}, {"tag": "", "en": "As you can see in the picture, it has a <span class=\"hl w\" data-g=\"dense … 密集した\">dense</span> forest with a thick carpet of <span class=\"hl w\" data-g=\"moss … 苔\">moss</span>.", "ja": "写真でわかるとおり、そこには苔が厚くじゅうたんのように広がる深い森があります。"}, {"tag": "", "en": "Have you seen the animated movie, Princess Mononoke?", "ja": "アニメ映画『もののけ姫』を見たことがありますか。"}, {"tag": "", "en": "When the director, Miyazaki Hayao, was making this movie, he was <span class=\"hl w\" data-g=\"strongly … 強く\">strongly</span> inspired by this mysterious forest.", "ja": "監督の宮崎駿がこの映画を作っていたとき、彼はこの神秘的な森から強く着想を得ました。"}, {"tag": "8)", "en": "The next one is Wilson&#x27;s <span class=\"hl w\" data-g=\"stump … 切り株\">Stump</span>, a huge tree <span class=\"hl w\" data-g=\"stump … 切り株\">stump</span> with a <span class=\"hl w\" data-g=\"diameter … 直径\">diameter</span> of 4.39 m.", "ja": "次はウィルソン株、直径4.39メートルの巨大な切り株です。"}, {"tag": "", "en": "Does anyone know the reason why it is named “Wilson&#x27;s <span class=\"hl w\" data-g=\"stump … 切り株\">Stump</span>”?", "ja": "なぜ「ウィルソン株」と名付けられたのか、誰か知っていますか。"}, {"tag": "", "en": "The name comes from Dr. Ernest Wilson, a famous <span class=\"hl w\" data-g=\"botanist … 植物学者\">botanist</span>.", "ja": "この名前は、有名な植物学者アーネスト・ウィルソン博士に由来します。"}, {"tag": "", "en": "He was the first person to introduce the <span class=\"hl w\" data-g=\"stump … 切り株\">stump</span> to the world.", "ja": "彼はこの切り株を世界に紹介した最初の人物でした。"}, {"tag": "", "en": "It is said that this tree was <span class=\"hl i\" data-g=\"cut down A [A down] … ～を切り倒す\">cut down</span> in 1586 <span class=\"hl i\" data-g=\"by order of A … ～の命令で\">by order of</span> Toyotomi Hideyoshi to build Hoko-ji Temple.", "ja": "この木は1586年に、方広寺を建てるために豊臣秀吉の命令で切り倒されたと言われています。"}, {"tag": "", "en": "The inside of the <span class=\"hl w\" data-g=\"stump … 切り株\">stump</span> is empty, and you can go into it.", "ja": "切り株の内部は空洞になっていて、中に入ることができます。"}, {"tag": "", "en": "Water <span class=\"hl w\" data-g=\"flow … 流れる\">flows</span> out of the ground there.", "ja": "そこでは地面から水が湧き出ています。"}], "words": [["ravine", "峡谷"], ["dense", "密集した"], ["moss", "苔"], ["strongly", "強く"], ["stump", "切り株"], ["diameter", "直径"], ["botanist", "植物学者"], ["flow", "流れる"]], "idioms": [["cut down A [A down]", "They cut down sick trees.", "彼らは病気の木を切り倒す。"], ["by order of A", "He flew to Sapporo by order of his company president.", "彼は社長の命令で札幌へ飛んだ。"]], "grammar": [["G-8 関係副詞", "The hotel where we stayed was wonderful."], ["G-8 関係副詞", "Do you know the reason why it rains a lot in this area?"]]}, {"l": 4, "p": 4, "title": "Eco-Tour on Yakushima", "qs": ["Why were some old cedars not cut?", "Why can't people get close to or touch the Jomon Cedar?"], "sents": [{"tag": "9)", "en": "The last picture is of the Jomon <span class=\"hl w\" data-g=\"cedar … 杉\">Cedar</span>.", "ja": "最後の写真は縄文杉です。"}, {"tag": "", "en": "It is one of the oldest and largest <span class=\"hl w\" data-g=\"cedar … 杉\">cedars</span> on Yakushima.", "ja": "それは屋久島で最も古く最も大きな杉のひとつです。"}, {"tag": "", "en": "<span class=\"hl i\" data-g=\"according to A … ～によれば\">According to</span> research, it is about 2,000 to 7,200 years old, and it is 25.3 m in <span class=\"hl w\" data-g=\"height … 高さ\">height</span> and 5.2 m in diameter.", "ja": "研究によれば、樹齢は約2,000年から7,200年で、高さは25.3メートル、直径は5.2メートルです。"}, {"tag": "10)", "en": "In the Edo period, people on Yakushima had few <span class=\"hl g\">areas on which they could grow rice</span> and often had a poor rice <span class=\"hl w\" data-g=\"crop … 収穫\">crop</span>.", "ja": "江戸時代、屋久島の人々は米を育てられる土地がほとんどなく、しばしば米の収穫が乏しくなりました。"}, {"tag": "", "en": "To pay the land <span class=\"hl w\" data-g=\"tax … 税\">tax</span>, or nengu, they began to cut down <span class=\"hl w\" data-g=\"cedar … 杉\">cedars</span> to offer the boards instead of rice.", "ja": "年貢を納めるため、人々は米の代わりに板を差し出そうと杉を切り倒し始めました。"}, {"tag": "", "en": "Lucky for us, some old <span class=\"hl w\" data-g=\"cedar … 杉\">cedars</span> were not cut down because they <span class=\"hl i\" data-g=\"be suitable for A … ～に適している\">were not suitable for</span> making boards.", "ja": "幸運なことに、一部の老木は板を作るのに適していなかったため、切り倒されませんでした。"}, {"tag": "", "en": "<span class=\"hl g\">That is why we can still see cedars over 1,000 years old</span> here, including the Jomon <span class=\"hl w\" data-g=\"cedar … 杉\">Cedar</span>.", "ja": "そういうわけで、縄文杉を含め、樹齢1,000年を超える杉を今でもここで見ることができるのです。"}, {"tag": "11)", "en": "<span class=\"hl w\" data-g=\"sadly … 残念ながら\">Sadly</span>, we must not <span class=\"hl i\" data-g=\"get close to A … ～に近づく\">get close to or touch</span> the Jomon <span class=\"hl w\" data-g=\"cedar … 杉\">Cedar</span> because we might damage the <span class=\"hl w\" data-g=\"root … 根\">roots</span>.", "ja": "残念ながら、根を傷つけるおそれがあるため、私たちは縄文杉に近づいたり触れたりしてはいけません。"}, {"tag": "", "en": "We can only look at the tree <span class=\"hl i\" data-g=\"from a distance … 遠くから\">from a distance</span>.", "ja": "私たちはその木を遠くから眺めることしかできません。"}, {"tag": "", "en": "This is a chance to think about the <span class=\"hl w\" data-g=\"purpose … 目的\">purpose</span> of eco-tours.", "ja": "これはエコツアーの目的について考える機会です。"}, {"tag": "12)", "en": "That&#x27;s all for the orientation.  Follow me and let&#x27;s enjoy the beautiful scenery on Yakushima!", "ja": "説明は以上です。ついてきてください、屋久島の美しい景色を楽しみましょう。"}], "words": [["cedar", "杉"], ["height", "高さ"], ["crop", "収穫"], ["tax", "税"], ["suitable", "適した"], ["sadly", "残念ながら"], ["root", "根"], ["distance", "距離"], ["purpose", "目的"]], "idioms": [["according to A", "According to the news, the war has ended.", "ニュースによれば、戦争は終わった。"], ["be suitable for A", "This house is suitable for a large family.", "この家は大家族に適している。"], ["get close to A", "You must not get close to the river.", "川に近づいてはいけない。"], ["from a distance", "The picture looks beautiful from a distance.", "その絵は遠くから見ると美しく見える。"]], "grammar": [["G-7 前置詞＋関係代名詞", "areas on which they could grow rice"], ["G-8 関係副詞", "That is why we can still see cedars over 1,000 years old."]]}, {"l": 5, "p": 1, "title": "Cacao Revolution", "qs": ["When did Taguchi Ai first visit Ghana?", "What made Taguchi interested in Ghana?"], "sents": [{"tag": "I:", "en": "Welcome to “Global Voices.”  We <span class=\"hl w\" data-g=\"broadcast … 放送する\">broadcast</span> from Tokyo.  Today, we have Taguchi Ai with us.  Can I call you Ai?", "ja": "「グローバル・ボイシズ」へようこそ。東京からお送りします。今日は田口愛さんをお迎えしています。愛さんとお呼びしてもいいですか。"}, {"tag": "T:", "en": "Sure.", "ja": "もちろんです。"}, {"tag": "I:", "en": "Great!  Can you tell us about your work with chocolate and Ghana, Ai?", "ja": "ありがとうございます。愛さん、チョコレートとガーナに関わるお仕事について教えていただけますか。"}, {"tag": "T:", "en": "Yes, I<span class=\"hl i\" data-g=\"be involved in A … ～に関わっている\">&#x27;m involved in</span> making chocolate from <span class=\"hl w\" data-g=\"cacao … カカオ\">cacao</span> beans from Ghana.  My journey began when I visited Ghana during my college years.", "ja": "はい、私はガーナ産のカカオ豆からチョコレートを作ることに関わっています。私の歩みは、大学時代にガーナを訪れたときに始まりました。"}, {"tag": "I:", "en": "Wow, that&#x27;s impressive!  What made you interested in Ghana?", "ja": "それはすばらしいですね。何がきっかけでガーナに興味を持ったのですか。"}, {"tag": "T:", "en": "As a college student, I was <span class=\"hl i\" data-g=\"search for A … ～を探す\">searching for</span> my future path.  I&#x27;ve loved chocolate since childhood.  When I <span class=\"hl i\" data-g=\"find out ~ … ～を知る、～だとわかる\">found out</span> that 80% of <span class=\"hl w\" data-g=\"cacao … カカオ\">cacao</span> beans used in Japan were from Ghana, I decided to go there.", "ja": "大学生のとき、私は自分の将来の道を探していました。子どものころからチョコレートが大好きでした。日本で使われるカカオ豆の80％がガーナ産だと知ったとき、私はそこへ行こうと決めました。"}, {"tag": "I:", "en": "What was your experience like in Ghana?", "ja": "ガーナではどのような経験をしましたか。"}, {"tag": "T:", "en": "I visited a village called Amanfrom.  It is known for its <span class=\"hl w\" data-g=\"cacao … カカオ\">cacao</span> beans.  It was surprising that the <span class=\"hl w\" data-g=\"cacao … カカオ\">cacao</span> farmers had never tasted chocolate before.  <span class=\"hl w\" data-g=\"despite … ～にもかかわらず\">Despite</span> their hard work, they were very poor and <span class=\"hl i\" data-g=\"cannot afford A … ～する余裕がない\">couldn&#x27;t afford</span> <span class=\"hl w\" data-g=\"basic … 基本的な\">basic</span> needs like medicine or education.", "ja": "私はアマンフロムという村を訪れました。そこはカカオ豆で知られています。驚いたことに、カカオ農家の人々はそれまでチョコレートを口にしたことがなかったのです。懸命に働いているにもかかわらず、彼らはとても貧しく、薬や教育といった基本的な必需品を手に入れる余裕がありませんでした。"}], "words": [["broadcast", "放送する"], ["cacao", "カカオ"], ["despite", "～にもかかわらず"], ["afford", "（金銭的に）～する余裕がある"], ["basic", "基本的な"]], "idioms": [["be involved in A", "She is involved in community volunteering.", "彼女は地域のボランティア活動に関わっている。"], ["search for A", "We are searching for a new apartment.", "私たちは新しいアパートを探している。"], ["find out ~", "I found out how to learn a new language effectively.", "私は新しい言語を効果的に学ぶ方法を知った。"], ["cannot afford A", "Unfortunately, we cannot afford a long vacation.", "残念ながら、私たちには長期休暇をとる余裕がない。"]], "grammar": [["G-9 形式主語構文", "It is interesting that eating chocolate may have health benefits."]]}, {"l": 5, "p": 2, "title": "Cacao Revolution", "qs": ["What did Taguchi do to start her chocolate factory in Ghana?", "How is Taguchi's buying system for cacao beans unique?"], "sents": [{"tag": "I:", "en": "What about the government&#x27;s role in all of this?", "ja": "こうしたことすべての中で、政府の役割はどうなのでしょうか。"}, {"tag": "T:", "en": "The <span class=\"hl w\" data-g=\"Ghanaian … ガーナの\">Ghanaian</span> government buys cacao beans at a fixed low price, <span class=\"hl i\" data-g=\"regardless of A … ～に関係なく\">regardless of</span> quality.  That&#x27;s unfair.  I wanted to <span class=\"hl w\" data-g=\"reform … 改革する\">reform</span> this.", "ja": "ガーナ政府は、品質に関係なく決められた安い価格でカカオ豆を買い取ります。それは不公平です。私はこれを変えたいと思いました。"}, {"tag": "I:", "en": "What did you do after you returned to Japan?", "ja": "日本に戻ってから、何をしましたか。"}, {"tag": "T:", "en": "I realized that we <span class=\"hl i\" data-g=\"need to do … ～する必要がある\">needed to</span> create a system to make chocolate <span class=\"hl w\" data-g=\"locally … 現地で\">locally</span> and <span class=\"hl i\" data-g=\"give back … 還元する\">give back</span>.  <span class=\"hl w\" data-g=\"therefore … それゆえ\">Therefore</span>, I learned how to make chocolate, raised money through <span class=\"hl w\" data-g=\"crowdfunding … クラウドファンディング\">crowdfunding</span>, and started a company.", "ja": "現地でチョコレートを作り、還元する仕組みを作る必要があると気づきました。そこで私はチョコレートの作り方を学び、クラウドファンディングで資金を集め、会社を立ち上げました。"}, {"tag": "I:", "en": "And was your plan successful?", "ja": "それで、計画はうまくいきましたか。"}, {"tag": "T:", "en": "Yes.  <span class=\"hl g\">I saw people begin to support our goal</span> to start a chocolate factory in Ghana and improve the lives of <span class=\"hl w\" data-g=\"producer … 生産者\">producers</span>.  About a year later, we built a small “chocolate factory” in Amanfrom.  On a trial basis, we bought cacao beans at a price based on quality.", "ja": "はい。ガーナにチョコレート工場を作り、生産者の暮らしを良くするという私たちの目標を、人々が支え始めてくれるのを見ました。約1年後、私たちはアマンフロムに小さな「チョコレート工場」を建てました。試験的に、品質に基づいた価格でカカオ豆を買い取りました。"}, {"tag": "I:", "en": "Is there something unique about it?", "ja": "その点で何か独特なところはありますか。"}, {"tag": "T:", "en": "Yes.  We plan to buy <span class=\"hl w\" data-g=\"high-quality … 高品質の\">high-quality</span> beans at about 1.5 times the market price and sell chocolate made from them in Japan.  We believe this <span class=\"hl w\" data-g=\"arrangement … 取り決め、仕組み\">arrangement</span> <span class=\"hl w\" data-g=\"motivate … 動機づける\">motivates</span> <span class=\"hl w\" data-g=\"producer … 生産者\">producers</span> to grow better cacao.", "ja": "はい。私たちは高品質の豆を市場価格の約1.5倍で買い取り、そこから作ったチョコレートを日本で売る計画です。この仕組みが、生産者により良いカカオを育てる動機になると信じています。"}], "words": [["Ghanaian", "ガーナの"], ["regardless", "（of A で）～に関係なく"], ["reform", "改革する"], ["locally", "現地で"], ["therefore", "それゆえ"], ["crowdfunding", "クラウドファンディング"], ["producer", "生産者"], ["high-quality", "高品質の"], ["arrangement", "取り決め、仕組み"], ["motivate", "動機づける"]], "idioms": [["regardless of A", "Regardless of your background, education is a right.", "経歴に関係なく、教育は権利である。"], ["need to do", "You need to do thorough research for the project.", "その企画には徹底的な調査が必要だ。"], ["give back", "Giving back to the community is important.", "地域に還元することは大切だ。"]], "grammar": [["G-10 知覚動詞＋O＋原形", "Tom heard Ms. Taguchi call his name."], ["G-10 応用", "I saw people begin to support our goal."]]}, {"l": 5, "p": 3, "title": "Cacao Revolution", "qs": ["What motivated Taguchi to continue her work in Ghana?", "According to Taguchi, what are the limitations of the fair trade system?"], "sents": [{"tag": "I:", "en": "This is different from the <span class=\"hl w\" data-g=\"Fairtrade … フェアトレード\">Fairtrade</span> system, right?", "ja": "これはフェアトレードの仕組みとは違うのですよね。"}, {"tag": "T:", "en": "Exactly!  The <span class=\"hl w\" data-g=\"Fairtrade … フェアトレード\">Fairtrade</span> <span class=\"hl w\" data-g=\"aid … 援助する\">aids</span> farmers in developing countries, and it promotes fair prices and better <span class=\"hl w\" data-g=\"working … 労働の\">working</span> conditions.  But sadly, only a small <span class=\"hl w\" data-g=\"portion … 部分\">portion</span> of the world&#x27;s cacao market is part of <span class=\"hl w\" data-g=\"Fairtrade … フェアトレード\">Fairtrade</span> system, and <span class=\"hl i\" data-g=\"not all A … すべての A が～というわけではない\">not all</span> farms can join <span class=\"hl i\" data-g=\"due to A … ～のせいで\">due to</span> the cost and the work needed.", "ja": "そのとおりです。フェアトレードは開発途上国の農家を支援し、公正な価格とより良い労働条件を促進します。しかし残念ながら、世界のカカオ市場のごく一部しかフェアトレードの仕組みに入っておらず、費用と必要な手間のため、すべての農園が参加できるわけではありません。"}, {"tag": "I:", "en": "<span class=\"hl i\" data-g=\"it sounds like ~ … ～のようだ\">It sounds like</span> you&#x27;ve already made an impact in Ghana.  How tough was it?", "ja": "すでにガーナで影響を与えているようですね。どれくらい大変でしたか。"}, {"tag": "T:", "en": "It was certainly <span class=\"hl w\" data-g=\"challenging … 困難な\">challenging</span>, but an experience in Ghana motivated me.  I <span class=\"hl i\" data-g=\"come down with A … （病気に）かかる\">came down with</span> <span class=\"hl w\" data-g=\"malaria … マラリア\">malaria</span>, and the <span class=\"hl w\" data-g=\"villager … 村人\">villagers</span> <span class=\"hl i\" data-g=\"help A (to) do … A が～するのを手伝う\">helped</span> me recover.  Then I realized some people there died because they couldn&#x27;t afford medicine.  This <span class=\"hl w\" data-g=\"further … さらに\">further</span> <span class=\"hl w\" data-g=\"fuel … かき立てる\">fueled</span> my <span class=\"hl i\" data-g=\"desire to do … ～したいという願望\">desire to</span> <span class=\"hl i\" data-g=\"help A (to) do … A が～するのを手伝う\">help</span>.", "ja": "確かに困難でしたが、ガーナでのある経験が私を後押ししました。私はマラリアにかかり、村の人々が回復を助けてくれました。そのとき、薬を買う余裕がないために亡くなる人がいることに気づいたのです。このことが、力になりたいという思いをさらに強くしました。"}, {"tag": "I:", "en": "What are some issues that <span class=\"hl w\" data-g=\"Fairtrade … フェアトレード\">Fairtrade</span> can&#x27;t address?", "ja": "フェアトレードでは対処できない問題には、どのようなものがありますか。"}, {"tag": "T:", "en": "<span class=\"hl w\" data-g=\"Fairtrade … フェアトレード\">Fairtrade</span> is great, but it alone can&#x27;t solve larger problems like <span class=\"hl w\" data-g=\"poverty … 貧困\">poverty</span> and lack of education.  We need to look beyond <span class=\"hl w\" data-g=\"Fairtrade … フェアトレード\">Fairtrade</span> if we want to <span class=\"hl i\" data-g=\"make a difference … 変化をもたらす\">make a lasting difference</span>.", "ja": "フェアトレードはすばらしいものですが、それだけでは貧困や教育の欠如といった、より大きな問題を解決することはできません。長く続く変化を生み出したいなら、フェアトレードの先を見る必要があります。"}], "words": [["Fairtrade", "フェアトレード"], ["aid", "援助する"], ["working", "労働の"], ["portion", "部分"], ["challenging", "困難な"], ["malaria", "マラリア"], ["villager", "村人"], ["further", "さらに"], ["fuel", "かき立てる"], ["desire", "願望"], ["poverty", "貧困"], ["lasting", "長続きする"]], "idioms": [["not all A", "Not all classmates agree to your request.", "すべての級友があなたの求めに同意するわけではない。"], ["due to A", "The project's delay was due to technical issues.", "その企画の遅れは技術的な問題のせいだった。"], ["it sounds like ~", "It sounds like you are excited about the concert.", "あなたはそのコンサートを楽しみにしているようだ。"], ["come down with A", "I came down with a cold.", "私は風邪をひいた。"], ["help A (to) do", "Would you help me (to) clean the clubroom?", "部室の掃除を手伝ってくれませんか。"], ["desire to do", "She has a strong desire to succeed in her studies.", "彼女は学業で成功したいという強い願望を持っている。"], ["make a difference", "Volunteering at the food bank makes a difference.", "フードバンクでのボランティアは変化をもたらす。"]], "grammar": [["G-9 形式主語構文", "It is + 形容詞 + that ~（→ Part 1 参照）"]]}, {"l": 5, "p": 4, "title": "Cacao Revolution", "qs": ["What is the goal of Taguchi's “Cacao Revolution”?", "What does Taguchi tell people about the challenges in her project?"], "sents": [{"tag": "I:", "en": "Is your <span class=\"hl w\" data-g=\"initiative … 取り組み\">initiative</span> making a difference in this situation?", "ja": "あなたの取り組みは、この状況に変化をもたらしていますか。"}, {"tag": "T:", "en": "Yes, I started the “Cacao <span class=\"hl w\" data-g=\"revolution … 革命\">Revolution</span>” to increase farmers&#x27; <span class=\"hl w\" data-g=\"earnings … 収入\">earnings</span> and improve their product quality.  It also aims to address issues like child <span class=\"hl w\" data-g=\"labor … 労働\">labor</span> and to help local <span class=\"hl w\" data-g=\"youth … 若者\">youths</span> by creating job opportunities.", "ja": "はい、私は農家の収入を増やし、製品の品質を高めるために「カカオ革命」を始めました。それはまた、児童労働のような問題に取り組み、雇用の機会を作ることで地元の若者を助けることも目指しています。"}, {"tag": "I:", "en": "What&#x27;s unique about your chocolate?", "ja": "あなたのチョコレートの独特な点は何ですか。"}, {"tag": "T:", "en": "We call it “MAAHA.”  It is a <span class=\"hl w\" data-g=\"greeting … あいさつ\">greeting</span> in a Ghanaian language.  It creates a <span class=\"hl w\" data-g=\"bond … 絆\">bond</span> between farmers and <span class=\"hl w\" data-g=\"consumer … 消費者\">consumers</span>.  With every bite, you&#x27;re supporting farmers in Ghana.", "ja": "私たちはそれを「MAAHA」と呼んでいます。ガーナの言語でのあいさつです。それは農家と消費者との間に絆を作ります。ひと口食べるごとに、あなたはガーナの農家を支えていることになります。"}, {"tag": "I:", "en": "That sounds amazing!  Anything else you&#x27;d like to add?", "ja": "それはすばらしいですね。ほかに何か付け加えたいことはありますか。"}, {"tag": "T:", "en": "Starting this <span class=\"hl w\" data-g=\"initiative … 取り組み\">initiative</span> had its challenges.  I had to start <span class=\"hl i\" data-g=\"from scratch … ゼロから\">from scratch</span>, but my <span class=\"hl w\" data-g=\"passion … 情熱\">passion</span> for improving the cacao <span class=\"hl w\" data-g=\"industry … 産業\">industry</span> in Ghana drove me.  When you <span class=\"hl i\" data-g=\"believe in A … ～の力を信じる\">believe in</span> something, you can make a difference.  I hope more people join our Cacao <span class=\"hl w\" data-g=\"revolution … 革命\">Revolution</span>!", "ja": "この取り組みを始めるには困難もありました。ゼロから始めなければなりませんでしたが、ガーナのカカオ産業を良くしたいという情熱が私を突き動かしました。何かを信じるとき、人は変化を生み出せます。もっと多くの人が私たちのカカオ革命に加わってくれることを願っています。"}, {"tag": "I:", "en": "Thank you, Ai, for sharing your <span class=\"hl w\" data-g=\"inspiring … 心を動かす\">inspiring</span> journey and the <span class=\"hl w\" data-g=\"impactful … 影響力のある\">impactful</span> work you&#x27;re doing with the Cacao <span class=\"hl w\" data-g=\"revolution … 革命\">Revolution</span> in Ghana.", "ja": "愛さん、心を動かされるご自身の歩みと、ガーナでのカカオ革命での意義深いお仕事を語ってくださり、ありがとうございました。"}], "words": [["initiative", "取り組み"], ["revolution", "革命"], ["earnings", "収入"], ["labor", "労働"], ["youth", "若者"], ["greeting", "あいさつ"], ["bond", "絆"], ["consumer", "消費者"], ["scratch", "（from scratch で）ゼロから"], ["passion", "情熱"], ["industry", "産業"], ["inspiring", "心を動かす"], ["impactful", "影響力のある"]], "idioms": [["from scratch", "They built their business from scratch.", "彼らはゼロから事業を築いた。"], ["believe in A", "I believe in the power of teamwork.", "私はチームワークの力を信じている。"]], "grammar": [["G-10 知覚動詞＋O＋原形／現在分詞", "I saw my sister eat [eating] chocolate."]]}];
+const IDIOM = {"be based on A": "～に基づいている", "as you know": "ご存じのとおり", "be associated with A": "～と結びつけられている", "in contrast": "対照的に", "drive O C": "O を C の状態にする", "(be) known as A": "～として知られている", "since then": "それ以来", "take part in A": "～に参加する", "as you can see": "見てわかるとおり", "be related to A": "～に関係している", "in addition": "加えて、そのうえ", "depending on A": "～に応じて", "such as A": "～のような", "look like ~": "～のように見える", "it is no wonder (that) ~": "～は不思議ではない", "first of all": "まず初めに", "be responsible for A": "～に責任がある", "in other words": "言いかえれば", "step on A": "～を踏む", "would like A to do": "A に～してほしい", "(be) covered with A": "～におおわれている", "it is said that ~": "～と言われている", "on (an [the]) average": "平均して", "cut down A [A down]": "～を切り倒す", "by order of A": "～の命令で", "according to A": "～によれば", "be suitable for A": "～に適している", "get close to A": "～に近づく", "from a distance": "遠くから", "be involved in A": "～に関わっている", "search for A": "～を探す", "find out ~": "～を知る、～だとわかる", "cannot afford A": "～する余裕がない", "regardless of A": "～に関係なく", "need to do": "～する必要がある", "give back": "還元する", "not all A": "すべての A が～というわけではない", "due to A": "～のせいで", "it sounds like ~": "～のようだ", "come down with A": "（病気に）かかる", "help A (to) do": "A が～するのを手伝う", "desire to do": "～したいという願望", "make a difference": "変化をもたらす", "from scratch": "ゼロから", "believe in A": "～の力を信じる"};
+const KEY = 'ec-reader-v1';
+
+let st = { i:0, read:{}, mode:'both', hl:'on', theme:'day' };
+try{ Object.assign(st, JSON.parse(localStorage.getItem(KEY)||'{}')); }catch(e){}
+function save(){ try{ localStorage.setItem(KEY, JSON.stringify(st)); }catch(e){} }
+
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const pid = p => `${p.l}-${p.p}`;
+
+function render(){
+  const p = BOOK[st.i];
+  const cloze = st.mode === 'cloze';
+  document.body.dataset.mode = st.mode;
+  document.body.dataset.hl = cloze ? 'on' : st.hl;
+  document.body.dataset.theme = st.theme;
+  document.body.dataset.l = p.l;
+
+  $('#crumb').textContent = `Lesson ${p.l}｜${p.title}`;
+  $('#bar').style.width = ((st.i+1)/BOOK.length*100)+'%';
+  $('#mid').innerHTML = `<b>${st.i+1}</b> / ${BOOK.length}`;
+  $('#prev').disabled = st.i===0;
+  $('#next').disabled = st.i===BOOK.length-1;
+  [...$('#tabs').children].forEach(b=>b.setAttribute('aria-selected', b.dataset.m===st.mode));
+  $('#btnHl').setAttribute('aria-pressed', document.body.dataset.hl==='on');
+  $('#btnHl').disabled = cloze;
+  $('#btnHl').style.opacity = cloze ? .35 : 1;
+  $('#btnTheme').textContent = st.theme==='day'?'夜':'昼';
+
+  $('#page').innerHTML = `
+    <div class="lesson">Lesson ${p.l}</div>
+    <h1>${esc(p.title)}</h1>
+    <div class="partno">Part ${p.p}</div>
+    <div class="qbox">
+      ${p.qs.map((q,i)=>`<div><b>Q-${i+1}</b>${esc(q)}</div>`).join('')}
+    </div>
+    ${cloze?`<div class="clozebar">
+      <button id="showAll">全部あける</button>
+      <button id="hideAll">閉じ直す</button>
+      <span class="cnt"><b id="opened">0</b> / <span id="total">0</span></span>
+    </div>`:''}
+    ${p.sents.map(s=>`
+      <div class="sent">
+        <div class="en">${s.tag?`<span class="tag">${esc(s.tag)}</span>`:''}${s.en}</div>
+        <div class="ja">${s.tag&&(st.mode==='ja')?`<span class="tag">${esc(s.tag)}</span>`:''}${esc(s.ja)}</div>
+      </div>`).join('')}
+
+    <div class="notes">
+      <details ${cloze?'':'open'}>
+        <summary>語句 ${p.words.length}</summary>
+        <div class="nl">${p.words.map(([a,b])=>`<div class="row"><span class="k">${esc(a)}</span><span class="v">${esc(b)}</span></div>`).join('')}</div>
+      </details>
+      ${p.idioms.length?`<details>
+        <summary>熟語 ${p.idioms.length}</summary>
+        <div class="nl">${p.idioms.map(([h,ex,tr])=>`<div class="row"><span class="k b">${esc(h)}</span><span class="v">${esc(IDIOM[h]||'')}${ex?`<span class="ex">${esc(ex)}<br>${esc(tr)}</span>`:(tr?`<span class="ex">${esc(tr)}</span>`:'')}</span></div>`).join('')}</div>
+      </details>`:''}
+      ${p.grammar.length?`<details>
+        <summary>文法</summary>
+        <div class="nl">${p.grammar.map(([g,ex])=>`<div class="row"><span class="k b">${esc(g)}</span><span class="v"><span class="ex">${esc(ex)}</span></span></div>`).join('')}</div>
+      </details>`:''}
+    </div>
+
+    <div style="padding:26px 0 10px">
+      <button class="iconbtn ${st.read[pid(p)]?'done':''}" id="mark"
+        style="width:100%;padding:14px;font-size:14px">
+        ${st.read[pid(p)]?'読了済み':'このパートを読了にする'}
+      </button>
+    </div>`;
+
+  if(cloze) setupCloze();
+
+  $('#mark').onclick = () => {
+    const k = pid(p);
+    if(st.read[k]) delete st.read[k]; else st.read[k] = 1;
+    save(); render();
+  };
+  window.scrollTo(0,0);
+  save();
+}
+
+/* ---- 穴埋め ---- */
+function blanks(){ return [...document.querySelectorAll('.en .hl.w, .en .hl.i')]; }
+function countCloze(){
+  const b = blanks();
+  const o = b.filter(x=>x.classList.contains('open')).length;
+  const t = $('#opened'), n = $('#total');
+  if(t) t.textContent = o;
+  if(n) n.textContent = b.length;
+}
+function setupCloze(){
+  blanks().forEach(el=>{
+    el.classList.add('blank'); el.classList.remove('open');
+    el.setAttribute('role','button');
+    el.setAttribute('aria-label','空欄。タップで答えを表示');
+  });
+  countCloze();
+  const sa = $('#showAll'), ha = $('#hideAll');
+  if(sa) sa.onclick = ()=>{ blanks().forEach(e=>{e.classList.remove('blank');e.classList.add('open');}); countCloze(); };
+  if(ha) ha.onclick = ()=>{ blanks().forEach(e=>{e.classList.add('blank');e.classList.remove('open');}); countCloze(); };
+}
+
+/* ---- 目次 ---- */
+function renderToc(){
+  let html='', cur=null;
+  BOOK.forEach((p,i)=>{
+    if(p.l!==cur){ cur=p.l; html+=`<div class="tochd">Lesson ${p.l} — ${esc(p.title)}</div>`; }
+    html+=`<div class="toci ${i===st.i?'cur':''}" data-i="${i}">
+      <span class="n">Part ${p.p}</span><span>${esc(p.title)}</span>
+      <span class="ck">${st.read[pid(p)]?'読了':''}</span></div>`;
+  });
+  const n = Object.keys(st.read).length;
+  html += `<div class="tochd" style="text-align:center;padding:16px 20px">読了 ${n} / ${BOOK.length}</div>`;
+  $('#toc').innerHTML = html;
+  $('#toc').onclick = e => {
+    const it = e.target.closest('.toci'); if(!it) return;
+    st.i = +it.dataset.i; $('#sheet').classList.remove('open'); render();
+  };
+}
+
+/* ---- 語句タップ ---- */
+const tip = $('#tip');
+document.addEventListener('click', e=>{
+  const h = e.target.closest('.hl.w, .hl.i');
+  if(!h){ tip.style.display='none'; return; }
+
+  if(st.mode==='cloze'){                       // 穴埋め：開閉
+    if(h.classList.contains('blank')){ h.classList.remove('blank'); h.classList.add('open'); }
+    else { h.classList.add('blank'); h.classList.remove('open'); }
+    countCloze(); tip.style.display='none';
+    e.stopPropagation(); return;
+  }
+
+  if(document.body.dataset.hl==='off'){ tip.style.display='none'; return; }
+  const g = h.dataset.g||''; if(!g){ tip.style.display='none'; return; }
+  const [k, v] = g.split(' … ');
+  tip.innerHTML = `<b>${esc(k)}</b>${esc(v||'')}`;
+  tip.style.display='block';
+  const r = h.getBoundingClientRect(), t = tip.getBoundingClientRect();
+  let x = r.left + r.width/2 - t.width/2;
+  x = Math.max(10, Math.min(x, innerWidth - t.width - 10));
+  let y = r.top - t.height - 9;
+  if(y < 92) y = r.bottom + 9;
+  tip.style.left = x+'px'; tip.style.top = y+'px';
+  e.stopPropagation();
+});
+document.addEventListener('scroll', ()=>{ tip.style.display='none'; }, {passive:true});
+
+/* ---- 操作 ---- */
+$('#prev').onclick = ()=>{ if(st.i>0){ st.i--; render(); } };
+$('#next').onclick = ()=>{ if(st.i<BOOK.length-1){ st.i++; render(); } };
+$('#mid').onclick  = ()=>{ renderToc(); $('#sheet').classList.add('open'); };
+$('#btnToc').onclick = ()=>{ renderToc(); $('#sheet').classList.add('open'); };
+$('#sheet').onclick = e =>{ if(e.target.id==='sheet') $('#sheet').classList.remove('open'); };
+$('#tabs').onclick = e =>{
+  const b = e.target.closest('button'); if(!b) return;
+  st.mode = b.dataset.m; render();
+};
+$('#btnHl').onclick   = ()=>{ if(st.mode==='cloze') return; st.hl = st.hl==='on'?'off':'on'; render(); };
+$('#btnTheme').onclick= ()=>{ st.theme = st.theme==='day'?'night':'day'; render(); };
+
+document.addEventListener('keydown', e=>{
+  if(e.key==='ArrowRight'||e.key===' '){ $('#next').click(); }
+  if(e.key==='ArrowLeft'){ $('#prev').click(); }
+});
+
+/* スワイプ */
+let sx=0, sy=0, sw=false;
+addEventListener('touchstart', e=>{ sx=e.touches[0].clientX; sy=e.touches[0].clientY; sw=true; }, {passive:true});
+addEventListener('touchend', e=>{
+  if(!sw) return; sw=false;
+  const dx = e.changedTouches[0].clientX - sx, dy = e.changedTouches[0].clientY - sy;
+  if(Math.abs(dx) > 70 && Math.abs(dx) > Math.abs(dy)*1.8){
+    if(dx < 0) $('#next').click(); else $('#prev').click();
+  }
+}, {passive:true});
+
+render();
+</script>
+</body>
+</html>

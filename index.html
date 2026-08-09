@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>学習ツール</title>
+<style>
+:root{
+  --bg:#f6f3ec; --paper:#fffdf8; --ink:#23211d; --sub:#8a8378; --rule:#e0d9cc;
+}
+[data-theme="night"]{
+  --bg:#12151c; --paper:#171b24; --ink:#dfe3ea; --sub:#7b8496; --rule:#2b3140;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  background:var(--bg); color:var(--ink);
+  font-family:"Hiragino Mincho ProN","Yu Mincho","Noto Serif JP",serif;
+  -webkit-text-size-adjust:100%;
+  padding:0 16px calc(40px + env(safe-area-inset-bottom));
+}
+.wrap{max-width:640px;margin:0 auto}
+
+header{padding:38px 0 22px;position:relative}
+.date{
+  font-family:Georgia,serif; font-size:12px; letter-spacing:.12em;
+  color:var(--sub); text-transform:uppercase;
+}
+h1{
+  margin:8px 0 0; font-size:27px; font-weight:600; letter-spacing:.04em;
+}
+.lede{margin:10px 0 0; font-size:13px; line-height:1.8; color:var(--sub)}
+.themebtn{
+  position:absolute; top:36px; right:0;
+  border:1px solid var(--rule); background:var(--paper); color:var(--sub);
+  border-radius:999px; width:34px; height:34px; font-size:15px; cursor:pointer;
+  display:grid; place-items:center;
+}
+
+.sec{
+  font-family:Georgia,serif; font-size:11px; letter-spacing:.18em;
+  color:var(--sub); text-transform:uppercase;
+  margin:26px 0 10px; display:flex; align-items:center; gap:10px;
+}
+.sec::after{content:"";flex:1;height:1px;background:var(--rule)}
+
+.card{
+  display:block; text-decoration:none; color:inherit;
+  background:var(--paper); border:1px solid var(--rule); border-radius:3px;
+  border-left:5px solid var(--c,#3b4a7a);
+  padding:15px 16px; margin-bottom:10px;
+  transition:transform .12s ease, box-shadow .12s ease;
+}
+.card:active{transform:translateY(1px)}
+@media (hover:hover){
+  .card:not(.off):hover{box-shadow:0 2px 10px rgba(0,0,0,.07)}
+}
+.card:focus-visible{outline:2px solid var(--c);outline-offset:2px}
+.top{display:flex;align-items:baseline;gap:9px}
+.tag{
+  font-family:Georgia,serif; font-size:10px; letter-spacing:.12em;
+  color:var(--c); border:1px solid var(--c); border-radius:2px;
+  padding:1px 5px; flex:none; opacity:.85;
+}
+.name{font-size:16px;font-weight:600;letter-spacing:.02em}
+.desc{margin:7px 0 0;font-size:12.5px;line-height:1.75;color:var(--sub)}
+.card.off{opacity:.5;pointer-events:none}
+.soon{
+  font-family:Georgia,serif;font-size:10px;letter-spacing:.1em;
+  color:var(--sub);margin-left:auto;flex:none;
+}
+footer{
+  margin-top:30px;padding-top:14px;border-top:1px solid var(--rule);
+  font-size:11px;line-height:1.9;color:var(--sub);
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <button class="themebtn" id="tb" aria-label="表示を切り替える">◑</button>
+  <div class="date" id="today"></div>
+  <h1>学習ツール</h1>
+  <p class="lede">開いたら1つ選んで始める。全部やらなくていい。</p>
+</header>
+
+<div class="sec">English</div>
+
+<a class="card" style="--c:#3b4a7a" href="ec/reader/">
+  <div class="top"><span class="tag">EC</span><span class="name">読本 Lesson 3–5</span></div>
+  <p class="desc">本文と訳。英文だけ・訳だけ・穴埋めに切り替えられる。</p>
+</a>
+
+<a class="card off" style="--c:#3b4a7a">
+  <div class="top"><span class="tag">EC</span><span class="name">語句ドリル Lesson 3</span><span class="soon">準備中</span></div>
+  <p class="desc">語句41・熟語15の4択。覚えた数だけ月が満ちる。</p>
+</a>
+
+<a class="card off" style="--c:#2f6b45">
+  <div class="top"><span class="tag">LE</span><span class="name">暗唱 Lesson 5–10</span><span class="soon">準備中</span></div>
+  <p class="desc">Model Dialog を見ずに言えるようにする。</p>
+</a>
+
+<div class="sec">古文</div>
+
+<a class="card off" style="--c:#7a4a2f">
+  <div class="top"><span class="tag">文法</span><span class="name">活用ドリル</span><span class="soon">準備中</span></div>
+  <p class="desc">動詞・形容詞・形容動詞の活用。2回正解で習得。</p>
+</a>
+
+<footer>
+  進み具合はこの端末のブラウザに保存される。履歴を消すと消える。<br>
+  ブックマークしておくと次から早い。
+</footer>
+
+</div>
+<script>
+(function(){
+  var d=new Date(), w=["日","月","火","水","木","金","土"][d.getDay()];
+  document.getElementById('today').textContent=
+    d.getFullYear()+"."+(d.getMonth()+1)+"."+d.getDate()+" ("+w+")";
+
+  var K='study-portal-theme';
+  try{ if(localStorage.getItem(K)==='night') document.documentElement.dataset.theme='night'; }catch(e){}
+  document.getElementById('tb').addEventListener('click',function(){
+    var n=document.documentElement.dataset.theme==='night';
+    if(n) delete document.documentElement.dataset.theme;
+    else document.documentElement.dataset.theme='night';
+    try{ localStorage.setItem(K, n?'day':'night'); }catch(e){}
+  });
+})();
+</script>
+</body>
+</html>
