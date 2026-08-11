@@ -133,6 +133,93 @@
   .flipa .ktbl th.lb{border-color:var(--rule)}
   .flipex{font-family:var(--gothic);font-size:12px;color:var(--ink-2);margin-top:9px;text-align:center}
   .flipq2{font-family:var(--mincho);font-size:20px;color:var(--ink-2);margin-top:4px}
+
+  /* ---- タイムアタック ---- */
+  .ta{background:#141A22;color:#EDF1EC;margin:-16px -16px 0;padding:16px 16px 26px;min-height:88vh}
+  .ta-top{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+  .ta-top .nm{font-family:var(--mincho);font-size:15px;letter-spacing:.06em;color:#9FB3A6}
+  .ta-quit{margin-left:auto;padding:5px 10px;background:transparent;border:1px solid #3A4A44;
+    color:#9FB3A6;font-size:12px;font-family:var(--gothic);cursor:pointer}
+  .ta-bar{height:10px;background:#232C36;position:relative;overflow:hidden;margin-bottom:4px}
+  .ta-bar i{position:absolute;left:0;top:0;bottom:0;background:#F0C24A;width:100%}
+  .ta-bar.warn i{background:#E4593F}
+  .ta-time{font-family:var(--mono);font-size:12px;color:#9FB3A6;text-align:right;margin-bottom:16px}
+  .ta-hud{display:flex;align-items:flex-end;gap:12px;margin-bottom:18px}
+  .ta-score{font-family:var(--mono);font-size:40px;line-height:.9;color:#F0C24A}
+  .ta-score .u{font-size:13px;color:#9FB3A6;margin-left:4px}
+  .ta-combo{margin-left:auto;text-align:right}
+  .ta-combo .c{font-family:var(--mono);font-size:26px;line-height:1;color:#EDF1EC}
+  .ta-combo .c.hot{color:#E4593F}
+  .ta-combo .l{font-size:10px;color:#9FB3A6;letter-spacing:.14em}
+  .ta-q{text-align:center;padding:6px 0 4px;min-height:150px}
+  .ta-ask{font-size:11.5px;color:#7D9187;letter-spacing:.12em;margin-bottom:10px}
+  .ta-word{font-family:var(--mincho);font-size:52px;line-height:1.2;letter-spacing:.05em;color:#fff}
+  .ta-word ruby rt{font-size:.26em;color:#7D9187}
+  .ta-word.kana{font-size:42px}
+  .ta-cue{font-family:var(--mincho);font-size:22px;color:#F0C24A;margin-top:8px}
+  .ta-sent{font-family:var(--mincho);font-size:19px;line-height:2;text-align:left;color:#EDF1EC;
+    background:#1C242E;border-left:3px solid #3A4A44;padding:11px 13px;margin:2px 0}
+  .ta-sent u{text-decoration:none;border-bottom:2.5px solid #F0C24A;color:#F0C24A}
+  .ta-sub{font-size:11.5px;color:#7D9187;margin-top:6px}
+  .ta-opts{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px}
+  .ta-opts button{padding:17px 4px;background:#1F2831;border:1.5px solid #3A4A44;color:#EDF1EC;
+    font-family:var(--gothic);font-size:16px;cursor:pointer}
+  .ta-opts button.kana{font-family:var(--mincho);font-size:21px}
+  .ta-opts button.hit{background:#1E3A2C;border-color:#4FD18A;color:#8FE8B4}
+  .ta-opts button.mis{background:#3A2020;border-color:#E4593F;color:#F0A08F}
+  .ta-opts button.show{border-color:#F0C24A;color:#F0C24A}
+  .ta-fly{position:fixed;left:50%;top:38%;transform:translateX(-50%);font-family:var(--mono);
+    font-size:30px;color:#F0C24A;pointer-events:none;animation:fly .6s ease-out forwards}
+  @keyframes fly{0%{opacity:1;transform:translate(-50%,0) scale(1)}
+    100%{opacity:0;transform:translate(-50%,-40px) scale(1.3)}}
+  .ta-flash{position:fixed;inset:0;pointer-events:none;background:#4FD18A;opacity:.13;animation:fade .3s ease-out forwards}
+  .ta-flash.bad{background:#E4593F}
+  @keyframes fade{to{opacity:0}}
+  .ta-res{text-align:center;padding:10px 0}
+  .ta-res .big{font-family:var(--mono);font-size:64px;line-height:1;color:#F0C24A}
+  .ta-res .lb{font-size:11px;color:#7D9187;letter-spacing:.14em;margin-top:4px}
+  .ta-res .rec{margin-top:16px;border:1.5px solid #F0C24A;padding:11px;font-size:14px;color:#F0C24A}
+  .ta-res .stat{display:flex;gap:0;margin-top:18px;border-top:1px solid #3A4A44;padding-top:12px}
+  .ta-res .stat div{flex:1;border-right:1px solid #3A4A44}
+  .ta-res .stat div:last-child{border-right:0}
+  .ta-res .stat .n{font-family:var(--mono);font-size:20px;color:#EDF1EC}
+  .ta-res .stat .l{font-size:10px;color:#7D9187;letter-spacing:.1em;margin-top:3px}
+  .ta-res .miss{margin-top:16px;font-family:var(--mincho);font-size:17px;line-height:1.8;
+    color:#F0A08F;text-align:left}
+  .ta-btn{width:100%;padding:16px;margin-top:8px;background:#F0C24A;color:#141A22;border:0;
+    font-family:var(--gothic);font-size:15px;letter-spacing:.1em;cursor:pointer}
+  .ta-btn.sub{background:transparent;border:1.5px solid #3A4A44;color:#EDF1EC}
+  .ta-cd{text-align:center;padding:70px 0}
+  .ta-cd .n{font-family:var(--mono);font-size:90px;line-height:1;color:#F0C24A;animation:pop .4s ease-out}
+  @keyframes pop{0%{transform:scale(.6);opacity:0}100%{transform:scale(1);opacity:1}}
+  .modesel{display:flex;gap:7px;margin:10px 0 4px}
+  .modesel button{flex:1;padding:11px 4px;background:var(--paper-2);border:1.5px solid var(--rule);
+    color:var(--ink-2);font-family:var(--gothic);font-size:13px;cursor:pointer}
+  .modesel button.on{border-color:var(--ink);border-width:2px;color:var(--ink);background:#fff;font-weight:700}
+  .modenote{font-size:11.5px;color:var(--ink-2);margin-bottom:12px;line-height:1.7}
+  @media (prefers-reduced-motion:reduce){
+    .ta-fly,.ta-flash,.ta-cd .n{animation:none!important}
+    .ta-flash{display:none}
+  }
+
+  .tacard{background:#141A22;color:#EDF1EC;padding:14px 15px 15px;margin-bottom:16px}
+  .tacard .tc-h{display:flex;align-items:baseline;gap:8px}
+  .tacard .tc-h .t{font-family:var(--mincho);font-size:17px;letter-spacing:.06em;color:#F0C24A}
+  .tacard .tc-h .s{margin-left:auto;font-family:var(--mono);font-size:10.5px;color:#7D9187}
+  .tacard .tc-b{font-size:12.5px;color:#9FB3A6;line-height:1.75;margin-top:6px}
+  .tacard .tc-n{font-family:var(--mono);font-size:26px;color:#EDF1EC;margin-top:8px}
+  .tacard .tc-n .u{font-size:11px;color:#7D9187;margin-left:5px}
+  .tacard .tc-go{width:100%;margin-top:11px;padding:14px;background:#F0C24A;color:#141A22;border:0;
+    font-family:var(--gothic);font-size:15px;letter-spacing:.12em;cursor:pointer}
+  .tacard .tc-go:focus-visible{outline:2.5px solid #fff;outline-offset:2px}
+  .tp-note{font-size:12.5px;color:#9FB3A6;line-height:1.8;margin-bottom:14px}
+  .tp-row{display:flex;align-items:center;gap:10px;width:100%;text-align:left;
+    background:#1F2831;border:1.5px solid #3A4A44;color:#EDF1EC;padding:15px 13px;
+    margin-bottom:8px;font-family:var(--gothic);cursor:pointer}
+  .tp-row .no{font-family:var(--mono);font-size:11px;color:#7D9187}
+  .tp-row .nm{font-family:var(--mincho);font-size:16px;flex:1;min-width:0}
+  .tp-row .bs{font-family:var(--mono);font-size:14px;color:#F0C24A;white-space:nowrap}
+  .tp-row:focus-visible{outline:2.5px solid #F0C24A;outline-offset:2px}
   .b-help{padding:13px 14px;background:var(--paper-2);border:1.5px solid var(--ink-2);color:var(--ink-2);
     font-family:var(--gothic);font-size:13px;cursor:pointer;white-space:nowrap}
   .reftop{display:flex;gap:8px;margin-bottom:20px}
@@ -319,7 +406,7 @@
 var mem={};
 function load(k,d){ try{var v=localStorage.getItem(k);return v===null?d:v;}catch(e){return (k in mem)?mem[k]:d;} }
 function save(k,v){ try{localStorage.setItem(k,v);}catch(e){mem[k]=v;} }
-var KEY="kobun.v5", P={};
+var KEY="kobun.v6", P={};
 try{ P=JSON.parse(load(KEY,"{}"))||{}; }catch(e){ P={}; }
 function flush(){ save(KEY,JSON.stringify(P)); }
 function st(id){ return (id in P)?P[id]:-1; }          /* -1未 0間違い 1あと1回 2済 */
@@ -1068,7 +1155,22 @@ var EVENTS=[
       stmt:'「'+q.to+'」は'+q.a+'。', why:'<span class="k">'+q.from+' → '+q.to+'</span>',
       tip:TIP_ON[q.a], log:q.to }; } }
 ];
-EVENTS.forEach(function(ev){ ev.ids=ev.pool.map(function(_,i){ return ev.key+":"+i; }); });
+function uidOf(it){
+  if(it.w) return it.w;                    /* 動詞・形容詞形容動詞 */
+  if(it.q) return it.q;                    /* 特訓カード */
+  if(it.to) return it.to;                  /* 音便 */
+  return (it.pre||"")+"|"+(it.u||"");      /* 徒然草の文 */
+}
+EVENTS.forEach(function(ev){ ev.ids=ev.pool.map(function(it){ return ev.key+":"+uidOf(it); }); });
+(function(){                                /* 同一種目内でIDが重複していないか自己点検 */
+  EVENTS.forEach(function(ev){
+    var seen={};
+    ev.ids.forEach(function(id,i){
+      if(seen[id]!==undefined) console.warn("ID重複",ev.key,id,i);
+      seen[id]=i;
+    });
+  });
+})();
 
 var DAILY=[
   "下一段の動詞は「蹴る」1語だけ。",
@@ -1110,6 +1212,199 @@ function selectIds(ev,onlyBad){
     if(b<one.length)  mix.push(one[b++]);
   }
   return shuffle(bad).concat(mix,shuffle(ok)).slice(0,N);
+}
+
+
+/* ===== タイムアタック ===== */
+var BEST={};
+try{ BEST=JSON.parse(load("kobun.best","{}"))||{}; }catch(e){ BEST={}; }
+var MODE=load("kobun.mode","calm");            /* calm / ta */
+var TA_SEC=30;
+var ta={};
+
+function taQueue(ev,n){
+  var bad=[],none=[],one=[],ok=[];
+  ev.ids.forEach(function(id){ var v=st(id);
+    if(v===0) bad.push(id); else if(v<0) none.push(id); else if(v===1) one.push(id); else ok.push(id); });
+  var q=shuffle(bad).concat(shuffle(none),shuffle(one),shuffle(ok));
+  while(q.length<n) q=q.concat(shuffle(ev.ids));
+  return q.slice(0,n);
+}
+
+function beginTA(e){
+  ev=e; isFix=false; isAll=false;
+  ta={ ids:taQueue(e,60), i:0, score:0, combo:0, best:0, hit:0, miss:0,
+       missed:[], t0:0, lock:false, over:false };
+  taCountdown(3);
+}
+function taCountdown(n){
+  app.innerHTML='<div class="ta"><div class="ta-top"><span class="nm">'+ev.name+'　30秒</span>'+
+    '<button class="ta-quit" type="button" id="taq">やめる</button></div>'+
+    '<div class="ta-cd"><div class="n">'+(n>0?n:"START")+'</div></div></div>';
+  metaBox.innerHTML='<div class="meta-cell"><div class="meta-label">タイムアタック</div>'+
+    '<div class="meta-val">'+ev.no+'</div></div>'+
+    '<div class="meta-cell"><div class="meta-label">自己ベスト</div><div class="meta-val">'+
+    (BEST[ev.key]&&BEST[ev.key].score||0)+'</div></div>'+
+    '<div class="meta-cell"><div class="meta-label">秒</div><div class="meta-val">'+TA_SEC+'</div></div>';
+  foot.textContent="";
+  document.getElementById("taq").addEventListener("click",function(){ ta.over=true; taPicker(); });
+  setTimeout(function(){
+    if(ta.over) return;
+    if(n>0) taCountdown(n-1);
+    else { ta.t0=Date.now(); taTick(); taRender(); }
+  }, n>0?700:500);
+}
+function taTick(){
+  clearInterval(tick);
+  tick=setInterval(function(){
+    if(ta.over){ clearInterval(tick); return; }
+    var left=TA_SEC-(Date.now()-ta.t0)/1000;
+    if(left<=0){ clearInterval(tick); taFinish(); return; }
+    var b=document.getElementById("tabar"), t=document.getElementById("tatime");
+    if(b){ b.style.width=(left/TA_SEC*100)+"%";
+      b.parentNode.className="ta-bar"+(left<8?" warn":""); }
+    if(t) t.textContent=left.toFixed(1)+" 秒";
+  },100);
+}
+function taRender(){
+  if(ta.i>=ta.ids.length) ta.ids=ta.ids.concat(taQueue(ev,30));
+  var id=ta.ids[ta.i], q=ev.make(ev.pool[ev.ids.indexOf(id)]);
+  ta.q=q; ta.id=id; ta.lock=false;
+  var left=Math.max(0,TA_SEC-(Date.now()-ta.t0)/1000);
+  app.innerHTML='<div class="ta">'+
+    '<div class="ta-top"><span class="nm">'+ev.name+'</span>'+
+    '<button class="ta-quit" type="button" id="taq">やめる</button></div>'+
+    '<div class="ta-bar'+(left<8?" warn":"")+'"><i id="tabar" style="width:'+(left/TA_SEC*100)+'%"></i></div>'+
+    '<div class="ta-time" id="tatime">'+left.toFixed(1)+' 秒</div>'+
+    '<div class="ta-hud"><span class="ta-score">'+ta.score+'<span class="u">点</span></span>'+
+    '<span class="ta-combo"><span class="c'+(ta.combo>=3?" hot":"")+'">'+ta.combo+'</span>'+
+    '<span class="l">れんぞく</span></span></div>'+
+    '<div class="ta-q"><div class="ta-ask">'+q.ask+'</div>'+
+      (q.sent?'<div class="ta-sent">'+q.sent+'</div>':'')+
+      (q.word?'<div class="ta-word'+(q.kana?" kana":"")+'">'+q.word+'</div>':'')+
+      (q.cue?'<div class="ta-cue">'+q.cue+'</div>':'')+
+      (q.sub?'<div class="ta-sub">'+q.sub+'</div>':'')+
+    '</div><div class="ta-opts" id="taopts"></div></div>';
+  metaBox.innerHTML='<div class="meta-cell"><div class="meta-label">点</div>'+
+    '<div class="meta-val">'+ta.score+'</div></div>'+
+    '<div class="meta-cell"><div class="meta-label">正解</div><div class="meta-val">'+ta.hit+'</div></div>'+
+    '<div class="meta-cell"><div class="meta-label">ベスト</div><div class="meta-val">'+
+    (BEST[ev.key]&&BEST[ev.key].score||0)+'</div></div>';
+  foot.textContent="";
+  document.getElementById("taq").addEventListener("click",function(){ ta.over=true; clearInterval(tick); taPicker(); });
+  var box=document.getElementById("taopts");
+  q.opts.forEach(function(o){
+    var b=document.createElement("button");
+    b.type="button"; b.className=(q.kanaOpts?"kana":""); b.textContent=o; b.setAttribute("data-o",o);
+    b.addEventListener("click",function(){ taAnswer(o); });
+    box.appendChild(b);
+  });
+}
+function taAnswer(picked){
+  if(ta.lock||ta.over) return;
+  ta.lock=true;
+  var q=ta.q, ok=(picked===q.ans);
+  mark(ta.id,ok);
+  var bs=app.querySelectorAll(".ta-opts button");
+  for(var i=0;i<bs.length;i++){
+    var o=bs[i].getAttribute("data-o"); bs[i].disabled=true;
+    if(o===q.ans) bs[i].className+=(ok?" hit":" show");
+    else if(o===picked) bs[i].className+=" mis";
+  }
+  var fl=document.createElement("div");
+  fl.className="ta-flash"+(ok?"":" bad"); document.body.appendChild(fl);
+  setTimeout(function(){ if(fl.parentNode) fl.parentNode.removeChild(fl); },320);
+
+  if(ok){
+    ta.hit++; ta.combo++; if(ta.combo>ta.best) ta.best=ta.combo;
+    var pts=10+Math.min(ta.combo-1,10)*2;
+    ta.score+=pts;
+    var f=document.createElement("div"); f.className="ta-fly"; f.textContent="+"+pts;
+    document.body.appendChild(f);
+    setTimeout(function(){ if(f.parentNode) f.parentNode.removeChild(f); },620);
+    setTimeout(function(){ if(!ta.over){ ta.i++; taRender(); } },260);
+  } else {
+    ta.miss++; ta.combo=0;
+    if(ta.missed.indexOf(q.log)<0) ta.missed.push(q.log);
+    setTimeout(function(){ if(!ta.over){ ta.i++; taRender(); } },1100);
+  }
+}
+function taFinish(){
+  ta.over=true; clearInterval(tick);
+  var prev=BEST[ev.key]&&BEST[ev.key].score||0, isNew=ta.score>prev;
+  if(isNew){ BEST[ev.key]={score:ta.score,combo:ta.best,date:dayKey()};
+    save("kobun.best",JSON.stringify(BEST)); }
+  pushRun({name:ev.name+"（30秒）",hits:ta.hit,n:ta.hit+ta.miss,missed:ta.missed});
+  var T=totalStats();
+  var txt="古文ドリル "+todayStr()+"\n"+ev.name+"（30秒）\n"+
+    ta.score+"点　正解"+ta.hit+"　最高れんぞく"+ta.best+
+    (isNew?"　自己ベスト更新":"　ベスト"+prev)+"\n"+
+    (ta.missed.length?"間違い: "+ta.missed.join("、"):"ノーミス")+
+    "\n今日の○ "+DAY.marks;
+  app.innerHTML='<div class="ta"><div class="ta-top"><span class="nm">'+ev.name+'　30秒</span></div>'+
+    '<div class="ta-res"><div class="big">'+ta.score+'</div><div class="lb">てん</div>'+
+    (isNew
+      ? '<div class="rec">'+(prev>0?'自己ベスト更新　これまで '+prev+' 点':'はじめての記録')+'</div>'
+      : '<div class="rec" style="border-color:#3A4A44;color:#9FB3A6">自己ベスト '+prev+' 点　あと '+
+        Math.max(1,prev-ta.score+1)+' 点</div>')+
+    '<div class="stat"><div><div class="n">'+ta.hit+'</div><div class="l">せいかい</div></div>'+
+    '<div><div class="n">'+ta.miss+'</div><div class="l">ミス</div></div>'+
+    '<div><div class="n">'+ta.best+'</div><div class="l">さいこうれんぞく</div></div></div>'+
+    (ta.missed.length?'<div class="miss">間違い　'+ta.missed.join("　")+'</div>':'')+
+    '<button class="ta-btn" type="button" id="tagain">もう1回</button>'+
+    '<button class="ta-btn sub" type="button" id="taline">LINEで送る</button>'+
+    '<button class="ta-btn sub" type="button" id="tapick">ほかの種目</button>'+
+    '<button class="ta-btn sub" type="button" id="taback">メニューへ</button>'+
+    '</div></div>';
+  metaBox.innerHTML='<div class="meta-cell"><div class="meta-label">点</div><div class="meta-val">'+ta.score+'</div></div>'+
+    '<div class="meta-cell"><div class="meta-label">ベスト</div><div class="meta-val">'+
+    ((BEST[ev.key]&&BEST[ev.key].score)||0)+'</div></div>'+
+    '<div class="meta-cell"><div class="meta-label">今日の○</div><div class="meta-val">'+DAY.marks+'</div></div>';
+  foot.textContent="";
+  document.getElementById("tagain").addEventListener("click",function(){ beginTA(ev); });
+  document.getElementById("taback").addEventListener("click",menu);
+  document.getElementById("tapick").addEventListener("click",taPicker);
+  document.getElementById("taline").addEventListener("click",function(){ sendLine(txt); });
+}
+
+
+function taCard(){
+  var tot=0,cnt=0;
+  EVENTS.forEach(function(e){ if(e.part!==3) return; cnt++;
+    if(BEST[e.key]) tot+=BEST[e.key].score; });
+  var done=EVENTS.filter(function(e){return e.part===3&&BEST[e.key];}).length;
+  return '<div class="tacard">'+
+    '<div class="tc-h"><span class="t">30秒　タイムアタック</span><span class="s">'+
+      (done?('記録 '+done+' / '+cnt+'種目'):'まだ記録なし')+'</span></div>'+
+    '<div class="tc-b">30秒でどこまで答えられるか。連続で正解すると点が伸びる。</div>'+
+    (tot?'<div class="tc-n">'+tot+'<span class="u">点　ベスト合計</span></div>':'')+
+    '<button class="tc-go" type="button" id="tastart">はじめる</button></div>';
+}
+
+function taPicker(){
+  clearInterval(tick);
+  var rows='';
+  EVENTS.forEach(function(e,i){
+    if(e.part!==3) return;
+    var b=BEST[e.key];
+    rows+='<button class="tp-row" type="button" data-ta="'+i+'">'+
+      '<span class="no">'+e.no+'</span><span class="nm">'+e.name+'</span>'+
+      '<span class="bs">'+(b?b.score+' 点':'—')+'</span></button>';
+  });
+  app.innerHTML='<div class="ta"><div class="ta-top">'+
+    '<span class="nm">30秒　タイムアタック</span>'+
+    '<button class="ta-quit" type="button" id="tpq">とじる</button></div>'+
+    '<div class="tp-note">種目をえらぶと3・2・1で始まる。<br>'+
+      '連続正解でボーナス。まちがえると連続は0にもどる。</div>'+
+    rows+'</div>';
+  metaBox.innerHTML='<div class="meta-cell"><div class="meta-label">制限</div><div class="meta-val">30秒</div></div>'+
+    '<div class="meta-cell"><div class="meta-label">今日の○</div><div class="meta-val">'+DAY.marks+'</div></div>'+
+    '<div class="meta-cell"><div class="meta-label">種目</div><div class="meta-val">'+
+    EVENTS.filter(function(e){return e.part===3;}).length+'</div></div>';
+  foot.textContent=""; window.scrollTo(0,0);
+  document.getElementById("tpq").addEventListener("click",menu);
+  [].forEach.call(app.querySelectorAll("[data-ta]"),function(b){
+    b.addEventListener("click",function(){ beginTA(EVENTS[+b.getAttribute("data-ta")]); }); });
 }
 
 /* ===== 画面 ===== */
@@ -1280,6 +1575,7 @@ function menu(){
     '<span>○1つ<b class="num">'+T.half+'</b></span>'+
     '<span>まだ<b class="num">'+T.none+'</b></span>'+
     '<span>間違い<b class="num">'+T.bad+'</b></span></div>'+
+    taCard()+
     '<div class="today"><div class="h">今日の1つ</div><div class="b">'+DAILY[di]+'</div></div>'+
     dayCard()+
     (function(){
@@ -1314,13 +1610,16 @@ function menu(){
     '全種目の間違いだけ　'+T.bad+'</button>'+
     '<button class="b-reset" type="button" id="reset">記録を消す</button></div>';
   app.innerHTML=html;
-  foot.textContent="○を2つ集めた語が「済」になる　／　v7　第1部わかる／第2部覚える／第3部解く";
+  foot.textContent="○を2つ集めた語が「済」になる　／　v8　わかる／覚える／解く＋タイムアタック";
   [].forEach.call(app.querySelectorAll("[data-go]"),function(b){
-    b.addEventListener("click",function(){ begin(EVENTS[+b.getAttribute("data-go")],false); }); });
+    b.addEventListener("click",function(){
+      begin(EVENTS[+b.getAttribute("data-go")],false); }); });
   [].forEach.call(app.querySelectorAll("[data-fix]"),function(b){
     b.addEventListener("click",function(){ begin(EVENTS[+b.getAttribute("data-fix")],true); }); });
   document.getElementById("ref").addEventListener("click",refPage);
   document.getElementById("learn").addEventListener("click",learnMenu);
+  var tb=document.getElementById("tastart");
+  if(tb) tb.addEventListener("click",taPicker);
   var ds=document.getElementById("daysend");
   if(ds) ds.addEventListener("click",function(){ sendLine(dayText()); });
   document.getElementById("allbad").addEventListener("click",beginAllBad);
@@ -1347,7 +1646,7 @@ function begin(e,onlyBad){
   ev=e; isFix=onlyBad; isAll=false;
   var ids=selectIds(e,onlyBad);
   if(!ids.length){ menu(); return; }
-  quiz=ids.map(function(id){ var i=+id.split(":")[1]; var q=e.make(e.pool[i]); q.id=id; q.state=st(id); return q; });
+  quiz=ids.map(function(id){ var i=e.ids.indexOf(id); var q=e.make(e.pool[i]); q.id=id; q.state=st(id); return q; });
   runInit();
 }
 function beginAllBad(){
