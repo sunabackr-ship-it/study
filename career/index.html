@@ -90,8 +90,6 @@ h1{font-size:30px;font-weight:600;letter-spacing:.08em;margin:6px 0 2px}
   font-family:inherit;color:var(--ink);letter-spacing:.02em;
 }
 .job.opened{border-color:var(--core-c)}
-.job.star{background:var(--gold-bg);border-color:var(--gold);color:var(--ink)}
-.job.star::before{content:"★ ";color:var(--gold);font-size:11px}
 
 .detail{
   display:none;width:100%;margin:2px 0 6px;padding:12px 13px;
@@ -164,11 +162,11 @@ footer{
 </header>
 
 <div class="howto">
-入り口は<b>五つ</b>。気になるものをタップすると、問いが開き、その先に仕事が並ぶ。<b>★</b>は行き着く先。正解を選ぶ地図ではなく、眺める地図。
+入り口は<b>五つ</b>。気になるものをタップすると、問いが開き、その先に仕事が並ぶ。正解を選ぶ地図ではなく、眺める地図。
 </div>
 
 <div class="intro" id="intro" aria-hidden="true" title="タップでもう一度">
-<svg viewBox="0 0 640 240">
+<svg viewBox="0 0 470 240">
   <!-- 幹: 興味 → 五つの核 -->
   <path class="branch" pathLength="100" style="--d:.05s" stroke="var(--c-ground)" d="M52 120 C130 120 160 44 232 42"/>
   <path class="branch" pathLength="100" style="--d:.18s" stroke="var(--c-life)"   d="M52 120 C126 120 158 82 232 81"/>
@@ -186,10 +184,6 @@ footer{
   <path class="branch" pathLength="100" style="--d:1.24s" stroke="var(--c-art)"   d="M246 159 C306 161 338 170 398 171"/>
   <path class="branch" pathLength="100" style="--d:1.27s" stroke="var(--c-field)" d="M246 198 C308 196 338 186 400 188"/>
   <path class="branch" pathLength="100" style="--d:1.37s" stroke="var(--c-field)" d="M246 198 C306 200 338 214 398 216"/>
-  <!-- 葉 → ★ -->
-  <path class="branch" pathLength="100" style="--d:1.55s" stroke="var(--gold)" d="M410 20 C480 24 520 96 584 116"/>
-  <path class="branch" pathLength="100" style="--d:1.62s" stroke="var(--gold)" d="M406 96 C470 100 520 112 584 119"/>
-  <path class="branch" pathLength="100" style="--d:1.69s" stroke="var(--gold)" d="M406 171 C470 168 520 132 584 123"/>
   <!-- 節 -->
   <g class="nd" style="--d:0s"><circle cx="46" cy="120" r="11" fill="var(--gold)"/><text x="46" y="146" text-anchor="middle" font-size="11" fill="var(--ink-soft)" letter-spacing="2">興味</text></g>
   <g class="nd" style="--d:.5s"><circle cx="240" cy="42" r="13" fill="var(--c-ground)"/><text x="240" y="47" text-anchor="middle" font-size="12" fill="var(--paper)">地</text></g>
@@ -208,8 +202,6 @@ footer{
   <g class="nd" style="--d:1.72s"><circle cx="402" cy="171" r="4.5" fill="var(--c-art)"/></g>
   <g class="nd" style="--d:1.77s"><circle cx="404" cy="188" r="4.5" fill="var(--c-field)"/></g>
   <g class="nd" style="--d:1.85s"><circle cx="402" cy="216" r="4.5" fill="var(--c-field)"/></g>
-  <!-- 行き着く先 -->
-  <g class="nd" style="--d:2.1s"><text x="600" y="128" text-anchor="middle" font-size="22" fill="var(--gold)">★</text></g>
 </svg>
 </div>
 
@@ -271,7 +263,7 @@ const DATA=[
     ai:'膨大な探査画像の一次選別はもうAIの仕事。<b>それが何を意味するか解釈するのは人。</b>',
     hs:'地質学者と同じ道＋<b>英語</b>。研究の世界は資料も論文もほぼ<b>英語</b>。',
     u:'地球科学科から大学院で惑星科学へ（東大・北大・神戸大などに惑星系の<b>研究室</b>）。地球の地層で鍛えた読みを、探査機のデータに応用する——学びの接続がいちばん素直な宇宙への道。',
-    c:['地'],star:1,route:'地質学 → 大学院 → 宇宙研究（JAXA・大学）'}
+    c:['地'],route:'地質学 → 大学院 → 宇宙研究（JAXA・大学）'}
   ]}
  ]},
  {id:'g2',q:'なぜ崩れる？　どう守る？',f:[
@@ -312,7 +304,7 @@ const DATA=[
     ai:'観測の自動化は進む。<b>それでも南極で機械を動かし続けるのは人の仕事。</b>',
     hs:'まず何かの技術者になること。測量・気象・機械、どの入口からでも隊員公募に応募できる。',
     u:'決まった学部はない。測量なら土木系、気象なら地球物理系、機械なら工学部。まず本業のプロになることが公募の応募条件で、大学はその入口にすぎない。',
-    c:['地','外'],star:1,route:'技術者になる → 隊員公募に応募'}
+    c:['地','外'],route:'技術者になる → 隊員公募に応募'}
   ]}
  ]},
  {id:'g3',q:'どう測って、どう描く？',f:[
@@ -411,7 +403,7 @@ const DATA=[
     ai:'探査機の自律航行はAI化が進む。<b>何を探しに潜るかを決めるのは人。</b>',
     hs:'<b>生物</b>・<b>化学</b>・<b>物理</b>、どこからでも入れる。海洋系・地球科学系の大学から大学院へ。',
     u:'東京海洋大や地球科学系から大学院へ。学生のうちに調査航海に乗った経験が、JAMSTECや研究職への実質的な入口になる。',
-    c:['生','地'],star:1,route:'海洋系・地球科学系の大学 → 研究職・技術職'}
+    c:['生','地'],route:'海洋系・地球科学系の大学 → 研究職・技術職'}
   ]}
  ]},
  {id:'l3',q:'身体の中は、どうなってる？',f:[
@@ -532,7 +524,7 @@ const DATA=[
     ai:'自動化は進む。<b>それでも責任者としての操縦士は残る。</b>',
     hs:'視力と身体が資本。<b>数学</b>・<b>物理</b>・<b>英語</b>。航空大学校ルートは学費が比較的軽い。',
     u:'航空大学校（大学2年修了から受験でき、民間の訓練より学費が軽い）、私大の操縦学科（東海大など）、航空会社の自社養成。どのルートも最初の関門は学力より身体検査。',
-    c:['体','外'],star:1,route:'航空大学校・自社養成など → 最初の関門は身体検査'}
+    c:['体','外'],route:'航空大学校・自社養成など → 最初の関門は身体検査'}
   ]}
  ]}
 ]},
@@ -609,12 +601,12 @@ const DATA=[
 {id:'field',mark:'外',name:'外',sub:'どこまで行けるか — 到達点の展望台',q:[
  {id:'f1',q:'この地図の、いちばん遠くは？',f:[
   {n:'到達点',j:[
-   {id:'r-nankyoku',n:'南極',d:'技術者だけが行ける、地球のいちばん遠い職場。',c:['外','地'],star:1,route:'技術者になる → 隊員公募に応募'},
-   {id:'r-shinkai',n:'深海',d:'潜るたびに新種がいる、地球最後のフロンティア。',c:['外','生','地'],star:1,route:'海洋系・地球科学系の大学 → 研究職・技術職'},
-   {id:'r-kasei',n:'火星',d:'地層を読む目のまま行ける、いちばん遠い現場。',c:['外','地'],star:1,route:'地質学 → 大学院 → 宇宙研究'},
-   {id:'r-sora',n:'空',d:'空を職場にする道は、ひとつじゃない。',c:['外','体'],star:1,route:'航空・気象・測量のどこからでも登れる'},
-   {id:'r-umi',n:'海',d:'資格から登れる、海で生きる王道。',c:['外','体'],star:1,route:'海技士などの国家資格から'},
-   {id:'r-yama',n:'山',d:'山で食っていく道は、複数ある。',c:['外','体','地'],star:1,route:'ガイド資格・観測技術・林業のどれからでも'}
+   {id:'r-nankyoku',n:'南極',d:'技術者だけが行ける、地球のいちばん遠い職場。',c:['外','地'],route:'技術者になる → 隊員公募に応募'},
+   {id:'r-shinkai',n:'深海',d:'潜るたびに新種がいる、地球最後のフロンティア。',c:['外','生','地'],route:'海洋系・地球科学系の大学 → 研究職・技術職'},
+   {id:'r-kasei',n:'火星',d:'地層を読む目のまま行ける、いちばん遠い現場。',c:['外','地'],route:'地質学 → 大学院 → 宇宙研究'},
+   {id:'r-sora',n:'空',d:'空を職場にする道は、ひとつじゃない。',c:['外','体'],route:'航空・気象・測量のどこからでも登れる'},
+   {id:'r-umi',n:'海',d:'資格から登れる、海で生きる王道。',c:['外','体'],route:'海技士などの国家資格から'},
+   {id:'r-yama',n:'山',d:'山で食っていく道は、複数ある。',c:['外','体','地'],route:'ガイド資格・観測技術・林業のどれからでも'}
   ]}
  ]}
 ]}
@@ -655,7 +647,7 @@ DATA.forEach(core=>{
       field.j.forEach(job=>{
         jobTotal++;
         const b=document.createElement('button');
-        b.className='job'+(job.star?' star':'')+(store.opened['job:'+job.id]?' opened':'');
+        b.className='job'+(store.opened['job:'+job.id]?' opened':'');
         b.textContent=job.n;
         const det=document.createElement('div');det.className='detail';
         const badges=job.c.map(c=>`<span class="badge" style="background:${CORE_COLORS[c]}">${CORE_NAMES[c]}</span>`).join('');
