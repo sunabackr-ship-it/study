@@ -33,8 +33,8 @@ h1{font-size:30px;font-weight:600;letter-spacing:.08em;margin:6px 0 2px}
 .lede{font-size:13px;color:var(--ink-soft);letter-spacing:.05em}
 .theme-btn{
   position:absolute;top:24px;right:16px;background:none;border:1px solid var(--line);
-  color:var(--ink-soft);border-radius:20px;padding:4px 12px;font-size:12px;
-  font-family:inherit;cursor:pointer;
+  color:var(--ink-soft);border-radius:50%;width:34px;height:34px;font-size:15px;
+  font-family:inherit;cursor:pointer;display:grid;place-items:center;
 }
 .howto{
   margin:18px 0 6px;padding:12px 14px;border:1px solid var(--line);border-radius:8px;
@@ -154,7 +154,7 @@ footer{
 </div>
 
 <div class="wrap">
-<button class="theme-btn" id="themeBtn">夜</button>
+<button class="theme-btn" id="themeBtn" aria-label="表示を切り替える">◑</button>
 <header>
   <div class="eyebrow">CAREER MAP</div>
   <h1>興味の先</h1>
@@ -702,7 +702,6 @@ intro.addEventListener('click',()=>{
 const TKEY='study-portal-theme';
 function applyTheme(t){
   document.documentElement.dataset.theme=t;
-  document.getElementById('themeBtn').textContent=t==='night'?'昼':'夜';
 }
 let theme='day';
 try{theme=localStorage.getItem(TKEY)==='night'?'night':'day'}catch(e){}
